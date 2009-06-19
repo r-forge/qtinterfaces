@@ -1,0 +1,16 @@
+
+## use predefined project file (don't create one).  Needs include path hard coded.
+
+all:
+	echo "Using Makefile.win" 
+	cp qtdevice.pro.win qtdevice.pro
+	qmake -o Makefile.qtdevice
+	sh ./replace.sh Makefile.qtdevice
+	sh ./replace.sh Makefile.qtdevice.Release
+	sh ./replace.sh Makefile.qtdevice.Debug
+	make -f Makefile.qtdevice
+	cp release/* .
+
+clean:
+	echo "Using Makefile.win" 
+	rm -rf *.so *.o *.a *.dll Makefile.qt* qtdevice.pro libqt* moc*.cpp debug release *~

@@ -1,0 +1,6 @@
+
+
+useDynLib(qtdevice, .registration = TRUE)
+
+export(QT, qsceneDevice, qsceneView)
+

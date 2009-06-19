@@ -1,0 +1,6 @@
+
+
+useDynLib(qtwebview, .registration = TRUE)
+
+export(qwebView, qsetUrl, qurl)
+

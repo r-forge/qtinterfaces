@@ -1,0 +1,12 @@
+Package: qtwebview
+Version: 0.0-1
+Title: Interface to Webkit in Qt
+Author: Deepayan Sarkar
+Depends: R (>= 2.6.0), qtbase, qtconnect
+LinkingTo: qtbase
+Maintainer: Deepayan Sarkar <deepayan.sarkar@gmail.com>
+Description: Qt optionally includes the Webkit library for rendering HTML.  
+   This package provides access to it from R.  It is separated out into a 
+   package for dependency reasons (many systems may have Qt installed without
+   the Webkit component).
+License: GPL (>= 2)
