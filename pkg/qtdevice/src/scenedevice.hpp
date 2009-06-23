@@ -2,12 +2,10 @@
 #ifndef QTDEVICE_SCENE_H
 #define QTDEVICE_SCENE_H
 
-
 #include <QWidget>
 #include <QGraphicsScene>
 
 #include "helpers.hpp"
-
 
 
 class RSceneDevice : public QGraphicsScene

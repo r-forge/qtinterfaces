@@ -3,9 +3,15 @@
 #include <QGraphicsView>
 #include <QGraphicsTextItem>
 
-#include "scenedevice.hpp"
-
 #include <qtbase.h>
+
+
+#include <R_ext/GraphicsEngine.h>
+#include <R_ext/GraphicsDevice.h>
+#include <R_ext/Error.h>
+
+
+#include "scenedevice.hpp"
 
 typedef Rboolean
 (*RSceneDeviceCreateFun)(pDevDesc,
@@ -87,6 +93,7 @@ do_QTScene(double width,
     }
     createRSceneDevice(width, height, pointsize, 
 		       qdev, RSceneDeviceDriver);
+    return;
 }
 
 
@@ -99,7 +106,7 @@ RSceneDevice::RSceneDevice(double width, double height,
 			   const char *family)
     : QGraphicsScene(0)
 {
-    debug = true;
+    debug = false;
     default_family = QString(family);
     setDeviceNumber(curDevice());
     setSceneRect(0.0, 0.0, width, height);
@@ -164,6 +171,7 @@ RSceneDevice::Circle(double x, double y, double r,
 	brush.setStyle(Qt::SolidPattern);
     }
     addEllipse(rect, pen, brush);
+    return;
 }
 
 void 
@@ -184,6 +192,7 @@ RSceneDevice::Line(double x1, double y1, double x2, double y2,
 	pen.setWidthF(lwd);
     }
     addLine(line, pen);
+    return;
 }
 
 
@@ -218,6 +227,7 @@ RSceneDevice::Polygon(int n, double *x, double *y,
 	}
 	addPolygon(polygon, pen, brush);
      }
+    return;
 }
 
 
@@ -245,6 +255,7 @@ RSceneDevice::Polyline(int n, double *x, double *y,
 	    addLine(x[i-1], y[i-1], x[i], y[i], pen);
 	}
     }
+    return;
 }
 
 
@@ -272,6 +283,7 @@ RSceneDevice::Rect(double x0, double y0, double x1, double y1,
 	brush.setStyle(Qt::SolidPattern);
     }
     addRect(rect, pen, brush);
+    return;
 }
 
 
@@ -299,7 +311,13 @@ RSceneDevice::TextUTF8(double x, double y, char *str,
     text->rotate(-rot);
     text->translate(-hadj * brect.width(), -0.7 * brect.height());
     text->setPos(x, y);
+    return;
 }
+
+
+
+// void R_PreserveObject(SEXP object)
+// void R_ReleaseObject(SEXP object)
 
 
 void 
@@ -307,16 +325,16 @@ RSceneDevice::NewPage(R_GE_gcontext *gc)
 {
     if (debug) Rprintf("RSceneDevice::NewPage\n");
     clear();
-    addRect(sceneRect(), QPen(Qt::darkRed), QBrush());
     QApplication::processEvents();
-//     // FIXME: deal with par("bg")? 
-//     int fill = gc->fill;
-//     if (fill != NA_INTEGER && !R_TRANSPARENT(fill)) {
-// 	// painter.fillRect(painter.viewport(), r2qColor(fill));
-// 	current_device->getPixmap()->fill(r2qColor(fill));
-//     } else {
-// 	current_device->getPixmap()->fill(Qt::transparent); // Qt::transparent
-//     }
+    return;
+    //     // FIXME: deal with par("bg")? 
+    //     int fill = gc->fill;
+    //     if (fill != NA_INTEGER && !R_TRANSPARENT(fill)) {
+    // 	// painter.fillRect(painter.viewport(), r2qColor(fill));
+    // 	current_device->getPixmap()->fill(r2qColor(fill));
+    //     } else {
+    // 	current_device->getPixmap()->fill(Qt::transparent); // Qt::transparent
+    //     }
 }
 
 
@@ -638,14 +656,6 @@ createRSceneDevice(double width, double height,
 
     return(gdd);
 }
-
-
-
-
-
-
-
-
 
 
 

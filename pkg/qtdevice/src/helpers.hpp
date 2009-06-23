@@ -2,18 +2,20 @@
 #ifndef QTDEVICE_HELPERS_H
 #define QTDEVICE_HELPERS_H
 
-#include <R.h>
-#include <Rinternals.h>
-
-#define R_USE_PROTOTYPES 0
-
-#include <R_ext/GraphicsEngine.h>
-#include <R_ext/GraphicsDevice.h>
-#include <R_ext/Error.h>
 
 #include <QFont>
 #include <QColor>
 #include <QString>
+
+#define R_USE_PROTOTYPES 0
+
+
+// #include <R.h>
+// #include <Rinternals.h>
+
+// #include <R_ext/GraphicsEngine.h>
+// #include <R_ext/GraphicsDevice.h>
+// #include <R_ext/Error.h>
 
 // #ifndef WIN32
 // #include <unistd.h>
