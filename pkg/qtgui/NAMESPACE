@@ -1,0 +1,25 @@
+
+useDynLib(qtgui, .registration = TRUE)
+
+import(qtbase)
+
+export(print.QWidget, qclose, qheight, qparent, qprint,
+       qresize, qsetContentsMargins, qsetMinimumSize, qsetExpanding,
+       qsetParent, qshow, qisEnabled, qrender, qrenderGraphicsView,
+       qrenderToPixmap, qrenderToSVG, qsetEnabled, qsetWindowTitle,
+       qwindowTitle, qwidth, qlower, qraise, qupdate)
+
+export(qtabWidget, qaddTab, qremoveTab,
+       qstackedWidget, qaddWidgetToStack, qremoveWidgetFromStack,
+       qcurrentIndex, qsetCurrentIndex)
+
+export(qwidget, qpushButton, qlabel, qlineEdit, qtext, qsetText,
+       qcheckBox, qisChecked, qsetChecked)
+
+export(qlayout, qsetLayout, qsetSpacing, qsetVerticalSpacing,
+       qsetHorizontalSpacing, qaddWidgetToLayout,
+       qremoveWidgetFromLayout, qaddLayoutToLayout, qcolumnCount,
+       qrowCount, qdim)
+
+S3method(print, QWidget)
+

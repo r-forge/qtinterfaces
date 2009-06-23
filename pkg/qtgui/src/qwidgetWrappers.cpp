@@ -1,5 +1,4 @@
 
-#include <QApplication>
 #include <QObject>
 #include <QWidget>
 #include <QPrinter>
@@ -14,38 +13,11 @@
 #include <QFont>
 #include <QFontMetrics>
 
-#include "wrappers.h"
-#include "utils.hpp"
-
-extern QApplication *app;
-
+#include <qtbase.h>
 extern "C" {
-
-    SEXP qt_qshow(SEXP x);
-    SEXP qt_qupdate(SEXP x);
-    SEXP qt_qclose(SEXP x);
-    SEXP qt_qraise(SEXP x);
-    SEXP qt_qlower(SEXP x);
-    SEXP qt_qparent(SEXP x);
-    SEXP qt_qsetParent(SEXP x, SEXP parent);
-    SEXP qt_qresize(SEXP x, SEXP w, SEXP h);
-    SEXP qt_qheight(SEXP x);
-    SEXP qt_qwidth(SEXP x);
-    SEXP qt_qsetMinimumSize(SEXP x, SEXP w, SEXP h);
-    SEXP qt_setExpanding(SEXP x, SEXP vertical, SEXP horizontal);
-    SEXP qt_qsetContentsMargins(SEXP x, SEXP left, SEXP top, SEXP right, SEXP bottom);
-    SEXP qt_qisEnabled(SEXP x);
-    SEXP qt_qsetEnabled(SEXP x, SEXP flag);
-    SEXP qt_qwindowTitle(SEXP x);
-    SEXP qt_qsetWindowTitle(SEXP x, SEXP title);
-    SEXP qt_qrender(SEXP x, SEXP file);
-    SEXP qt_qrenderGraphicsView(SEXP x);
-    SEXP qt_qrenderToPixmap(SEXP x, SEXP file);
-    SEXP qt_qrenderToSVG(SEXP x, SEXP file);
-    SEXP qt_qsetStyleSheet(SEXP x, SEXP s);
-    SEXP qt_qstyleSheet(SEXP x);
-
+#include "qwidgetWrappers.h"
 }
+
 
 SEXP
 qt_qshow(SEXP x)
@@ -301,25 +273,4 @@ qt_qrenderToSVG(SEXP x, SEXP file)
     }
     return R_NilValue;
 }
-
-SEXP 
-qt_qsetStyleSheet(SEXP x, SEXP s)
-{
-    const QString style = sexp2qstring(s);
-    if (x == R_NilValue)
-	app->setStyleSheet(style);
-    else 
-	unwrapQObject(x, QWidget)->setStyleSheet(style);
-    return R_NilValue;
-}
-
-SEXP 
-qt_qstyleSheet(SEXP x)
-{
-    if (x == R_NilValue)
-	return qstring2sexp(app->styleSheet());
-    else 
-	return qstring2sexp(unwrapQObject(x, QWidget)->styleSheet());
-}
-
 

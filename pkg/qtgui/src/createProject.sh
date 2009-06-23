@@ -4,7 +4,7 @@ if test -z "${QMAKE}" ; then
 fi
 
 ## REMEMBER: any changes below should also be applied to
-## qtbase.pro.win
+## qtgui.pro.win
 
 echo "
 
@@ -12,16 +12,21 @@ echo "
 
 TEMPLATE = lib
 
-# Input
-HEADERS += Reference.hpp utils.hpp wrappers.h
+QT += svg
 
-SOURCES += init.cpp style.cpp
-## SOURCES += object.cpp 
-SOURCES += Reference.cpp utils.cpp wrappers.cpp 
-SOURCES += Test.cpp actions.cpp attributes.cpp
+# Input
+
+HEADERS += basic.h containers.h layout.h qwidgetWrappers.h
+
+SOURCES += init.c imports.cpp basic.cpp containers.cpp layout.cpp qwidgetWrappers.cpp
 
 INCLUDEPATH += ${R_INCLUDE_DIR}
-CFLAGS += -g
+INCLUDEPATH += ${CLINK_CPPFLAGS/-I/}
+
+
+#CFLAGS += -g
+#CPPFLAGS += ${CLINK_CPPFLAGS}
+
 ## LIBS += -L${R_HOME/lib}
 
 
@@ -35,17 +40,16 @@ win32{
 LIBS += -L${R_HOME}/bin -lR
 }
 
-
-" > qtbase.pro
+" > qtgui.pro
 
 if test `uname` == "Darwin" ; then
-    ${QMAKE} -spec macx-g++ -o Makefile.qtbase
+    ${QMAKE} -spec macx-g++ -o Makefile.qtgui
 else 
-    ${QMAKE} -o Makefile.qtbase    
+    ${QMAKE} -o Makefile.qtgui
 fi
 
 ## if macx; do 
-##     ${QMAKE} -spec macx-g++ -o Makefile.qtbase
+##     ${QMAKE} -spec macx-g++ -o Makefile.qtgui
 ## else
 
 

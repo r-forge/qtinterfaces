@@ -1,9 +1,9 @@
-Package: qtutils
+Package: qtgui
 Version: 0.0-1
-Title: Miscellaneous Qt-based utilities
+Title: Wrappers for standard Qt Widgets and related utilities
 Author: Deepayan Sarkar
-Depends: R (>= 2.6.0), qtbase, qtgui, qtconnect
-Imports: qtbase, qtgui
+Depends: R (>= 2.6.0), qtbase
+Imports: qtbase
 LinkingTo: qtbase
 Maintainer: Deepayan Sarkar <deepayan.sarkar@gmail.com>
 Description: Miscellaneous Qt-based tools for R
