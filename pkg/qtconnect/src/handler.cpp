@@ -1,15 +1,4 @@
-
-
 #include "handler.hpp"
-
-#include <qtbase.h>
-
-#include <R.h>
-#include <Rinternals.h>
-#include <R_ext/GraphicsEngine.h>
-#include <R_ext/GraphicsDevice.h>
-
-
 
 RSignalHandler::RSignalHandler(QObject *src,
 			       SEXP data,
@@ -69,10 +58,7 @@ void RSignalHandler::evaluateHandler(SEXP f)
     if (!isFunction(f)) error("handler must be a function");
     PROTECT(R_fcall = lang2(f, R_NilValue));
     SETCADR(R_fcall, user_data);
-    BEGIN_SUSPEND_INTERRUPTS {
-	// eval(R_fcall, R_GlobalEnv);
-	R_tryEval(R_fcall, R_GlobalEnv, NULL);
-    } END_SUSPEND_INTERRUPTS;
+    R_tryEval(R_fcall, R_GlobalEnv, NULL);
     UNPROTECT(1);
     return;
 }

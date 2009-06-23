@@ -5,8 +5,7 @@
 #include <QObject>
 #include <QListWidgetItem>
 
-#include <R.h>
-#include <Rinternals.h>
+#include <qtbase.h>
 
 class RSignalHandler : public QObject
 {

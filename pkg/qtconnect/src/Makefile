@@ -1,6 +1,6 @@
 
 all:
-	. createProject.sh
+	./createProject.sh
 	make -f Makefile.qtconnect
 	if test -e libqtconnect.so; then cp libqtconnect.so qtconnect.so; fi
 	## for macx:

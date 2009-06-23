@@ -1,8 +1,3 @@
-
-#include <R.h>
-#include <Rinternals.h>
-#include <qtbase.h>
-
 #include <QObject>
 #include <QAbstractButton>
 #include <QAction>
