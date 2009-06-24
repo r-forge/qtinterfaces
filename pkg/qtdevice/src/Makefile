@@ -1,6 +1,6 @@
 
 all:
-	./createProject.sh
+	bash createProject.sh
 	make -f Makefile.qtdevice
 	if test -e libqtdevice.so; then cp libqtdevice.so qtdevice.so; fi
 	## for macx:
