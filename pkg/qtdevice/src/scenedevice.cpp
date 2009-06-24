@@ -3,15 +3,32 @@
 #include <QGraphicsView>
 #include <QGraphicsTextItem>
 
+#include "helpers.hpp"
 #include <qtbase.h>
-
-
-#include <R_ext/GraphicsEngine.h>
-#include <R_ext/GraphicsDevice.h>
-#include <R_ext/Error.h>
-
-
 #include "scenedevice.hpp"
+
+
+extern "C" {
+
+Rboolean
+RSceneDeviceDriver(pDevDesc dev,
+		   double width, double height,
+		   double ps,
+		   RSceneDevice *qdev);
+
+SEXP
+qt_qsceneDevice(SEXP width,
+		SEXP height,
+		SEXP pointsize,
+		SEXP family);
+
+SEXP
+qt_qsceneView(SEXP x); 
+
+}
+
+
+
 
 typedef Rboolean
 (*RSceneDeviceCreateFun)(pDevDesc,

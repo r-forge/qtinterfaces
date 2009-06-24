@@ -3,7 +3,8 @@ Version: 0.0-1
 Date:    2009/01/22
 Title: A Qt-based graphics device
 Author: Deepayan Sarkar
-Depends: R (>= 2.9.0), qtbase
+Depends: R (>= 2.9.0), qtbase, qtgui
+Imports: R (>= 2.9.0), qtbase, qtgui
 LinkingTo: qtbase
 Maintainer: Deepayan Sarkar <deepayan.sarkar@gmail.com>
 Description: An R graphics device implemented using Qt

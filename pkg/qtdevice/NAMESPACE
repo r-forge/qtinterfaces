@@ -2,5 +2,8 @@
 
 useDynLib(qtdevice, .registration = TRUE)
 
+import(qtbase)
+import(qtgui)
+
 export(QT, qsceneDevice, qsceneView)
 

@@ -1,6 +1,6 @@
 
 all:
-	. createProject.sh
+	./createProject.sh
 	make -f Makefile.qtgui
 	if test -e libqtgui.so; then cp libqtgui.so qtgui.so; fi
 	## for macx:

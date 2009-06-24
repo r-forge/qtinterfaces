@@ -28,13 +28,9 @@
 #include <QChar>
 #include <QPoint>
 
+#include "helpers.hpp"
 #include <qtbase.h>
-
 #include "device.hpp"
-
-#include <R_ext/GraphicsEngine.h>
-#include <R_ext/GraphicsDevice.h>
-#include <R_ext/Error.h>
 
 
 extern "C" {

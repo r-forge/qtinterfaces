@@ -7,7 +7,12 @@
 #include <QList>
 #include <QMenu>
 
-#include "helpers.hpp"
+#include <R.h>
+#include <Rinternals.h>
+#define R_USE_PROTOTYPES 0
+#include <R_ext/GraphicsEngine.h>
+#include <R_ext/GraphicsDevice.h>
+
 
 
 #define USE_PIXMAP

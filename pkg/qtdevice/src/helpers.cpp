@@ -1,10 +1,9 @@
 
-#include "helpers.hpp"
-
-
+#include <qtbase.h>
+#define R_USE_PROTOTYPES 0
 #include <R_ext/GraphicsEngine.h>
 #include <R_ext/GraphicsDevice.h>
-#include <R_ext/Error.h>
+#include "helpers.hpp"
 
 
 QFont

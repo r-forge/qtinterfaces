@@ -14,10 +14,10 @@ TEMPLATE = lib
 
 # Input
 
-HEADERS += device.hpp helpers.hpp scenedevice.hpp
+HEADERS += helpers.hpp device.hpp scenedevice.hpp
 
-SOURCES += device.cpp init.c imports.cpp helpers.cpp
-SOURCES += scenedevice.cpp
+SOURCES += init.c imports.cpp helpers.cpp
+SOURCES += device.cpp scenedevice.cpp
 
 INCLUDEPATH += ${R_INCLUDE_DIR}
 INCLUDEPATH += ${CLINK_CPPFLAGS/-I/}

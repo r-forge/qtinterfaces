@@ -1,6 +1,6 @@
 
 all:
-	. createProject.sh
+	./createProject.sh
 	make -f Makefile.qtwebview
 	if test -e libqtwebview.so; then cp libqtwebview.so qtwebview.so; fi
 	## for macx:

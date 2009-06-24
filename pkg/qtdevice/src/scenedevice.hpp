@@ -5,7 +5,12 @@
 #include <QWidget>
 #include <QGraphicsScene>
 
-#include "helpers.hpp"
+
+#include <R.h>
+#include <Rinternals.h>
+#define R_USE_PROTOTYPES 0
+#include <R_ext/GraphicsEngine.h>
+#include <R_ext/GraphicsDevice.h>
 
 
 class RSceneDevice : public QGraphicsScene
@@ -63,29 +68,6 @@ class RSceneDevice : public QGraphicsScene
 
 };
 
-
-
-
-extern "C" {
-
-Rboolean
-RSceneDeviceDriver(pDevDesc dev,
-		   double width, double height,
-		   double ps,
-		   RSceneDevice *qdev);
-
-SEXP
-qt_qsceneDevice(SEXP width,
-		SEXP height,
-		SEXP pointsize,
-		SEXP family);
-
-SEXP
-qt_qsceneView(SEXP x); 
-
-
-
-}
 
 
 #endif
