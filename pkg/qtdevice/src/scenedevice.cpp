@@ -123,6 +123,7 @@ RSceneDevice::RSceneDevice(double width, double height,
 			   const char *family)
     : QGraphicsScene(0)
 {
+    setItemIndexMethod(QGraphicsScene::NoIndex);
     debug = false;
     default_family = QString(family);
     setDeviceNumber(curDevice());
