@@ -7,6 +7,7 @@
 #include "containers.h"
 #include "layout.h"
 #include "qwidgetWrappers.h"
+#include "graphicsView.h"
 
 
 void R_init_qtgui(DllInfo *dll);
@@ -72,6 +73,33 @@ static R_CallMethodDef CallEntries[] = {
     CALLDEF(qt_qrenderToPixmap, 2),
     CALLDEF(qt_qrenderToSVG, 2),
 
+    CALLDEF(qt_qgraphicsScene, 0),
+    CALLDEF(qt_qaddItem_QGraphicsScene, 2),
+    CALLDEF(qt_qsceneRect_QGraphicsScene, 1),
+    CALLDEF(qt_qsceneRect_QGraphicsView, 1),
+    CALLDEF(qt_qsetSceneRect_QGraphicsScene, 3),
+    CALLDEF(qt_qsetSceneRect_QGraphicsView, 3),
+    CALLDEF(qt_qclear_QGraphicsScene, 1),
+    CALLDEF(qt_qclearSelection_QGraphicsScene, 1),
+    CALLDEF(qt_qitemsBoundingRect, 1),
+    CALLDEF(qt_qsetFont_QGraphicsScene, 2),
+    CALLDEF(qt_qsetItemIndexMethod, 2),
+    CALLDEF(qt_qsetBackgroundBrush, 2),
+    CALLDEF(qt_setParentItem, 2),
+    CALLDEF(qt_setPos_QGraphicsItem, 3),
+    CALLDEF(qt_setZValue, 2),
+    CALLDEF(qt_setToolTip_QGraphicsItem, 2),
+    CALLDEF(qt_qgraphicsProxyWidget, 1),
+    CALLDEF(scene_addPoints, 4),
+    CALLDEF(scene_addLines, 4),
+    CALLDEF(scene_addSegments, 6),
+    CALLDEF(scene_addRect, 5),
+    CALLDEF(scene_addText, 5),
+    CALLDEF(qt_qgraphicsView, 1),
+    CALLDEF(qt_fitScene_QGraphicsView, 1),
+    CALLDEF(qt_qsetTransform_QGraphicsView, 5),
+    CALLDEF(qt_qsetDragMode, 2),
+    CALLDEF(view_setAntialias, 2),
 
     {NULL, NULL, 0}
 };

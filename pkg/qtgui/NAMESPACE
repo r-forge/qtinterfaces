@@ -21,5 +21,20 @@ export(qlayout, qsetLayout, qsetSpacing, qsetVerticalSpacing,
        qremoveWidgetFromLayout, qaddLayoutToLayout, qcolumnCount,
        qrowCount, qdim)
 
+
+export(qgraphicsScene, qsceneRect, qsetSceneRect, qclear, qclearSelection, qsetItemIndexMethod,
+       qscene.points, qscene.lines, qscene.segments, qscene.rect, qscene.text,
+       qgraphicsView, qfitScene, qsetTransform, qsetDragMode, setAntialias)
+
 S3method(print, QWidget)
+
+S3method(qsceneRect, QGraphicsScene)
+S3method(qsceneRect, QGraphicsView)
+S3method(qsetSceneRect, QGraphicsScene)
+S3method(qsetSceneRect, QGraphicsView)
+
+S3method(qclear, QGraphicsScene)
+S3method(qclearSelection, QGraphicsScene)
+S3method(qsetTransform, QGraphicsView)
+
 
