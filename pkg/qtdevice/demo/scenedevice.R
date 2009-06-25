@@ -20,29 +20,35 @@ qsetTransform(foo, scale = 1/1.2)
 qsetTransform(foo, rotate = 20)
 qsetTransform(foo, rotate = -20)
 
-library(qtconnect)
+## library(qtconnect)
 
 qsetContextMenuPolicy(foo, "actions")
 
 zoominAct <- qaction(desc = "Zoom In",
                      shortcut = "Ctrl++",
                      parent = foo)
-zoomoutAct <- qaction(desc = "Zoom In",
+zoomoutAct <- qaction(desc = "Zoom Out",
                       shortcut = "Ctrl+-",
                       parent = foo)
 
 qaddAction(foo, zoominAct)
 qaddAction(foo, zoomoutAct)
 
-qconnect(zoominAct, user.data = foo,
-         handler = function(x) {
-             qsetTransform(x, scale = 1.2)
-         }, which = "triggered_bool")
+zoominHandler <- 
+    qconnect(zoominAct,
+             signal = "triggered",
+             handler = function(x, ...) {
+                 qsetTransform(x, scale = 1.2)
+             },
+             user.data = foo)
 
-qconnect(zoomoutAct, user.data = foo,
-         handler = function(x) {
-             qsetTransform(x, scale = 1/1.2)
-         }, which = "triggered_bool")
+zoomoutHandler <- 
+    qconnect(zoomoutAct,
+             signal = "triggered",
+             handler = function(x) {
+                 qsetTransform(x, scale = 1/1.2)
+             },
+             user.data = foo)
 
 rscene <- attr(foo, "scene")
 
@@ -52,4 +58,52 @@ r
 qscene.text(rscene, r[1] + r[3]/2, r[2] + 0.01 * r[4],
             labels = "A demo of the <a href='http://qtinterfaces.r-forge.r-project.org'>R/Qt Interface</a>",
             html = TRUE)
+
+
+
+printAct <- qaction(desc = "Print", shortcut = "Ctrl+P", parent = foo)
+qconnect(printAct, signal = "triggered",
+         handler = function(x, ...) {
+             qrenderGraphicsView(x)
+         },
+         user.data = foo)
+printhandler <- qaddAction(foo, printAct)
+
+
+
+if (require(Rgraphviz))
+{
+
+    g <- randomGraph(as.character(1:20), M = 1:4, 0.4)
+    x <- layoutGraph(g, layoutType = "dot")
+    par(lwd = 0.0)
+    renderGraph(x,
+                graph.pars = list(nodes = list(lwd = 0.4),
+                                  edges = list(lwd = 0.2)))
+
+}
+
+if (require(latticeExtra))
+{
+    ## zoom is slow (because of antialiasing?)
+
+    library("mapproj")
+    data(USCancerRates)
+    rng <- with(USCancerRates, 
+                range(rate.male, rate.female, finite = TRUE))
+    nbreaks <- 50
+    breaks <- exp(do.breaks(log(rng), nbreaks))
+
+    mapplot(rownames(USCancerRates) ~ rate.male + rate.female,
+            data = USCancerRates, breaks = breaks,
+            map = map("county", plot = FALSE, fill = TRUE, 
+                      projection = "tetra"),
+            scales = list(draw = FALSE), xlab = "",
+            lwd = 0.1,
+            main = "Average yearly deaths due to cancer per 100000")
+
+}
+
+
+
 
