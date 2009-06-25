@@ -1,9 +1,0 @@
-Package: qtconnect
-Version: 0.0-1
-Title: Simple R wrappers using Qt signals and slots
-Author: Deepayan Sarkar
-Depends: R (>= 2.6.0), qtbase
-LinkingTo: qtbase
-Maintainer: Deepayan Sarkar <deepayan.sarkar@gmail.com>
-Description: Enables use of R functions as slots handling Qt signals in simple situations
-License: GPL (>= 2)

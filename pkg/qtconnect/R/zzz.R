@@ -1,3 +1,0 @@
-
-.noGenerics <- TRUE
-
