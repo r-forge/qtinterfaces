@@ -24,7 +24,8 @@ export(qlayout, qsetLayout, qsetSpacing, qsetVerticalSpacing,
 
 export(qgraphicsScene, qsceneRect, qsetSceneRect, qclear, qclearSelection, qsetItemIndexMethod,
        qscene.points, qscene.lines, qscene.segments, qscene.rect, qscene.text,
-       qgraphicsView, qfitScene, qsetTransform, qsetDragMode, setAntialias)
+       qgraphicsView, qfitScene, qsetTransform, qsetDragMode, setAntialias,
+       qsetItemFlags, qsetTextItemInteraction)
 
 S3method(print, QWidget)
 

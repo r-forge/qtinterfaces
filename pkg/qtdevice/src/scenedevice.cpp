@@ -324,7 +324,7 @@ RSceneDevice::TextUTF8(double x, double y, char *str,
 			r2qFont(fontfamily, fontface, ps, cex, lineheight,
 				defaultFamily()));
     text->setDefaultTextColor(r2qColor(col));
-    text->setTextInteractionFlags(Qt::TextEditorInteraction);
+    // text->setTextInteractionFlags(Qt::TextEditorInteraction);
     QRectF brect = text->boundingRect();
     text->rotate(-rot);
     text->translate(-hadj * brect.width(), -0.7 * brect.height());

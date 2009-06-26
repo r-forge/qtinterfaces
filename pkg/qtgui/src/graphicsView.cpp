@@ -135,6 +135,11 @@ SEXP qt_qgraphicsProxyWidget(SEXP w)
 }
 
 
+
+
+
+
+
 // printing: render() has scene and view methods
 
 // item groups: necessary? Maybe for common tooltips.  Otherwise
@@ -295,19 +300,58 @@ view_setAntialias(SEXP v, SEXP mode)
 {
     QGraphicsView *view = unwrapQObject(v, QGraphicsView);
     if (LOGICAL(mode)[0]) {
-	view->setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing); 
+	view->setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
     }
     else {
-	view->setRenderHints(QPainter::TextAntialiasing); 
+	view->setRenderHints(QPainter::TextAntialiasing);
+    }
+    return R_NilValue;
+}
+
+SEXP qt_qsetItemFlags(SEXP x, SEXP flag, SEXP status)
+{
+    QList<QGraphicsItem*> ilist = unwrapQObject(x, QGraphicsScene)->items();
+    bool bstatus = (bool) asLogical(status);
+    if (sexp2qstring(flag) == "movable") {
+	for (int i = 0; i < ilist.size(); ++i) {
+	    ilist[i]->setFlag(QGraphicsItem::ItemIsMovable, bstatus);
+	}
+    }
+    else if (sexp2qstring(flag) == "selectable") {
+	for (int i = 0; i < ilist.size(); ++i) {
+	    ilist[i]->setFlag(QGraphicsItem::ItemIsSelectable, bstatus);
+	}
     }
     return R_NilValue;
 }
 
 
-
-
-
-
-
-
+SEXP qt_qsetTextItemInteraction(SEXP x, SEXP mode)
+{
+    QList<QGraphicsItem*> ilist = unwrapQObject(x, QGraphicsScene)->items();
+    QGraphicsTextItem *textitem;
+    QString smode = sexp2qstring(mode);
+    if (smode == "none") {
+	for (int i = 0; i < ilist.size(); ++i) {
+	    textitem = (QGraphicsTextItem *) ilist[i];
+	    if (textitem)
+		textitem->setTextInteractionFlags(Qt::NoTextInteraction);
+	}
+    }
+    else if (smode == "editor") {
+	for (int i = 0; i < ilist.size(); ++i) {
+	    textitem = (QGraphicsTextItem *) ilist[i];
+	    if (textitem)
+		textitem->setTextInteractionFlags(Qt::TextEditorInteraction);
+	}
+    }
+    else if (smode == "browser") {
+	for (int i = 0; i < ilist.size(); ++i) {
+	    textitem = (QGraphicsTextItem *) ilist[i];
+	    if (textitem)
+		textitem->setTextInteractionFlags(Qt::TextBrowserInteraction);
+	}
+    }
+    return R_NilValue;
+}
 

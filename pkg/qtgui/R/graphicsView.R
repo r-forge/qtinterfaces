@@ -172,3 +172,15 @@ setAntialias <- function(v, mode = TRUE)
     .Call(view_setAntialias, v, as.logical(mode))
 }
 
+qsetItemFlags <- function(x, flag = c("movable", "selectable"), status = FALSE)
+{
+    flag <- match.arg(flag)
+    .Call(qt_qsetItemFlags, x, flag, status)
+}
+
+qsetTextItemInteraction <- function(x, mode = c("none", "editor", "browser"))
+{
+    mode <- match.arg(mode)
+    .Call(qt_qsetTextItemInteraction, x, mode)
+}
+

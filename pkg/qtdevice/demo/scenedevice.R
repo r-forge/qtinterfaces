@@ -69,6 +69,20 @@ qconnect(printAct, signal = "triggered",
          user.data = foo)
 printhandler <- qaddAction(foo, printAct)
 
+## qsetItemFlags, qsetTextItemInteraction
+
+qsetDragMode(foo, "select")
+qsetItemFlags(rscene, "movable", TRUE)
+
+qsetItemFlags(rscene, "selectable", TRUE)
+
+
+qsetItemFlags(rscene, "selectable", FALSE)
+qsetItemFlags(rscene, "movable", FALSE)
+
+## CRASH
+## qtgui:::qsetTextItemInteraction(rscene, "editor")
+
 
 
 if (require(Rgraphviz))
