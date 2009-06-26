@@ -80,8 +80,9 @@ qsetItemFlags(rscene, "selectable", TRUE)
 qsetItemFlags(rscene, "selectable", FALSE)
 qsetItemFlags(rscene, "movable", FALSE)
 
-## CRASH
-## qtgui:::qsetTextItemInteraction(rscene, "editor")
+qsetTextItemInteraction(rscene, "editor")
+qsetTextItemInteraction(rscene, "browser")
+qsetTextItemInteraction(rscene, "none")
 
 
 
@@ -89,8 +90,7 @@ if (require(Rgraphviz))
 {
 
     g <- randomGraph(as.character(1:20), M = 1:4, 0.4)
-    x <- layoutGraph(g, layoutType = "dot")
-    par(lwd = 0.0)
+    x <- layoutGraph(g, layoutType = "neato")
     renderGraph(x,
                 graph.pars = list(nodes = list(lwd = 0.4),
                                   edges = list(lwd = 0.2)))

@@ -333,21 +333,21 @@ SEXP qt_qsetTextItemInteraction(SEXP x, SEXP mode)
     QString smode = sexp2qstring(mode);
     if (smode == "none") {
 	for (int i = 0; i < ilist.size(); ++i) {
-	    textitem = (QGraphicsTextItem *) ilist[i];
+	    textitem = qgraphicsitem_cast<QGraphicsTextItem *>(ilist[i]);
 	    if (textitem)
 		textitem->setTextInteractionFlags(Qt::NoTextInteraction);
 	}
     }
     else if (smode == "editor") {
 	for (int i = 0; i < ilist.size(); ++i) {
-	    textitem = (QGraphicsTextItem *) ilist[i];
+	    textitem = qgraphicsitem_cast<QGraphicsTextItem *>(ilist[i]);
 	    if (textitem)
 		textitem->setTextInteractionFlags(Qt::TextEditorInteraction);
 	}
     }
     else if (smode == "browser") {
 	for (int i = 0; i < ilist.size(); ++i) {
-	    textitem = (QGraphicsTextItem *) ilist[i];
+	    textitem = qgraphicsitem_cast<QGraphicsTextItem *>(ilist[i]);
 	    if (textitem)
 		textitem->setTextInteractionFlags(Qt::TextBrowserInteraction);
 	}
