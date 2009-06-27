@@ -21,8 +21,12 @@ export(qlayout, qsetLayout, qsetSpacing, qsetVerticalSpacing,
        qremoveWidgetFromLayout, qaddLayoutToLayout, qcolumnCount,
        qrowCount, qdim)
 
+export(qaction, qaddAction, qsetContextMenuPolicy)
+export(qsetDeleteOnClose)
 
-export(qgraphicsScene, qsceneRect, qsetSceneRect, qclear, qclearSelection, qsetItemIndexMethod,
+
+export(qgraphicsScene, qsceneRect, qsetSceneRect, qclear, qclearSelection,
+       qsetItemIndexMethod,
        qscene.points, qscene.lines, qscene.segments, qscene.rect, qscene.text,
        qgraphicsView, qfitScene, qsetTransform, qsetDragMode, setAntialias,
        qsetItemFlags, qsetTextItemInteraction)

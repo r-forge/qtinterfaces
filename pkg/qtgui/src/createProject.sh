@@ -18,7 +18,8 @@ QT += svg
 
 HEADERS += basic.h containers.h layout.h qwidgetWrappers.h graphicsView.h
 
-SOURCES += init.c imports.cpp basic.cpp containers.cpp layout.cpp qwidgetWrappers.cpp 
+SOURCES += init.c imports.cpp basic.cpp containers.cpp layout.cpp
+SOURCES += qwidgetWrappers.cpp attributes.cpp actions.cpp
 SOURCES += graphicsView.cpp
 
 INCLUDEPATH += ${R_INCLUDE_DIR}

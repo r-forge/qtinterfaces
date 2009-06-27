@@ -3,12 +3,13 @@
 #include <Rinternals.h>
 #include <R_ext/Rdynload.h>
 
+#include "attributes.h"
+#include "actions.h"
 #include "basic.h"
 #include "containers.h"
 #include "layout.h"
 #include "qwidgetWrappers.h"
 #include "graphicsView.h"
-
 
 void R_init_qtgui(DllInfo *dll);
 
@@ -73,6 +74,11 @@ static R_CallMethodDef CallEntries[] = {
     CALLDEF(qt_qrenderToPixmap, 2),
     CALLDEF(qt_qrenderToSVG, 2),
 
+    CALLDEF(qt_qaction, 5),
+    CALLDEF(qt_qaddActionToQWidget, 2),
+    CALLDEF(qt_qaddActionToQMenu, 2),
+    CALLDEF(qt_qaddAction_QGraphicsWidget, 2),
+    CALLDEF(qt_qsetContextMenuPolicy, 2),
     CALLDEF(qt_qgraphicsScene, 0),
     CALLDEF(qt_qaddItem_QGraphicsScene, 2),
     CALLDEF(qt_qsceneRect_QGraphicsScene, 1),
@@ -102,6 +108,8 @@ static R_CallMethodDef CallEntries[] = {
     CALLDEF(view_setAntialias, 2),
     CALLDEF(qt_qsetItemFlags, 3),
     CALLDEF(qt_qsetTextItemInteraction, 2),
+
+    CALLDEF(qt_qsetDeleteOnClose, 2),
 
     {NULL, NULL, 0}
 };
