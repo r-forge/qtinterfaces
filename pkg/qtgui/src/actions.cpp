@@ -2,6 +2,7 @@
 #include <QWidget>
 #include <QMenu>
 #include <QAction>
+#include <QGraphicsWidget>
 
 #include <qtbase.h>
 
