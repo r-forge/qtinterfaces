@@ -7,6 +7,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title>qtinterfaces: Interfacing Qt and R</title>
 	<link href="http://r-forge.r-project.org/themes/rforge/styles/estilo1.css" rel="stylesheet" type="text/css" />
+	<link href="style.css" rel="stylesheet" type="text/css" />
   </head>
 
 <body>
@@ -63,14 +64,25 @@ available R HTML documentation into a form suitable for Qt
 Assistant.  To use it on Linux/UNIX, type the following on the R command line:
 <pre>
 source("http://qtinterfaces.r-forge.r-project.org/rassistant.R")
+generateCompiledHelpUnix()
+registerHelp()
 generateCompiledCollection(start.assistant = TRUE)
 </pre>
-This will produce a file called <code>rproject.qhc</code> (among
-others) in the user's home directory, and open it with Assistant.
-The <code>rproject.qhc</code> file is actually self-contained, and may
-be moved to other systems and used with Assistant as a standalone help
-collection.
+On the first run, this will produce a compiled help file
+<code>rproject.qch</code> and a compiled collection file
+<code>rproject.qhc</code> in the user's home directory (the first step
+may take a while to run), and open it with Assistant.  The files are
+actually self-contained, and may be moved to other systems and used
+with Assistant as a standalone help collection.  </p>
+
+<p> In subsequent sessions, just running 
+<pre>
+source("http://qtinterfaces.r-forge.r-project.org/rassistant.R")
+generateCompiledCollection(start.assistant = TRUE)
+</pre>
+should start Assistant without regenerating the help file.
 </p>
+
 
 <hr/>
 
