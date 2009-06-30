@@ -5,9 +5,8 @@ qshow <- function(x)
     .Call(qt_qshow, x)
 }
 
-qupdate <- function(x)
-{
-    .Call(qt_qupdate, x)
+qupdate.QWidget <- function(x) {
+  .Call(qt_qupdate_QWidget, x)
 }
 
 print.QWidget <- function(x, ...)

@@ -4,7 +4,7 @@
 
 
 SEXP qt_qshow(SEXP x);
-SEXP qt_qupdate(SEXP x);
+SEXP qt_qupdate_QWidget(SEXP x);
 SEXP qt_qclose(SEXP x);
 SEXP qt_qraise(SEXP x);
 SEXP qt_qlower(SEXP x);

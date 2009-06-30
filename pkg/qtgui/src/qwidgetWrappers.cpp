@@ -27,7 +27,7 @@ qt_qshow(SEXP x)
 }
 
 SEXP
-qt_qupdate(SEXP x)
+qt_qupdate_QWidget(SEXP x)
 {
     // unwrapQObject(x, QWidget)->update();
     unwrapQObject(x, QWidget)->repaint();

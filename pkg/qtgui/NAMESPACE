@@ -9,6 +9,8 @@ export(print.QWidget, qclose, qheight, qparent, qprint,
        qrenderToPixmap, qrenderToSVG, qsetEnabled, qsetWindowTitle,
        qwindowTitle, qwidth, qlower, qraise, qupdate)
 
+S3method(qupdate, QWidget)
+
 export(qtabWidget, qaddTab, qremoveTab,
        qstackedWidget, qaddWidgetToStack, qremoveWidgetFromStack,
        qcurrentIndex, qsetCurrentIndex)
@@ -25,18 +27,38 @@ export(qaction, qaddAction, qsetContextMenuPolicy)
 export(qsetDeleteOnClose)
 
 
-export(qgraphicsScene, qsceneRect, qsetSceneRect, qclear, qclearSelection,
-       qsetItemIndexMethod,
+export(qgraphicsScene, qsceneRect, "qsceneRect<-", qclear, qclearSelection,
+       qsetItemIndexMethod, qfocus, "qmatrix<-",
        qscene.points, qscene.lines, qscene.segments, qscene.rect, qscene.text,
        qgraphicsView, qfitScene, qsetTransform, qsetDragMode, setAntialias,
-       qsetItemFlags, qsetTextItemInteraction)
+       qsetItemFlags, qsetTextItemInteraction, qaddItem, qboundingRect,
+       qitems, qgeometry, "qgeometry<-", qmatrix, qcacheMode, "qcacheMode<-")
 
 S3method(print, QWidget)
 
 S3method(qsceneRect, QGraphicsScene)
 S3method(qsceneRect, QGraphicsView)
-S3method(qsetSceneRect, QGraphicsScene)
-S3method(qsetSceneRect, QGraphicsView)
+S3method("qsceneRect<-", QGraphicsScene)
+S3method("qsceneRect<-", QGraphicsView)
+
+S3method(qupdate, QGraphicsView)
+S3method(qupdate, QGraphicsScene)
+S3method(qupdate, QGraphicsItem)
+
+S3method(qaddItem, QGraphicsScene)
+
+S3method(dim, QRectF)
+S3method(dim, QGraphicsScene)
+S3method(dim, QGraphicsItem)
+
+S3method(qboundingRect, QGraphicsItem)
+
+S3method(qitems, QGraphicsScene)
+
+S3method(qmatrix, QGraphicsView)
+S3method(qmatrix, QGraphicsView)
+
+S3method("qmatrix<-", QGraphicsView)
 
 S3method(qclear, QGraphicsScene)
 S3method(qclearSelection, QGraphicsScene)

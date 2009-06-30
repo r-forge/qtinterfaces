@@ -7,6 +7,7 @@
 #include <QGraphicsItem>
 #include <QGraphicsTextItem>
 #include <QGraphicsProxyWidget>
+#include <QGraphicsGridLayout>
 
 #include <qtbase.h>
 
@@ -20,9 +21,73 @@ SEXP qt_qgraphicsScene()
     return wrapQObject(new QGraphicsScene(0));
 }
 
-SEXP qt_qaddItem_QGraphicsScene(SEXP s, SEXP item)
+SEXP qt_qaddItem_QGraphicsScene(SEXP s, SEXP ritem)
 {
-    return R_NilValue;
+  QGraphicsScene *scene = unwrapQObject(s, QGraphicsScene);
+  QGraphicsItem *item = unwrapQGraphicsItem(ritem, QGraphicsItem);
+  scene->addItem(item);
+  // Make sure that item is not deleted before its scene
+  // FIXME: leaky -- needs to happen in itemChange() upon ItemSceneChange,
+  // but that requires always using a QGraphicsWidget subclass
+  addQGraphicsItemReference(item, scene);
+  return s;
+}
+
+// NOTE: The QGraphicsLayout stuff is not based on QGraphicsItem nor
+// QObject. This makes it difficult to check types safely and, much
+// worse, there is no easy way to manage their memory. See notes in
+// Reference.cpp.
+SEXP qt_qaddItem_QGraphicsGridLayout(SEXP rself, SEXP ritem, SEXP rrow,
+                                     SEXP rcol, SEXP rrowSpan, SEXP rcolSpan)
+{
+  QGraphicsGridLayout *layout = unwrapPointer(rself, QGraphicsGridLayout);
+  QGraphicsLayoutItem *item = unwrapPointer(ritem, QGraphicsLayoutItem);
+  layout->addItem(item, asInteger(rrow), asInteger(rcol), asInteger(rrowSpan),
+                  asInteger(rcolSpan));
+  return rself;
+}
+
+SEXP qt_qcolStretch_QGraphicsGridLayout(SEXP rself) {
+  QGraphicsGridLayout *layout = unwrapPointer(rself, QGraphicsGridLayout);
+  SEXP ans = allocVector(INTSXP, layout->columnCount());
+  for (int i = 0; i < length(ans); i++) {
+    INTEGER(ans)[i] = layout->columnStretchFactor(i);
+  }
+  return ans;
+}
+SEXP qt_qrowStretch_QGraphicsGridLayout(SEXP rself) {
+  QGraphicsGridLayout *layout = unwrapPointer(rself, QGraphicsGridLayout);
+  SEXP ans = allocVector(INTSXP, layout->rowCount());
+  for (int i = 0; i < length(ans); i++) {
+    INTEGER(ans)[i] = layout->rowStretchFactor(i);
+  }
+  return ans;
+}
+  
+SEXP qt_qsetColStretch_QGraphicsGridLayout(SEXP rself, SEXP rstretch) {
+  QGraphicsGridLayout *layout = unwrapPointer(rself, QGraphicsGridLayout);
+  for (int i = 0; i < length(rstretch); i++) {
+    layout->setColumnStretchFactor(i, INTEGER(rstretch)[i]);
+  }
+  return rself;
+}
+SEXP qt_qsetRowStretch_QGraphicsGridLayout(SEXP rself, SEXP rstretch) {
+  QGraphicsGridLayout *layout = unwrapPointer(rself, QGraphicsGridLayout);
+  for (int i = 0; i < length(rstretch); i++) {
+    layout->setRowStretchFactor(i, INTEGER(rstretch)[i]);
+  }
+  return rself;
+}
+
+SEXP qt_qsetHorizontalSpacing_QGraphicsGridLayout(SEXP rself, SEXP rspacing) {
+  QGraphicsGridLayout *layout = unwrapPointer(rself, QGraphicsGridLayout);
+  layout->setHorizontalSpacing(asReal(rspacing));
+  return rself;
+}
+SEXP qt_qsetVerticalSpacing_QGraphicsGridLayout(SEXP rself, SEXP rspacing) {
+  QGraphicsGridLayout *layout = unwrapPointer(rself, QGraphicsGridLayout);
+  layout->setVerticalSpacing(asReal(rspacing));
+  return rself;
 }
 
 SEXP qt_qsceneRect_QGraphicsScene(SEXP x)
@@ -51,18 +116,16 @@ SEXP qt_qsceneRect_QGraphicsView(SEXP x)
     return ans;
 }
 
-SEXP qt_qsetSceneRect_QGraphicsScene(SEXP s, SEXP xlim, SEXP ylim)
+SEXP qt_qsetSceneRect_QGraphicsScene(SEXP s, SEXP rrect)
 {
-    double *xl = REAL(xlim), *yl = REAL(ylim);
-    unwrapQObject(s, QGraphicsScene)->setSceneRect(xl[0], yl[0], xl[1] - xl[0], yl[1] - yl[0]);
-    return R_NilValue;
+    unwrapQObject(s, QGraphicsScene)->setSceneRect(asQRectF(rrect));
+    return s;
 }
 
-SEXP qt_qsetSceneRect_QGraphicsView(SEXP s, SEXP xlim, SEXP ylim)
+SEXP qt_qsetSceneRect_QGraphicsView(SEXP s, SEXP rrect)
 {
-    double *xl = REAL(xlim), *yl = REAL(ylim);
-    unwrapQObject(s, QGraphicsView)->setSceneRect(xl[0], yl[0], xl[1] - xl[0], yl[1] - yl[0]);
-    return R_NilValue;
+    unwrapQObject(s, QGraphicsView)->setSceneRect(asQRectF(rrect));
+    return s;
 }
 
 SEXP qt_qclear_QGraphicsScene(SEXP s)
@@ -127,6 +190,22 @@ SEXP qt_setToolTip_QGraphicsItem(SEXP item, SEXP s)
     return R_NilValue;
 }
 
+SEXP qt_qsetCacheMode_QGraphicsItem(SEXP rself, SEXP rmode) {
+  QGraphicsItem *item = unwrapQGraphicsItem(rself, QGraphicsItem);
+  item->setCacheMode((QGraphicsItem::CacheMode)asInteger(rmode));
+  return rself;
+}
+SEXP qt_qcacheMode_QGraphicsItem(SEXP rself) {
+  QGraphicsItem *item = unwrapQGraphicsItem(rself, QGraphicsItem);
+  return ScalarInteger(item->cacheMode());
+}
+
+SEXP qt_qsetFocus_QGraphicsItem(SEXP rself) {
+  QGraphicsItem *item = unwrapQGraphicsItem(rself, QGraphicsItem);
+  item->setFocus();
+  return rself;
+}
+
 SEXP qt_qgraphicsProxyWidget(SEXP w)
 {
     QGraphicsProxyWidget *pw = new QGraphicsProxyWidget(0, 0);
@@ -136,9 +215,42 @@ SEXP qt_qgraphicsProxyWidget(SEXP w)
 
 
 
+SEXP qt_qsetGeometry_QGraphicsWidget(SEXP rself, SEXP rx)
+{
+  QGraphicsWidget *widget = unwrapQObject(rself, QGraphicsWidget);
+  widget->setGeometry(asQRectF(rx));
+  return rself;
+}
 
+SEXP qt_qgeometry_QGraphicsWidget(SEXP rself) {
+  QGraphicsWidget *widget = unwrapQObject(rself, QGraphicsWidget);
+  return asRRectF(widget->geometry());
+}
 
+SEXP qt_qboundingRect_QGraphicsItem(SEXP rself) {
+  QGraphicsItem *item = unwrapQGraphicsItem(rself, QGraphicsItem);
+  return asRRectF(item->boundingRect());
+}
 
+SEXP qt_qitemsAtPoint_QGraphicsScene(SEXP rself, SEXP rpoint) {
+  QGraphicsScene *self = unwrapQObject(rself, QGraphicsScene);
+  SEXP ans;
+  QList<QGraphicsItem *> items = self->items(asQPointF(rpoint));
+  ans = allocVector(VECSXP, items.size());
+  for (int i = 0; i < length(ans); i++)
+    SET_VECTOR_ELT(ans, i, wrapQGraphicsItem(items[i]));
+  return ans;
+}
+
+SEXP qt_qitemsInRect_QGraphicsScene(SEXP rself, SEXP rrect) {
+  QGraphicsScene *self = unwrapQObject(rself, QGraphicsScene);
+  SEXP ans;
+  QList<QGraphicsItem *> items = self->items(asQRectF(rrect));
+  ans = allocVector(VECSXP, items.size());
+  for (int i = 0; i < length(ans); i++)
+    SET_VECTOR_ELT(ans, i, wrapQGraphicsItem(items[i]));
+  return ans;
+}
 
 // printing: render() has scene and view methods
 
@@ -252,13 +364,14 @@ scene_addText(SEXP scene, SEXP x, SEXP y, SEXP labels, SEXP html)
 SEXP
 qt_qgraphicsView(SEXP rscene)
 {
-    SEXP ans;
     QGraphicsScene *scene = unwrapQObject(rscene, QGraphicsScene);
-    return wrapQWidget(new QGraphicsView(scene, 0));
+    QGraphicsView *view = new QGraphicsView(scene, 0);
+    addQObjectReference(scene, view);
+    return wrapQWidget(view);
 }
 
 SEXP
-qt_fitScene_QGraphicsView(SEXP v) {
+qt_qfitScene_QGraphicsView(SEXP v) {
   QGraphicsView *view = unwrapQObject(v, QGraphicsView);
   view->fitInView(view->sceneRect());
   return R_NilValue;
@@ -277,6 +390,65 @@ qt_qsetTransform_QGraphicsView(SEXP v,
     view->rotate(REAL(rotate)[0]);
     view->translate(REAL(translate)[0], REAL(translate)[1]);
     return R_NilValue;
+}
+
+SEXP
+qt_qsetMatrix_QGraphicsView(SEXP extp, SEXP rmatrix)
+{
+  QGraphicsView *view = unwrapQObject(extp, QGraphicsView);
+  view->setMatrix(asQMatrix(rmatrix));
+  return extp;
+}
+SEXP qt_qmatrix_QGraphicsView(SEXP extp, SEXP inverted)
+{
+  QGraphicsView *view = unwrapQObject(extp, QGraphicsView);
+  return asRMatrix(view->matrix(), asLogical(inverted));
+}
+
+// just data to parent (layout/scene) coordinates, for size calculations
+SEXP qt_qmatrix_QGraphicsItem(SEXP rself, SEXP rinverted) {
+  QGraphicsItem *self = unwrapQGraphicsItem(rself, QGraphicsItem);
+  return asRMatrix(self->transform().toAffine(), asLogical(rinverted));
+}
+
+SEXP qt_qsetMatrix_QGraphicsItem(SEXP rself, SEXP rmatrix) {
+  QGraphicsItem *self = unwrapQGraphicsItem(rself, QGraphicsItem);
+  self->setTransform(QTransform(asQMatrix(rmatrix)));
+  return rself;
+}
+
+// FIXME: better to qupdate(scene()) and then repaint the viewport widget?
+SEXP qt_qupdate_QGraphicsView(SEXP rself) {
+  QGraphicsView *view = unwrapQObject(rself, QGraphicsView);
+  view->scene()->update();
+  view->viewport()->repaint();
+  return rself;
+}
+
+SEXP qt_qupdate_QGraphicsItem(SEXP rself) {
+  QGraphicsItem *item = unwrapQGraphicsItem(rself, QGraphicsItem);
+  // HACK: purge the cache before updating. QGraphicsScene does not
+  // seem to update the cache properly when there are multiple
+  // views. This is not very efficient, but usually one is not
+  // caching items that are frequently updated.
+  QGraphicsItem::CacheMode mode = item->cacheMode();
+  item->setCacheMode(QGraphicsItem::NoCache);
+  item->setCacheMode(mode);
+  item->update();
+  return rself;
+}
+
+SEXP qt_qupdate_QGraphicsScene(SEXP rself) {
+  QGraphicsScene *scene = unwrapQObject(rself, QGraphicsScene);
+  QList<QGraphicsItem *> items = scene->items();
+  for (int i = 0; i < items.size(); i++) {
+    QGraphicsItem *item = items[i];
+    QGraphicsItem::CacheMode mode = item->cacheMode();
+    item->setCacheMode(QGraphicsItem::NoCache);
+    item->setCacheMode(mode);
+  }
+  scene->update();
+  return rself;
 }
 
 SEXP
@@ -354,4 +526,3 @@ SEXP qt_qsetTextItemInteraction(SEXP x, SEXP mode)
     }
     return R_NilValue;
 }
-

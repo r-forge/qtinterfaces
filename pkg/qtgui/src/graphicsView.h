@@ -6,8 +6,8 @@ SEXP qt_qgraphicsScene();
 SEXP qt_qaddItem_QGraphicsScene(SEXP s, SEXP item);
 SEXP qt_qsceneRect_QGraphicsScene(SEXP x);
 SEXP qt_qsceneRect_QGraphicsView(SEXP x);
-SEXP qt_qsetSceneRect_QGraphicsScene(SEXP s, SEXP xlim, SEXP ylim);
-SEXP qt_qsetSceneRect_QGraphicsView(SEXP s, SEXP xlim, SEXP ylim);
+SEXP qt_qsetSceneRect_QGraphicsScene(SEXP s, SEXP rrect);
+SEXP qt_qsetSceneRect_QGraphicsView(SEXP s, SEXP rrect);
 SEXP qt_qclear_QGraphicsScene(SEXP s);
 SEXP qt_qclearSelection_QGraphicsScene(SEXP s);
 SEXP qt_qitemsBoundingRect(SEXP s);
@@ -25,7 +25,7 @@ SEXP scene_addSegments(SEXP scene, SEXP x1, SEXP y1, SEXP x2, SEXP y2, SEXP lwd)
 SEXP scene_addRect(SEXP scene, SEXP x, SEXP y, SEXP w, SEXP h);
 SEXP scene_addText(SEXP scene, SEXP x, SEXP y, SEXP labels, SEXP html);
 SEXP qt_qgraphicsView(SEXP rscene);
-SEXP qt_fitScene_QGraphicsView(SEXP v);
+SEXP qt_qfitScene_QGraphicsView(SEXP v);
 SEXP qt_qsetTransform_QGraphicsView(SEXP v,
 				    SEXP xscale,
 				    SEXP yscale,
@@ -35,5 +35,26 @@ SEXP qt_qsetDragMode(SEXP v, SEXP mode);
 SEXP view_setAntialias(SEXP v, SEXP mode);
 SEXP qt_qsetItemFlags(SEXP x, SEXP flag, SEXP status);
 SEXP qt_qsetTextItemInteraction(SEXP x, SEXP mode);
+
+SEXP qt_qboundingRect_QGraphicsItem(SEXP rself);
+SEXP qt_qitemsAtPoint_QGraphicsScene(SEXP rself, SEXP rpoint);
+SEXP qt_qitemsInRect_QGraphicsScene(SEXP rself, SEXP rrect);
+SEXP qt_qsetGeometry_QGraphicsWidget(SEXP rself, SEXP rx);
+SEXP qt_qgeometry_QGraphicsWidget(SEXP rself);
+SEXP qt_qmatrix_QGraphicsView(SEXP extp, SEXP inverted);
+SEXP qt_qmatrix_QGraphicsItem(SEXP rself, SEXP rinverted);
+SEXP qt_qsetMatrix_QGraphicsView(SEXP extp, SEXP rmatrix);
+SEXP qt_qupdate_QGraphicsView(SEXP rself);
+SEXP qt_qupdate_QGraphicsItem(SEXP rself);
+SEXP qt_qupdate_QGraphicsScene(SEXP rself);
+SEXP qt_qcacheMode_QGraphicsItem(SEXP rself);
+SEXP qt_qsetCacheMode_QGraphicsItem(SEXP rself, SEXP rmode);
+SEXP qt_qsetFocus_QGraphicsItem(SEXP rself);
+SEXP qt_qcolStretch_QGraphicsGridLayout(SEXP rself);
+SEXP qt_qrowStretch_QGraphicsGridLayout(SEXP rself);
+SEXP qt_qsetColStretch_QGraphicsGridLayout(SEXP rself, SEXP rstretch);
+SEXP qt_qsetRowStretch_QGraphicsGridLayout(SEXP rself, SEXP rstretch);
+SEXP qt_qsetHorizontalSpacing_QGraphicsGridLayout(SEXP rself, SEXP rspacing);
+SEXP qt_qsetVerticalSpacing_QGraphicsGridLayout(SEXP rself, SEXP rspacing);
 
 #endif
