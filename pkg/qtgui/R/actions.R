@@ -25,7 +25,7 @@ qsetContextMenuPolicy <-
                            "actions", "custom"))
 {
     policy <- match.arg(policy)
-    .Call(qtbase:::qt_qsetContextMenuPolicy, x, policy)
+    .Call(qt_qsetContextMenuPolicy, x, policy)
 }
 
 ## Qt::NoContextMenu

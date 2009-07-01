@@ -5,7 +5,7 @@
 library(qtgui)
 library(qtdevice)
 
-foo <- qgraphicsView(qsceneDevice(10, 10))
+foo <- qgraphicsView(rscene <- qsceneDevice(10, 10))
 foo
 
 ## scene is stored in attr(foo, "scene")
@@ -34,7 +34,7 @@ zoomoutAct <- qaction(desc = "Zoom Out",
 qaddAction(foo, zoominAct)
 qaddAction(foo, zoomoutAct)
 
-zoominHandler <- 
+## zoominHandler <- 
     qconnect(zoominAct,
              signal = "triggered",
              handler = function(x, ...) {
@@ -42,7 +42,7 @@ zoominHandler <-
              },
              user.data = foo)
 
-zoomoutHandler <- 
+## zoomoutHandler <- 
     qconnect(zoomoutAct,
              signal = "triggered",
              handler = function(x) {
@@ -50,12 +50,12 @@ zoomoutHandler <-
              },
              user.data = foo)
 
-rscene <- attr(foo, "scene")
+## rscene <- attr(foo, "scene")
 
-r <- qsceneRect(rscene)
+r <- rscene$sceneRect
 r
 
-qscene.text(rscene, r[1] + r[3]/2, r[2] + 0.01 * r[4],
+qscene.text(rscene, r[1,1] + r[2,1]/2, r[1,2] + 0.01 * r[2,2],
             labels = "A demo of the <a href='http://qtinterfaces.r-forge.r-project.org'>R/Qt Interface</a>",
             html = TRUE)
 
@@ -67,7 +67,8 @@ qconnect(printAct, signal = "triggered",
              qrenderGraphicsView(x)
          },
          user.data = foo)
-printhandler <- qaddAction(foo, printAct)
+qaddAction(foo, printAct)
+
 
 ## qsetItemFlags, qsetTextItemInteraction
 
