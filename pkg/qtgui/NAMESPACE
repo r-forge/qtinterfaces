@@ -3,11 +3,16 @@ useDynLib(qtgui, .registration = TRUE)
 
 import(qtbase)
 
+## Common QWidget methods 
+
 export(print.QWidget, qclose, qheight, qparent, qprint,
        qresize, qsetContentsMargins, qsetMinimumSize, qsetExpanding,
-       qsetParent, qshow, qisEnabled, qrender, qrenderGraphicsView,
-       qrenderToPixmap, qrenderToSVG, qsetEnabled, qsetWindowTitle,
+       qsetParent, qshow, qisEnabled, qsetEnabled, qsetWindowTitle,
        qwindowTitle, qwidth, qlower, qraise, qupdate)
+
+## rendering to PDF/SVG/Pixmap
+
+export(qrender, qrenderGraphicsView, qrenderToPixmap, qrenderToSVG)
 
 S3method(qupdate, QWidget)
 

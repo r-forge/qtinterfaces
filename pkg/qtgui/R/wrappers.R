@@ -93,9 +93,9 @@ qsetWindowTitle <- function(x, title)
     .Call(qt_qsetWindowTitle, x, title)
 }
 
-qrender <- function(x, file)
+qrender <- function(x, file = NULL)
 {
-    .Call(qt_qrender, x, as.character(file)[1])
+    .Call(qt_qrender, x, file)
 }
 
 qrenderGraphicsView <- function(x)
