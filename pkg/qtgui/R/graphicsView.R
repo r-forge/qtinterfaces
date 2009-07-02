@@ -93,7 +93,7 @@ qitems.QGraphicsScene <- function(x, r) {
 
 `qgeometry<-` <- function(x, value) {
 ### FIXME: technically QGraphicsLayoutItem, but that's not supported yet
-  stopifnot(inherits(p, "QGraphicsWidget"))
+  stopifnot(inherits(x, "QGraphicsWidget"))
   stopifnot(is(value, "QRectF"))
   invisible(.Call(qt_qsetGeometry_QGraphicsWidget, x, value))
 }
@@ -299,27 +299,27 @@ qcolStretch <- function(p) {
   .Call(qt_qcolStretch_QGraphicsGridLayout, p)
 }
 
-`qrowStretch<-` <- function(p, value) {
-  stopifnot(inherits(p, "QGraphicsGridLayout"))
-  invisible(.Call(qt_qsetRowStretch_QGraphicsGridLayout, p,
+`qrowStretch<-` <- function(x, value) {
+  stopifnot(inherits(x, "QGraphicsGridLayout"))
+  invisible(.Call(qt_qsetRowStretch_QGraphicsGridLayout, x,
                   as.integer(value)))
 }
 
-`qcolStretch<-` <- function(p, value) {
-  stopifnot(inherits(p, "QGraphicsGridLayout"))
-  invisible(.Call(qt_qsetColStretch_QGraphicsGridLayout, p,
+`qcolStretch<-` <- function(x, value) {
+  stopifnot(inherits(x, "QGraphicsGridLayout"))
+  invisible(.Call(qt_qsetColStretch_QGraphicsGridLayout, x,
                   as.integer(value)))
 }
 
-`qhSpacing<-` <- function(p, value) {
+`qhSpacing<-` <- function(x, value) {
   stopifnot(inherits(p, "QGraphicsGridLayout"))
-  invisible(.Call(qt_qsetHorizontalSpacing_QGraphicsGridLayout, p,
+  invisible(.Call(qt_qsetHorizontalSpacing_QGraphicsGridLayout, x,
                   as.numeric(value)))
 }
 
-`qvSpacing<-` <- function(p, value) {
+`qvSpacing<-` <- function(x, value) {
   stopifnot(inherits(p, "QGraphicsGridLayout"))
-  invisible(.Call(qt_qsetVerticalSpacing_QGraphicsGridLayout, p,
+  invisible(.Call(qt_qsetVerticalSpacing_QGraphicsGridLayout, x,
                   as.numeric(value)))
 }
 }
