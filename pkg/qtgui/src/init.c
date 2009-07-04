@@ -94,12 +94,14 @@ static R_CallMethodDef CallEntries[] = {
     CALLDEF(qt_qsetFont_QGraphicsScene, 2), // QFont
     CALLDEF(qt_qsetItemIndexMethod, 2), // ItemIndexMethod (no string support)
     CALLDEF(qt_qsetBackgroundBrush, 2), // QBrush
-    CALLDEF(qt_setParentItem, 2),
-    CALLDEF(qt_setPos_QGraphicsItem, 3),
+    CALLDEF(qt_qsetParentItem, 2),
+    CALLDEF(qt_qsetPos_QGraphicsItem, 3),
     CALLDEF(qt_qsetGeometry_QGraphicsWidget, 2),
     CALLDEF(qt_qgeometry_QGraphicsWidget, 1),
-    CALLDEF(qt_setZValue, 2),
-    CALLDEF(qt_setToolTip_QGraphicsItem, 2),
+    CALLDEF(qt_qsetZValue, 2),
+    CALLDEF(qt_qsetToolTip_QGraphicsItem, 2),
+    CALLDEF(qt_qgraphicsEllipseItem, 5),
+    CALLDEF(qt_qgraphicsLineItem, 5),
     CALLDEF(qt_qgraphicsProxyWidget, 1),
     CALLDEF(scene_addPoints, 4),
     CALLDEF(scene_addLines, 4),

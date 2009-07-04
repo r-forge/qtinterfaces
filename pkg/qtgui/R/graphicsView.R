@@ -117,20 +117,75 @@ qsetItemIndexMethod <- function(x, method = c("none", "bsptree"))
 
 ## SEXP qt_qsetBackgroundBrush(s, brush)
 
+qsetParentItem <- function(item, parent)
+{
+    .Call(qt_qsetParentItem, item, parent);
+}
 
-## SEXP qt_setParentItem(item, parent)
+## SEXP qt_qsetPos_QGraphicsItem(item, x, y)
+
+qsetZValue <- function(item, z)
+{
+    .Call(qt_qsetZValue, item, z)
+}
+
+qsetToolTip <- function(x, tooltip)
+{
+    UseMethod("qsetToolTip")
+}
+
+qsetToolTip.QGraphicsItem <- function(x, tooltip)
+{
+    .Call(qt_qsetToolTip_QGraphicsItem, x, tooltip)
+}
 
 
-## SEXP qt_setPos_QGraphicsItem(item, x, y)
+col2qcolor <- function(col, alpha = 1)
+{
+    if (is(col, "QColor")) return(col)
+    rgb <- col2rgb(col, alpha = TRUE)
+    if (!missing(alpha)) rgb[4,1] <- as.integer(alpha * 255L)
+    qcolor(rgb[1], rgb[2], rgb[3], rgb[4])
+}
 
 
-## SEXP qt_setZValue(item, z)
+qgpar <-
+    function(col = "black", fill = "transparent",
+             lwd = 0, penstyle = 1, fillstyle = 0,
+             pencap = NA_integer_,  # unsupported
+             penjoin = NA_integer_) # unsupported
+{
+    list(col = col2qcolor(col[1]),
+         fill = col2qcolor(fill[1]),
+         lwd = as.double(lwd[1]),
+         penstyle = as.integer(penstyle),
+         fillstyle = as.integer(fillstyle),
+         pencap = as.integer(pencap),
+         penstyle = as.integer(penstyle))
+}
+
+qgraphicsEllipseItem <-
+    function(x, y, width, height, ..., gp = qgpar(...))
+{
+    .Call(qt_qgraphicsEllipseItem,
+          x, y, width, height, gp)
+}
+
+qgraphicsLineItem <-
+    function(x1, y1, x2, y2, ..., gp = qgpar(...))
+{
+    .Call(qt_qgraphicsLineItem,
+          x1, y1, x2, y2, gp)
+}
+
+qgraphicsProxyWidget <- function(w)
+{
+    .Call(qt_qgraphicsProxyWidget, w)
+}
 
 
-## SEXP qt_setToolTip_QGraphicsItem(item, s)
 
 
-## SEXP qt_qgraphicsProxyWidget(w)
 
 qscene.points <- function(s, x, y, radius = 1)
 {
@@ -235,7 +290,7 @@ qsetDragMode <-
     .Call(qt_qsetDragMode, v, imode)
 }
 
-setAntialias <- function(v, mode = TRUE)
+qsetAntialias <- function(v, mode = TRUE)
 {
     .Call(view_setAntialias, v, as.logical(mode))
 }

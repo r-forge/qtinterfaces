@@ -5,6 +5,8 @@
 #include <QGraphicsView>
 #include <QGraphicsWidget>
 #include <QGraphicsItem>
+#include <QGraphicsEllipseItem>
+#include <QGraphicsLineItem>
 #include <QGraphicsTextItem>
 #include <QGraphicsProxyWidget>
 #include <QGraphicsGridLayout>
@@ -23,8 +25,14 @@ SEXP qt_qgraphicsScene()
 
 SEXP qt_qaddItem_QGraphicsScene(SEXP s, SEXP ritem)
 {
+// #define unwrapQGraphicsItem(x, type) ({                                      \
+//       type *ans = qgraphicsitem_cast<type *>(unwrapQGraphicsItemReferee(x)); \
+//       if (!ans) error("unwrapQGraphicsItem: Coercion to " #type " failed"); \
+//       ans;                                                              \
+//     })
   QGraphicsScene *scene = unwrapQObject(s, QGraphicsScene);
-  QGraphicsItem *item = unwrapQGraphicsItem(ritem, QGraphicsItem);
+  // unwrapQGraphicsItemReferee(ritem);
+  QGraphicsItem *item = unwrapQGraphicsItem(ritem, QGraphicsItem); // failing
   scene->addItem(item);
   // Make sure that item is not deleted before its scene
   // FIXME: leaky -- needs to happen in itemChange() upon ItemSceneChange,
@@ -165,26 +173,26 @@ SEXP qt_qsetBackgroundBrush(SEXP s, SEXP brush)
 }
 
 
-SEXP qt_setParentItem(SEXP item, SEXP parent)
+SEXP qt_qsetParentItem(SEXP item, SEXP parent)
 {
-    // FIXME error: QGraphicsItem is not a QObject
-    // unwrapQObject(item, QGraphicsItem)->setParentItem(unwrapQObject(parent, QGraphicsItem));
+    unwrapQGraphicsItem(item, QGraphicsItem)->
+	setParentItem(unwrapQGraphicsItem(parent, QGraphicsItem));
     return R_NilValue;
 }
 
-SEXP qt_setPos_QGraphicsItem(SEXP item, SEXP x, SEXP y)
+SEXP qt_qsetPos_QGraphicsItem(SEXP item, SEXP x, SEXP y)
 {
     // unwrapQObject(item, QGraphicsItem)->setPos(asReal(x), asReal(y));
     return R_NilValue;
 }
 
-SEXP qt_setZValue(SEXP item, SEXP z)
+SEXP qt_qsetZValue(SEXP item, SEXP z)
 {
-    // unwrapQObject(item, QGraphicsItem)->setZValue(asReal(z));
+    unwrapQGraphicsItem(item, QGraphicsItem)->setZValue(asReal(z));
     return R_NilValue;
 }
 
-SEXP qt_setToolTip_QGraphicsItem(SEXP item, SEXP s)
+SEXP qt_qsetToolTip_QGraphicsItem(SEXP item, SEXP s)
 {
     // unwrapQObject(item, QGraphicsItem)->setToolTip(sexp2qstring(s));
     return R_NilValue;
@@ -206,14 +214,74 @@ SEXP qt_qsetFocus_QGraphicsItem(SEXP rself) {
   return rself;
 }
 
+
+// built-in shape items
+
+// helper functions that should maybe move to qtbase/src/convert.*
+
+enum GPARS {
+    COLOR, FILL, LWD, PENSTYLE,
+    FILLSTYLE, PENCAP, PENJOIN
+};
+
+static QBrush asQBrush(SEXP pars)
+{
+    return 
+	QBrush(asQColor(VECTOR_ELT(pars, FILL)), 
+	       (enum Qt::BrushStyle) asInteger(VECTOR_ELT(pars, FILLSTYLE)));
+}
+
+static QPen asQPen(SEXP pars)
+{
+    // pencap *= 0x10
+    // penjoin *= 0x40
+    return 
+	QPen(QBrush(asQColor(VECTOR_ELT(pars, FILL))),
+	     asReal(VECTOR_ELT(pars, LWD)), 
+	     (enum Qt::PenStyle) asInteger(VECTOR_ELT(pars, PENSTYLE)));
+    // doesn't work: how to convert? 
+	 // (enum Qt::PenCapStyle) 0x10 * asInteger(VECTOR_ELT(pars, PENCAP)),
+	 // (enum Qt::PenJoinStyle) 0x40 * asInteger(VECTOR_ELT(pars, PENJOIN)));
+}
+
+
+SEXP qt_qgraphicsEllipseItem(SEXP x, SEXP y, 
+			     SEXP width, SEXP height, 
+			     SEXP pars)
+{
+    double 
+	px = asReal(x), py = asReal(y),
+	pw = asReal(width), ph = asReal(height);
+    QGraphicsEllipseItem *item = 
+	new QGraphicsEllipseItem(px - pw/2, py - ph/2, pw, ph, 0);
+    item->setBrush(asQBrush(pars));
+    item->setPen(asQPen(pars));
+    return wrapQGraphicsItem(item);
+}
+
+SEXP qt_qgraphicsLineItem(SEXP x1, SEXP y1, SEXP x2, SEXP y2, 
+			  SEXP pars)
+{
+    double 
+	px1 = asReal(x1), py1 = asReal(y1),
+	px2 = asReal(x2), py2 = asReal(y2);
+    QGraphicsLineItem *item = 
+	new QGraphicsLineItem(px1, py1, px2, py2, 0);
+    item->setPen(asQPen(pars));
+    return wrapQGraphicsItem(item);
+}
+
+
+
+// Can we use either wrapQObject or wrapQGraphicsItem, or is one
+// preferred?
+
 SEXP qt_qgraphicsProxyWidget(SEXP w)
 {
     QGraphicsProxyWidget *pw = new QGraphicsProxyWidget(0, 0);
     pw->setWidget(unwrapQObject(w, QWidget));
     return wrapQObject(pw);
 }
-
-
 
 SEXP qt_qsetGeometry_QGraphicsWidget(SEXP rself, SEXP rx)
 {

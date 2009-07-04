@@ -8,7 +8,7 @@ library(qtdevice)
 foo <- qgraphicsView(rscene <- qsceneDevice(15, 15))
 
 qsetTransform(foo, scale = 1/2)
-setAntialias(foo, TRUE)
+qsetAntialias(foo, TRUE)
 
 foo
 
@@ -28,7 +28,7 @@ plot(rnorm(100), rnorm(100), pch = 16, cex = 3, col = "#AA222288")
 qupdate(foo)
 
 qsetDragMode(foo, "scroll")
-setAntialias(foo, TRUE)
+qsetAntialias(foo, TRUE)
 
 qsetTransform(foo, scale = 1.2)
 qsetTransform(foo, scale = 1/1.2)
