@@ -2,15 +2,31 @@
 ## demo of the scene/view-based R graphics device, which gives cheap
 ## pan and zoom with standard R graphics.
 
-library(qtgui)
+
 library(qtdevice)
 
-foo <- qgraphicsView(rscene <- qsceneDevice(10, 10))
+foo <- qgraphicsView(rscene <- qsceneDevice(15, 15))
+
+qsetTransform(foo, scale = 1/2)
+setAntialias(foo, TRUE)
+
 foo
 
-## scene is stored in attr(foo, "scene")
+barchart(VADeaths, groups = FALSE, origin = 0,
+         par.settings = list(grid.pars = list(lineheight = 4)))
+
+plot(1:10, xlim = c(0, 8), type = "o", pch = c(16, 3), cex = 3)
+abline(0, .5)
+abline(0, 2)  ## clipping problem
+
+## depth problem
+
+plot(1:100, pch = 21, cex = 5, bg = "pink")
+
 
 plot(rnorm(100), rnorm(100), pch = 16, cex = 3, col = "#AA222288")
+qupdate(foo)
+
 qsetDragMode(foo, "scroll")
 setAntialias(foo, TRUE)
 
@@ -34,21 +50,19 @@ zoomoutAct <- qaction(desc = "Zoom Out",
 qaddAction(foo, zoominAct)
 qaddAction(foo, zoomoutAct)
 
-## zoominHandler <- 
-    qconnect(zoominAct,
-             signal = "triggered",
-             handler = function(x, ...) {
-                 qsetTransform(x, scale = 1.2)
-             },
-             user.data = foo)
+qconnect(zoominAct,
+         signal = "triggered",
+         handler = function(x, ...) {
+             qsetTransform(x, scale = 1.2)
+         },
+         user.data = foo)
 
-## zoomoutHandler <- 
-    qconnect(zoomoutAct,
-             signal = "triggered",
-             handler = function(x) {
-                 qsetTransform(x, scale = 1/1.2)
-             },
-             user.data = foo)
+qconnect(zoomoutAct,
+         signal = "triggered",
+         handler = function(x) {
+             qsetTransform(x, scale = 1/1.2)
+         },
+         user.data = foo)
 
 ## rscene <- attr(foo, "scene")
 
@@ -74,7 +88,6 @@ qaddAction(foo, printAct)
 
 qsetDragMode(foo, "select")
 qsetItemFlags(rscene, "movable", TRUE)
-
 qsetItemFlags(rscene, "selectable", TRUE)
 
 

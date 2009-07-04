@@ -480,6 +480,8 @@ view_setAntialias(SEXP v, SEXP mode)
     return R_NilValue;
 }
 
+
+
 SEXP qt_qsetItemFlags(SEXP x, SEXP flag, SEXP status)
 {
     QList<QGraphicsItem*> ilist = unwrapQObject(x, QGraphicsScene)->items();

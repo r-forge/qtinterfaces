@@ -4,6 +4,7 @@
 
 #include <QWidget>
 #include <QGraphicsScene>
+#include <QGraphicsItem>
 
 
 #include <R.h>
@@ -20,14 +21,20 @@ class RSceneDevice : public QGraphicsScene
  private:
 
     bool debug;
+    bool force_repaint; // force view repaint after each piece is drawn
+    double zclip;
+    double zitem;
     int device_number;
     QString default_family;
+    QGraphicsRectItem *clip_rect;
 
  public:
 
     RSceneDevice(double width, double height, 
 		 double pointsize, const char *family);
     // ~RSceneDevice(); 
+    void setClipping(pDevDesc dev);
+    void addClippedItem(QGraphicsItem *item);
 
     QString defaultFamily() { return default_family; }
     void setDeviceNumber(int n) { device_number = n; }
@@ -47,6 +54,7 @@ class RSceneDevice : public QGraphicsScene
 		  double rot, double hadj,
 		  R_GE_gcontext *gc);
     void NewPage(R_GE_gcontext *gc);
+    void Mode(int mode);
     void MetricInfo(int c, R_GE_gcontext *gc,
 		    double* ascent, double* descent,
 		    double* width);

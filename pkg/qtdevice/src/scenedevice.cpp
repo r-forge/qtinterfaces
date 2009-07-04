@@ -2,6 +2,7 @@
 #include <QApplication>
 #include <QGraphicsView>
 #include <QGraphicsTextItem>
+#include <QFontMetricsF>
 
 #include "helpers.hpp"
 #include <qtbase.h>
@@ -113,11 +114,6 @@ do_QTScene(double width,
     return;
 }
 
-
-
-
-
-
 RSceneDevice::RSceneDevice(double width, double height,
 			   double pointsize, 
 			   const char *family)
@@ -125,11 +121,44 @@ RSceneDevice::RSceneDevice(double width, double height,
 {
     setItemIndexMethod(QGraphicsScene::NoIndex);
     debug = false;
+    force_repaint = false;
+    zclip = 0.0;
+    zitem = 0.0;
     default_family = QString(family);
     setDeviceNumber(curDevice());
     setSceneRect(0.0, 0.0, width, height);
+    clip_rect = addRect(sceneRect());
     do_QTScene(width, height, pointsize, this);
 }
+
+void RSceneDevice::setClipping(pDevDesc dev)
+{
+    Rprintf("Clip: %g, %g, %g, %g\n",
+	    dev->clipLeft, 
+	    dev->clipBottom, 
+	    dev->clipRight, 
+	    dev->clipTop);
+//     clip_rect = 
+// 	addRect(QRectF(dev->clipLeft, 
+// 		       dev->clipBottom, 
+// 		       dev->clipRight - dev->clipLeft, 
+// 		       dev->clipTop - dev->clipBottom),
+// 		QPen(Qt::NoPen));
+//     clip_rect->setZValue(zclip);
+//     clip_rect->setFlags(QGraphicsItem::ItemClipsChildrenToShape);
+//     zclip += 0.1;
+//     zitem = 0.0;
+}
+
+void RSceneDevice::addClippedItem(QGraphicsItem *item)
+{
+    // item->setParentItem(0);
+    // item->setParentItem(clip_rect);
+    item->setZValue(zitem);
+    zitem += 0.1;
+}
+
+
 
 // typedef struct {
 //     /*
@@ -173,7 +202,6 @@ RSceneDevice::Circle(double x, double y, double r,
     QPen pen(Qt::NoPen);
     QBrush brush;
     QRectF rect(x - r, y - r, 2 * r, 2 * r);
-    // painter.setClipRect(clip_rect); // FIXME: no clipping!
     int col = gc->col;
     int fill = gc->fill;
     // double gamma = gc->gamma;
@@ -188,7 +216,15 @@ RSceneDevice::Circle(double x, double y, double r,
 	brush.setColor(r2qColor(fill));
 	brush.setStyle(Qt::SolidPattern);
     }
-    addEllipse(rect, pen, brush);
+    // FIXME: We can either create items separately and add them in
+    // addClippedItem() as here, or do addClippedItem(addEllipse(...))
+    // which removes and adds (as in the other callbacks currently).
+    // The first is probably better, so should fix the others.
+    addClippedItem(addEllipse(rect, pen, brush));
+//     QGraphicsEllipseItem *item = new QGraphicsEllipseItem(rect);
+//     item->setPen(pen);
+//     item->setBrush(brush);
+//     addClippedItem(item);
     return;
 }
 
@@ -199,7 +235,6 @@ RSceneDevice::Line(double x1, double y1, double x2, double y2,
     if (debug) Rprintf("RSceneDevice::Line\n");
     QPen pen(Qt::NoPen);
     QLineF line(x1, y1, x2, y2);
-    // painter.setClipRect(clip_rect);
     int col = gc->col;
     // double gamma = gc->gamma;
     double lwd = gc->lwd;
@@ -209,7 +244,7 @@ RSceneDevice::Line(double x1, double y1, double x2, double y2,
 	pen.setColor(r2qColor(col));
 	pen.setWidthF(lwd);
     }
-    addLine(line, pen);
+    addClippedItem(addLine(line, pen));
     return;
 }
 
@@ -222,7 +257,6 @@ RSceneDevice::Polygon(int n, double *x, double *y,
     QPen pen(Qt::NoPen);
     QBrush brush;
     QPolygonF polygon;
-    // painter.setClipRect(clip_rect);
     if (n > 0) {
 	for (int i = 0; i < n; i++) {
 	    polygon <<  QPointF(x[i], y[i]);
@@ -243,7 +277,7 @@ RSceneDevice::Polygon(int n, double *x, double *y,
 	    brush.setColor(r2qColor(fill));
 	    brush.setStyle(Qt::SolidPattern);
 	}
-	addPolygon(polygon, pen, brush);
+	addClippedItem(addPolygon(polygon, pen, brush));
      }
     return;
 }
@@ -255,7 +289,6 @@ RSceneDevice::Polyline(int n, double *x, double *y,
 {
     if (debug) Rprintf("RSceneDevice::Polyline\n");
     QPen pen(Qt::NoPen);
-    // painter.setClipRect(clip_rect);
     int col = gc->col;
     // double gamma = gc->gamma;
     double lwd = gc->lwd;
@@ -270,7 +303,7 @@ RSceneDevice::Polyline(int n, double *x, double *y,
     }
     if (n > 1) {
 	for (int i = 1; i < n; i++) {
-	    addLine(x[i-1], y[i-1], x[i], y[i], pen);
+	    addClippedItem(addLine(x[i-1], y[i-1], x[i], y[i], pen));
 	}
     }
     return;
@@ -285,7 +318,6 @@ RSceneDevice::Rect(double x0, double y0, double x1, double y1,
     QPen pen(Qt::NoPen);
     QBrush brush;
     QRectF rect(x0, y0, x1 - x0, y1 - y0);
-    // painter.setClipRect(clip_rect);
     int col = gc->col;
     int fill = gc->fill;
     //double gamma = gc->gamma;
@@ -300,7 +332,7 @@ RSceneDevice::Rect(double x0, double y0, double x1, double y1,
 	brush.setColor(r2qColor(fill));
 	brush.setStyle(Qt::SolidPattern);
     }
-    addRect(rect, pen, brush);
+    addClippedItem(addRect(rect, pen, brush));
     return;
 }
 
@@ -324,35 +356,58 @@ RSceneDevice::TextUTF8(double x, double y, char *str,
 			r2qFont(fontfamily, fontface, ps, cex, lineheight,
 				defaultFamily()));
     text->setDefaultTextColor(r2qColor(col));
-    // text->setTextInteractionFlags(Qt::TextEditorInteraction);
     QRectF brect = text->boundingRect();
     text->rotate(-rot);
     text->translate(-hadj * brect.width(), -0.7 * brect.height());
     text->setPos(x, y);
+    addClippedItem(text);
     return;
 }
 
-
-
-// void R_PreserveObject(SEXP object)
-// void R_ReleaseObject(SEXP object)
 
 
 void 
 RSceneDevice::NewPage(R_GE_gcontext *gc)
 {
     if (debug) Rprintf("RSceneDevice::NewPage\n");
-    clear();
+    QList<QGraphicsView *> viewlist = views();
+    for (int i = 0; i < viewlist.size(); i++) {
+	viewlist[i]->repaint();
+    }
     QApplication::processEvents();
+    clear();
+    zclip = 0.0;
+    zitem = 0.0;
+    // To account for par("bg")? 
+    int fill = gc->fill;
+    if (fill != NA_INTEGER && !R_TRANSPARENT(fill)) {
+	setBackgroundBrush(r2qColor(fill));
+    } else {
+	setBackgroundBrush(QBrush());
+    }
     return;
-    //     // FIXME: deal with par("bg")? 
-    //     int fill = gc->fill;
-    //     if (fill != NA_INTEGER && !R_TRANSPARENT(fill)) {
-    // 	// painter.fillRect(painter.viewport(), r2qColor(fill));
-    // 	current_device->getPixmap()->fill(r2qColor(fill));
-    //     } else {
-    // 	current_device->getPixmap()->fill(Qt::transparent); // Qt::transparent
-    //     }
+}
+
+void 
+RSceneDevice::Mode(int mode)
+{
+    if (force_repaint) {
+	if (mode == 0) {
+	    QList<QGraphicsView *> viewlist = views();
+	    for (int i = 0; i < viewlist.size(); i++) {
+		viewlist[i]->repaint();
+	    }
+	}
+	QApplication::processEvents();
+    }
+    else {
+	if (mode == 1) {
+	    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+	}
+	else {
+	    QApplication::restoreOverrideCursor();
+	}
+    }
 }
 
 
@@ -371,16 +426,17 @@ RSceneDevice::MetricInfo(int c,
     char* fontfamily = gc->fontfamily;
     bool Unicode = mbcslocale; // && (gc->fontface != 5);
     if (c < 0) { Unicode = TRUE; c = -c; }
-    QFontMetrics fm(r2qFont(fontfamily, fontface, ps, cex, lineheight, "Helvetica"));
+    QFontMetricsF fm(r2qFont(fontfamily, fontface, ps, cex, 
+			     lineheight, defaultFamily()));
     QChar uc = QChar(c);
-    QRect bb = fm.boundingRect(uc); 
-    // Note: bb.bottom() is probably negative. 
-    // WAS:
-    //     *ascent = (double) (bb.height() + bb.bottom());
-    //     *descent = (double) (-bb.bottom());
-    *ascent = (double) (bb.height());
-    *descent = (double) (0.0);
-    *width = (double) fm.width(uc);
+    QRectF bb = fm.boundingRect(uc); 
+    *ascent = (-bb.top());
+    *descent = (bb.bottom());
+    *width = bb.width();
+    // Rprintf("Metric Info: %g, %g, %g\n", *ascent, *descent, *width);
+//     *ascent = (double) (bb.height());
+//     *descent = (double) (0.0);
+//     *width = (double) fm.width(uc);
     return;
 }
 
@@ -483,10 +539,6 @@ QT_StrWidthUTF8(char *str, R_GE_gcontext *gc,
 }
 
 
-
-
-
-
 static void QT_Close(pDevDesc dev)
 {
     return;
@@ -494,6 +546,11 @@ static void QT_Close(pDevDesc dev)
 
 
 static void QT_Activate(pDevDesc dev)
+{
+    return;
+}
+
+static void QT_Deactivate(pDevDesc dev)
 {
     return;
 }
@@ -508,19 +565,14 @@ static void QT_Clip(double left,
     dev->clipRight  = right;
     dev->clipBottom = bottom;
     dev->clipTop    = top;
+    // asSceneDevice(dev)->setClipping(dev);
     return;
 }
 
-static void QT_Deactivate(pDevDesc dev)
-{
-    return;
-}
 
 static void QT_Mode(int mode, pDevDesc dev)
 {
-    Q_UNUSED(mode);
-    Q_UNUSED(dev);
-    return;
+    return asSceneDevice(dev)->Mode(mode);
 }
 
 
@@ -552,9 +604,6 @@ static void QT_Size(double *left, double *right,
 
 
 
-
-
-
 /* Device driver entry point */
 Rboolean
 RSceneDeviceDriver(pDevDesc dev,
@@ -579,6 +628,8 @@ RSceneDeviceDriver(pDevDesc dev,
     /*
      * Device physical characteristics
      */
+    double DPI = 72;
+
     dev->left   = dev->clipLeft   = 0;
     dev->right  = dev->clipRight  = qdev->width();
     dev->bottom = dev->clipBottom = qdev->height();
@@ -587,13 +638,13 @@ RSceneDeviceDriver(pDevDesc dev,
     dev->cra[1] = 1.2 * ps;
     dev->xCharOffset = 0.4900;
     dev->yCharOffset = 0.3333;
-    dev->yLineBias = 0.2;
-    dev->ipr[0] = 1.0 / 72;
-    dev->ipr[1] = 1.0 / 72;
+    dev->yLineBias = 0.1;
+    dev->ipr[0] = 1.0 / DPI;
+    dev->ipr[1] = 1.0 / DPI;
     /*
      * Device capabilities
      */
-    dev->canClip = FALSE;
+    dev->canClip = FALSE; // can clip, but then selection becomes weird
     dev->canHAdj = 2;
     dev->canChangeGamma = FALSE;
     dev->displayListOn = TRUE;
@@ -638,8 +689,6 @@ RSceneDeviceDriver(pDevDesc dev,
     // dev->getEvent = SEXP (*getEvent)(SEXP, const char *);
     // dev->newFrameConfirm
     // dev->
-
-
     return TRUE;
 }
 

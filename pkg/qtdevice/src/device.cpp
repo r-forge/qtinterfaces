@@ -529,7 +529,9 @@ static void QT_Size(double *left, double *right,
 		    double *bottom, double *top,
 		    pDevDesc dev)
 {
-    // FIXME FIXME FIXME : should I do this here?
+    // FIXME FIXME FIXME : should I do this here? Probably not;
+    // rather, a resize event should set this, not waiting for QT_Size
+    // to be called.
     dev->left = 0;
     dev->right = current_device->width();
     dev->bottom = current_device->height();
