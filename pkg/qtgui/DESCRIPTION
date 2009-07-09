@@ -1,10 +1,11 @@
 Package: qtgui
-Version: 0.0-3
+Version: 0.0-5
 Title: Wrappers for standard Qt Widgets and related utilities
-Author: Deepayan Sarkar
-Depends: R (>= 2.6.0), qtbase (>= 0.0-7)
+Author: Deepayan Sarkar, Michael Lawrence
+Depends: R (>= 2.6.0), qtbase (>= 0.0-9)
 Imports: qtbase
 LinkingTo: qtbase
-Maintainer: Deepayan Sarkar <deepayan.sarkar@gmail.com>
+Maintainer: Deepayan Sarkar <deepayan.sarkar@gmail.com>,
+            Michael Lawrence <mflawren@fhcrc.org>
 Description: Miscellaneous Qt-based tools for R
 License: LGPL (>= 2)
