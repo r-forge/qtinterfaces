@@ -95,7 +95,7 @@ static R_CallMethodDef CallEntries[] = {
     CALLDEF(qt_qsetItemIndexMethod, 2), // ItemIndexMethod (no string support)
     CALLDEF(qt_qsetBackgroundBrush, 2), // QBrush
     CALLDEF(qt_qsetParentItem, 2),
-    CALLDEF(qt_qsetPos_QGraphicsItem, 3),
+    CALLDEF(qt_qsetPos_QGraphicsItem, 2),
     CALLDEF(qt_qsetGeometry_QGraphicsWidget, 2),
     CALLDEF(qt_qgeometry_QGraphicsWidget, 1),
     CALLDEF(qt_qsetZValue, 2),
@@ -124,6 +124,8 @@ static R_CallMethodDef CallEntries[] = {
     CALLDEF(qt_qsetCacheMode_QGraphicsItem, 2),
     CALLDEF(qt_qcacheMode_QGraphicsItem, 1),
     CALLDEF(qt_qsetFocus_QGraphicsItem, 1),
+    CALLDEF(qt_qsetMinimumSize_QGraphicsLayoutItem, 2),
+    CALLDEF(qt_qminimumSize_QGraphicsLayoutItem, 1),
 
     CALLDEF(qt_qrowStretch_QGraphicsGridLayout, 1),
     CALLDEF(qt_qcolStretch_QGraphicsGridLayout, 1),

@@ -41,7 +41,8 @@ export(qgraphicsScene, qsceneRect, "qsceneRect<-", qclear,
        "qmatrix<-", qgraphicsView, qfitScene, qsetTransform,
        qsetDragMode, qsetAntialias, qsetItemFlags,
        qsetTextItemInteraction, qaddItem, qboundingRect, qitems,
-       qgeometry, "qgeometry<-", qmatrix, qcacheMode, "qcacheMode<-")
+       qgeometry, "qgeometry<-", qmatrix, qcacheMode, "qcacheMode<-",
+       qminimumSize, "qminimumSize<-", "qpos<-")
 
 S3method(qsetToolTip, QGraphicsItem)
 

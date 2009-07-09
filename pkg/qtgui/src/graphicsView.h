@@ -15,7 +15,7 @@ SEXP qt_qsetFont_QGraphicsScene(SEXP s, SEXP font);
 SEXP qt_qsetItemIndexMethod(SEXP s, SEXP method);
 SEXP qt_qsetBackgroundBrush(SEXP s, SEXP brush);
 SEXP qt_qsetParentItem(SEXP item, SEXP parent);
-SEXP qt_qsetPos_QGraphicsItem(SEXP item, SEXP x, SEXP y);
+SEXP qt_qsetPos_QGraphicsItem(SEXP item, SEXP rpoint);
 SEXP qt_qsetZValue(SEXP item, SEXP z);
 SEXP qt_qsetToolTip_QGraphicsItem(SEXP item, SEXP s);
 SEXP qt_qgraphicsEllipseItem(SEXP x, SEXP y, SEXP width, SEXP height, SEXP pars);
@@ -58,5 +58,7 @@ SEXP qt_qsetColStretch_QGraphicsGridLayout(SEXP rself, SEXP rstretch);
 SEXP qt_qsetRowStretch_QGraphicsGridLayout(SEXP rself, SEXP rstretch);
 SEXP qt_qsetHorizontalSpacing_QGraphicsGridLayout(SEXP rself, SEXP rspacing);
 SEXP qt_qsetVerticalSpacing_QGraphicsGridLayout(SEXP rself, SEXP rspacing);
+SEXP qt_qsetMinimumSize_QGraphicsLayoutItem(SEXP ritem, SEXP rsize);
+SEXP qt_qminimumSize_QGraphicsLayoutItem(SEXP ritem);
 
 #endif

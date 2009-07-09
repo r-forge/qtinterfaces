@@ -180,16 +180,31 @@ SEXP qt_qsetParentItem(SEXP item, SEXP parent)
     return R_NilValue;
 }
 
-SEXP qt_qsetPos_QGraphicsItem(SEXP item, SEXP x, SEXP y)
+SEXP qt_qsetPos_QGraphicsItem(SEXP item, SEXP rpoint)
 {
-    // unwrapQObject(item, QGraphicsItem)->setPos(asReal(x), asReal(y));
-    return R_NilValue;
+  unwrapQGraphicsItem(item, QGraphicsItem)->setPos(asQPointF(rpoint));
+  return item;
 }
 
 SEXP qt_qsetZValue(SEXP item, SEXP z)
 {
     unwrapQGraphicsItem(item, QGraphicsItem)->setZValue(asReal(z));
-    return R_NilValue;
+    return item;
+}
+
+SEXP qt_qsetMinimumSize_QGraphicsLayoutItem(SEXP ritem, SEXP rsize)
+{
+  QGraphicsLayoutItem *item =
+    unwrapQGraphicsLayoutItem(ritem, QGraphicsLayoutItem);
+  item->setMinimumSize(asQSizeF(rsize));
+  return ritem;
+}
+
+SEXP qt_qminimumSize_QGraphicsLayoutItem(SEXP ritem)
+{
+  QGraphicsLayoutItem *item =
+    unwrapQGraphicsLayoutItem(ritem, QGraphicsLayoutItem);
+  return asRSizeF(item->minimumSize());
 }
 
 SEXP qt_qsetToolTip_QGraphicsItem(SEXP item, SEXP s)

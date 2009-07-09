@@ -103,6 +103,13 @@ qgeometry <- function(p) {
   .Call(qt_qgeometry_QGraphicsWidget, p)
 }
 
+qminimumSize <- function(x) {
+  .Call(qt_qminimumSize_QGraphicsLayoutItem, x)  
+}
+`qminimumSize<-` <- function(x, value) {
+  .Call(qt_qsetMinimumSize_QGraphicsLayoutItem, x, value)  
+}
+
 ## SEXP qt_qitemsBoundingRect(s)
 
 
@@ -123,6 +130,10 @@ qsetParentItem <- function(item, parent)
 }
 
 ## SEXP qt_qsetPos_QGraphicsItem(item, x, y)
+
+`qpos<-` <- function(x, value) {
+  .Call(qt_qsetPos_QGraphicsItem, x, value)
+}
 
 qsetZValue <- function(item, z)
 {
