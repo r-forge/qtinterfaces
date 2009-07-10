@@ -51,6 +51,10 @@ export(col2qcolor, qgpar, qgraphicsEllipseItem, qgraphicsLineItem)
 export(qscene.points, qscene.lines, qscene.segments, qscene.rect,
        qscene.text)
 
+export(qtextExtents)
+
+S3method(qtextExtents, QFont)
+
 S3method(print, QWidget)
 S3method(qupdate, QWidget)
 

@@ -10,6 +10,7 @@
 #include "layout.h"
 #include "qwidgetWrappers.h"
 #include "graphicsView.h"
+#include "fonts.h"
 
 void R_init_qtgui(DllInfo *dll);
 
@@ -136,6 +137,8 @@ static R_CallMethodDef CallEntries[] = {
     
     CALLDEF(qt_qsetDeleteOnClose, 2),
 
+    CALLDEF(qt_qtextExtents_QFont, 2),
+    
     {NULL, NULL, 0}
 };
 

@@ -17,10 +17,11 @@ QT += svg
 # Input
 
 HEADERS += basic.h containers.h layout.h qwidgetWrappers.h graphicsView.h
+HEADERS += fonts.h
 
 SOURCES += init.c imports.cpp basic.cpp containers.cpp layout.cpp
 SOURCES += qwidgetWrappers.cpp attributes.cpp actions.cpp
-SOURCES += graphicsView.cpp
+SOURCES += graphicsView.cpp fonts.cpp
 
 INCLUDEPATH += ${R_INCLUDE_DIR}
 INCLUDEPATH += ${CLINK_CPPFLAGS/-I/}
