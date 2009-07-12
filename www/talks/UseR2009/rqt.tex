@@ -1,0 +1,296 @@
+\documentclass[compress]{beamer}
+% \documentclass[t,compress]{beamer}
+% \usepackage{multimedia}
+
+
+
+% Although R is primarily a command-line tool, it provides facilities
+% for interfacing with various GUI toolkits. Qt is a powerful, robust,
+% and cross-platform GUI toolkit licensed under the GPL. Full use of
+% Qt from R requires bindings to Qt, which are not yet
+% available. However, it is relatively simple to write custom tools
+% that use Qt for specific purposes. In this talk, I will give some
+% examples of such tools, including a R graphics device implemented
+% using Qt, an alternative R help browser with full-text search
+% capabilities, a simple data import wizard, and a basic but
+% functional high-level graphics system not unlike lattice, that is
+% completely independent of the R graphics engine.
+
+\input{defs}
+
+%% \SweaveOpts{width=9,height=6.5,keep.source=TRUE}
+%% \SweaveOpts{prefix=TRUE,prefix.string=figs/ShortReadFig,include=TRUE,pdf=TRUE,eps=FALSE}
+
+
+\mode<presentation>
+{
+  % \usetheme{default}
+  \usetheme[width=0cm]{Hannover}
+  %\useoutertheme{split}
+  \setbeamercovered{transparent}
+}
+
+\begin{document}
+\begin{frame}
+  \titlepage
+\end{frame}
+
+
+%% \section{Introduction}
+
+
+% \begin{frame}
+%   \frametitle{\Rpackage{ShortRead} Workflow}
+%   \begin{itemize}
+%   \item Read in data (e.g., raw data, aligned reads)
+%   \item Quality assessment
+%   \item Analysis (e.g., find transcription factor binding sites)
+%   \item Interpretation and further analysis
+%   \end{itemize}
+% \end{frame}
+
+% \begin{frame}
+%   \frametitle{\Rpackage{ShortRead} Workflow}
+%   \begin{itemize}
+%   \item We will focus on simple examples of 
+%     \begin{itemize}
+%     \item data input
+%     \item quality assessment
+%     \item finding TF binding sites
+%     \end{itemize}
+%   \end{itemize}
+% \end{frame}
+
+\begin{frame}
+  \frametitle{R and Qt}
+  \begin{itemize}
+  \item \R: primarily command-line (Read-eval-print loop)
+    \begin{itemize}
+    \item Allows GUI front-ends to embed \R
+    \item Facilitates bindings to external libraries; e.g. 
+      \begin{itemize}
+      \item libxml, \Emph{tcltk}, \Emph{RGtk2}
+      \end{itemize}
+    \end{itemize}
+  \item Qt: powerful C++ Application and UI framework
+    \begin{itemize}
+    \item Mature, cross-platform, high-performance
+    \item Latest release (Qt 4.5) is GPL/LGPL on all platforms
+    \item Good candidate for binding to R
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Focus areas}
+  \begin{itemize}
+  \item Improve access to \R\ documentation
+    \begin{itemize}
+    \item Difficult to search (Java search engine?)
+    \item Inaccessible when R is running
+    \item Multiple matches not handled gracefully
+    \item S4 method documentation hard to find
+    \end{itemize}
+  \item Enable Qt GUI programming
+    \begin{itemize}
+    \item Beneficial for many problems \\ 
+      ~~~~e.g., domain-specific GUI, graphical debugger
+    \item Should be accessible to R programmers
+    \end{itemize}
+  \item Graphics (both static and dynamic)
+    \begin{itemize}
+    \item R graphics powerful for static graphics, but slow (grid!)
+    \item Not designed for dynamic manipulation 
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+
+
+
+% \begin{frame}
+%   \frametitle{Focus areas}
+%   \begin{itemize}
+%   \item Use \Emph{Qt Assistant} as an interface to \R\ documentation
+%   \item Enable Qt GUI programming
+%     \begin{itemize}
+%     \item Allow as much R-level control as practical
+%       \begin{itemize}
+%       \item use Qt dynamic features as much as possible 
+%       \item signals connected to R functions
+%       \item trade-off between utility and amount of manual work 
+%       \end{itemize}
+%     \item More powerful extensions by writing custom C++ classes 
+%     \end{itemize}
+%   \item Use Qt's Graphics/View framework and layout capabilities for
+%     advanced graphics (both static and dynamic)
+%   \end{itemize}
+% \end{frame}
+
+
+%% major points: philosophically, immediate audience is R programmers,
+%% not end-users.  Many intermediate developers come up with cool
+%% applications, but directly interfacing C/C++ etc. is a big barrier.
+%% We hope to lower that barrier as much as possible, while exposing
+%% the extensive power of Qt to the R programmer. Target the
+%% distinguishing qualities of the S language: 
+
+
+
+
+
+\begin{frame}
+  \frametitle{R and Qt}
+  \begin{itemize}
+  \item \Emph{RKWard}: Qt/KDE based front-end embedding \R
+  \item \Emph{RQt}
+    \begin{itemize}
+    \item Proof-of-concept Omegahat project (Duncan Temple Lang)
+    \item Long-term focus on automatic generation of bindings
+      \end{itemize}
+    \item \Emph{qtinterfaces}
+      \begin{itemize}
+      \item Recently registered R-forge project
+      \item Initial developers: \\
+        ~~~Deepayan Sarkar, Michael Lawrence, Hadley Wickham
+      \item Goal:\\
+        %\begin{center}
+        \Emph{
+          ~~~Create a coherent collection of R packages that provide \\
+          ~~~an interface to the Qt application and UI framework, \\
+          ~~~with a focus on enabling GUI development and \\
+          ~~~advanced graphics.}
+        %\end{center}
+      \end{itemize}
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Some Demos}
+  \begin{itemize}
+  \item Using Qt Assistant to view R documentation
+  \item ``Object viewer'' with applications
+  \item An \R\ graphics device implemented using Qt's Graphics/View framework
+  \item Mosaiq: a high-level graphics system not unlike lattice, but
+    completely independent of the R graphics engine.
+  \item RGtk2 driving a dynamic Qt view 
+  \end{itemize}
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Qt Assistant}
+  \begin{itemize}
+  \item Standalone Qt library documentation viewer
+  \item Can also be used as viewer for third-party static HTML files
+    \begin{itemize}
+    \item Requires preprocessing (add keywords, register, compile)
+    \item Once processed, much more powerful help interface than anything R has
+    \end{itemize}
+  \item \Emph{But}, R documentation is dynamic!
+  \item Incompatible models, but we can get snapshots, almost as useful
+  \end{itemize}
+\end{frame}
+
+
+
+%  o R graphics device implemented using Qt
+ 
+%  o an alternative R help browser with full-text search capabilities
+ 
+%  o a simple data import wizard, 
+ 
+%  o basic but functional high-level graphics system not unlike lattice,
+%    that is completely independent of the R graphics engine.
+
+
+\begin{frame}
+  \frametitle{Qt GUI programming}
+  \begin{itemize}
+  \item Creation and memory management of widgets and other Qt objects
+    (as external pointers)
+  \item Manipulate these objects using R functions
+  \item Connect Qt signals to arbitrary R functions
+  \item Examples:
+    \begin{itemize}
+    \item ``Object viewer'' with applications
+    \item Data import wizard
+      %% R graphics device based on a scene graph
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Graphics}
+  \begin{itemize}
+  \item Based on the Scene Graph model; supports layers and layouts
+  \item Fast implementation of low-level drawing
+    \begin{itemize}
+    \item Custom OpenGL layer
+    \item Default Qt abstraction (output to PDF, SVG, pixmap, etc.)
+    \end{itemize}
+  \item Callbacks for painting and events (everything happens in R)
+  \item Examples:
+    \begin{itemize}
+    \item R graphics device based on a scene graph
+    \item Mosaiq: a high-level graphics system similar to lattice
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+
+%% Discussion points: some manual binding, some automatic (using Qt's
+%% dynamic invocation and dynamic callbacks using Qt's properties
+%% meta-data features )
+
+%% GO graph with links
+
+\begin{frame}
+  \frametitle{An animated tour}
+  \begin{itemize}
+  \item Contributed by Hadley and Bei Bei 
+  \item An RGtk2 GUI control driving a Qt canvas  
+  \end{itemize}
+\end{frame}
+
+\end{document}
+
+
+\begin{frame}
+  \frametitle{}
+  \begin{itemize}
+  \item 
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{}
+  \begin{itemize}
+  \item 
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{}
+  \begin{itemize}
+  \item 
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{}
+  \begin{itemize}
+  \item 
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{}
+  \begin{itemize}
+  \item 
+  \end{itemize}
+\end{frame}
+

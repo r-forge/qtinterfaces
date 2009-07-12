@@ -1,0 +1,55 @@
+\usepackage{times}
+\usepackage[T1]{fontenc}
+
+\title{Using Qt for GUI Tasks and Graphics in R}
+
+\author{Deepayan Sarkar, Michael Lawrence}
+\institute[FHCRC] % (optional, but mostly needed)
+{
+  Computational Biology\\
+  Fred Hutchinson Cancer Research Center
+}
+\date{July 10, 2009}
+
+%% suppress navigation symbols
+\setbeamertemplate{navigation symbols}{}
+
+%% Logo
+
+\pgfdeclareimage[height=0.6cm]{university-logo}{hutchlogo}
+\logo{\pgfuseimage{university-logo}}
+
+\usepackage{Sweave}
+\usepackage{SweaveBeamer}
+\usepackage{alltt}
+% \usepackage{amsbsy}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{bm}
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage{hyperref}
+\setkeys{Gin}{width=\textwidth}
+
+%\newcommand{\fixme}[1]{\emph{\small \textbf{#1}}}
+%% \newcommand{\R}{\textsf{R}}
+%% \renewcommand{\emph}[1]{\alert{\textit{#1}}}
+
+\newcommand{\R}{\Emph{R}\xspace}
+\newcommand{\SPLUS}{\Emph{S-PLUS}}
+\newcommand{\Emph}[1]{\emph{\color{Scode}#1}}
+\newcommand{\trans}{\ensuremath{^\prime}}
+
+
+\newcommand{\lattice}{\code{lattice}}
+\newcommand{\Rpackage}[1]{\code{#1}}
+\newcommand{\Rfunction}[1]{\code{#1()}}
+\newcommand{\class}[1]{\textit{``#1''}}
+
+
+
+%% \newcommand{\code}[1]{\texttt{#1}}
+
+% \setbeamercolor{title}{fg=blue!50!black}
