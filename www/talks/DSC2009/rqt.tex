@@ -1,0 +1,249 @@
+\documentclass[compress]{beamer}
+% \documentclass[t,compress]{beamer}
+% \usepackage{multimedia}
+
+
+% R is well known for its powerful graphics capabilities; however,
+% native R graphics is fundamentally limited by its ink-on-paper
+% model.  Grid graphics provides enormous flexibility within this
+% model, but at the cost of speed.  Part of the flexibility of grid
+% arises from notions borrowed from the world of graphical toolkits,
+% such as layouts and self-sizing graphical objects.  It is a natural
+% next step to explore the direct use of graphical toolkits for
+% graphics and other similar tasks in R.  Qt is a powerful, robust,
+% and cross-platform GUI toolkit licensed under the GPL.  In addition
+% to features expected in a GUI toolkit, Qt has a flexible painting
+% system that makes implementation of statistical graphics relatively
+% easy.  In this talk, I will describe a low-level interface that
+% provides R-level tools to manipulate graphical primitives and
+% layouts in Qt, and demonstrate a basic but functional high-level
+% static graphics system, not unlike lattice, that is implemented
+% using these low-level tools.  I will also outline other potential
+% applications of an R-Qt interface.
+
+
+\input{defs}
+
+%% \SweaveOpts{width=9,height=6.5,keep.source=TRUE}
+%% \SweaveOpts{prefix=TRUE,prefix.string=figs/ShortReadFig,include=TRUE,pdf=TRUE,eps=FALSE}
+
+
+\mode<presentation>
+{
+  % \usetheme{default}
+  \usetheme[width=0cm]{Hannover}
+  %\useoutertheme{split}
+  \setbeamercovered{transparent}
+}
+
+\begin{document}
+\begin{frame}
+  \titlepage
+\end{frame}
+
+
+
+% R is well known for its powerful graphics capabilities; however,
+% native R graphics is fundamentally limited by its ink-on-paper
+% model.  Grid graphics provides enormous flexibility within this
+% model, but at the cost of speed.  Part of the flexibility of grid
+% arises from notions borrowed from the world of graphical toolkits,
+% such as layouts and self-sizing graphical objects.  It is a natural
+% next step to explore the direct use of graphical toolkits for
+% graphics and other similar tasks in R.
+
+
+\begin{frame}
+  \frametitle{R Graphics}
+  \begin{itemize}
+  \item Long history
+  \item Widely used and tested
+  \item Cross-platform, supports multiple output backends \\
+    ~~~~(screen, PDF, SVG, pixmap, etc.)
+  \item Grid graphics provides enormous flexibility
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Drawbacks of the R graphics model}
+  \begin{itemize}
+  \item Limited by ink-on-paper model
+    \begin{itemize}
+    \item Logical graphical primitives not retained at the device level
+    \item E.g., a ``+'' plotting character is drawn as two line segments
+    \item Things can be added to a plot but not deleted
+    \item Interaction difficult
+    \end{itemize}
+  \item Grid works around this by keeping track of everything it draws
+  \item But, 
+    \begin{itemize}
+    \item Grid is slow
+    \item Underlying limitations of the graphics engine remain
+    \item E.g., removing a point essentially redraws the whole graph
+    \item Doesn't look pretty, because grid is slow!
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Qt}
+  \begin{itemize}
+  \item Powerful ``Application and UI framework'' written in C++
+  \item Widely used and tested
+  \item Cross-platform, supports multiple output backends \\
+    ~~~~(screen, PDF, SVG, pixmap, etc.)
+  \item Qt's Graphics View framework enables flexible graphics
+    \begin{itemize}
+    \item[] ``...provides a surface for managing and interacting with
+      a large number of custom-made 2D graphical items, and a view
+      widget for visualizing the items...''
+    \end{itemize}
+  \item<2>{Can we use Qt to move beyond the limitations of R graphics?} 
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Approach 1}
+  \begin{itemize}
+  \item Implement an R graphics device using the Graphics View framework
+  \item Use Qt's capabilities to enhance functionality
+    %%  demo here of graph node etc
+  \item But still limited: items in the scene cannot in general be mapped back to the data
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Approach 2}
+  \begin{itemize}
+  \item A completely independent graphics subsystem 
+    \begin{itemize}
+    \item Not a novel idea: GGobi, iPlots
+    \end{itemize} 
+    \item My main interest: implement a Trellis-like system
+    \item Interface should be similar for the end-user 
+    \item Should make interaction and dynamic manipulation easier
+ \end{itemize}
+\end{frame}
+
+
+
+\begin{frame}
+  \frametitle{Why grid?}
+  \begin{itemize}
+  \item What grid features do we really need?
+    \begin{itemize}
+    \item Ability to draw arbitrary things in rectangular viewports
+    \item Ability to create a layout and put things in it
+    \item Control over layout row and column expansion\\ (e.g., panels vs labels)
+    \item Basic elements (typically text labels) should know the minimum
+      size needed to display themselves
+    \item Complex elements (e.g., legends) made up of simpler elements
+      placed in a layout should also know their minimum size
+      (\textit{``frameGrob''} in grid).
+    \end{itemize}
+  \item<2>{ All are features that a GUI toolkit excels at }
+  \item<2>{ In fact, the design of grid was inspired by GUI toolkits }
+  \item<2>{ So, why not just use an actual toolkit? } 
+  \end{itemize}
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Mosaiq}
+  \begin{itemize}
+  \item A high-level lattice-like package
+  \item Implemented using the qtpaint API
+  \item Makes extensive use of Qt layouts\\ (both Graphics View layouts
+    and widget layouts)
+  \item Opportunity to clean up API based on lessons from lattice
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{API highlights}
+  \begin{itemize}
+  \item A Trellis-style graph, variables (terms) can be
+    \begin{itemize}
+    \item Conditioning variables: used to define subsets of data
+    \item Panel variables: appropriate subsets used within panel display
+    \item E.g., \code{densityplot(\~\ x | a, groups = g, weights = w)}
+    \item Finer distinctions exist in the ``Grammar of Graphics''
+      worldview, but not in the ``panel function'' philosophy of
+      Trellis
+    \end{itemize}
+  \item The classic Trellis formula API
+    \begin{itemize}
+    \item Formula defines conditioning and \textit{some} panel
+      variables
+    \item Others specified using non-standard evaluation paradigm
+    \end{itemize}
+  \item<2> Problems: 
+    \begin{itemize}
+    \item Limits code re-use; \\
+      special features need to be handled in each high-level function
+    \item Difficult to write wrappers/methods; \\
+      needs \code{match.call()}, careful handling
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{API highlights: plans}
+  \begin{itemize}
+  \item Separate out specification of ``conditioning variables'' and
+    ``panel variables''
+  \item Packets defined solely by conditioning variables
+    (subscripts); the only thing that differs between panel function
+    calls
+  \item Panel variables represented as expressions, passed on to
+    panel function directly.
+  \item Use methods to provide more familiar formula interface
+  \item Provide more control over evaluation
+    \begin{itemize}
+    \item Define a new generic function \\
+      ~~~\code{evaluate(e, data, subset, enclos)}
+    \item Dispatch (at least) on both \code{e} and \code{data}
+    \item Supporting new data types could be as simple as writing a new method
+    \item Important for high-throughput Bioinformatics data with complex structures
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Still to do}
+  \begin{itemize}
+  \item Legends: should be easy, just not done yet
+  \item Aspect ratio: same holds
+  \item Some clipping issues
+  \item PDF outout: currently not vector output for complex widgets
+  \item Mathematical annotation (plotmath): not going to happen, but
+    should be able to embed R graphics
+  \item Interaction model? Will likely involve layers, but needs thought
+  \end{itemize}
+\end{frame}
+
+
+\end{document}
+
+
+\begin{frame}
+  \frametitle{}
+  \begin{itemize}
+  \item 
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{}
+  \begin{itemize}
+  \item 
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{}
+  \begin{itemize}
+  \item 
+  \end{itemize}
+\end{frame}
+

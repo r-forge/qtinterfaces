@@ -1,0 +1,49 @@
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{SweaveBeamer}{}
+
+\RequirePackage{color}
+\RequirePackage{ifthen}
+\newboolean{Sweave@gin}
+\setboolean{Sweave@gin}{true}
+
+\DeclareOption{nogin}{\setboolean{Sweave@gin}{false}}
+\ProcessOptions
+
+\RequirePackage[T1]{fontenc}
+\RequirePackage{graphicx,ae,fancyvrb}
+%% \IfFileExists{upquote.sty}{\RequirePackage{upquote}}{}
+
+\RequirePackage{bm}
+\RequirePackage{xspace}
+\RequirePackage[utf8x]{inputenc}
+%\RequirePackage{inputenc}
+\RequirePackage{paralist}
+\newenvironment{Schunk}{\par\begin{minipage}{\textwidth}}{\end{minipage}}
+\definecolor{Sinput}{rgb}{0,0,0.56}
+\definecolor{Scode}{rgb}{0,0,0.56}
+\definecolor{Soutput}{rgb}{0.56,0,0}
+\DefineVerbatimEnvironment{Sinput}{Verbatim}
+{formatcom={\color{Sinput}},fontsize=\small}
+\DefineVerbatimEnvironment{Soutput}{Verbatim}
+{formatcom={\color{Soutput}},fontsize=\footnotesize}
+\DefineVerbatimEnvironment{Scode}{Verbatim}
+{formatcom={\color{Scode}},fontsize=\small}
+\newcommand{\code}[1]{{\color{Sinput}\small\texttt{#1}}}
+
+\ifthenelse{\boolean{Sweave@gin}}{\setkeys{Gin}{width=0.8\textwidth}}{}%
+
+% \definecolor{Sinput}{rgb}{0,0,0.56}
+% \definecolor{Scode}{rgb}{0,0,0.56}
+% \definecolor{Soutput}{rgb}{0.56,0,0}
+
+% \DefineVerbatimEnvironment{Sinput}{Verbatim}{formatcom={\color{Sinput}},fontshape=sl,fontsize=\small}
+% \DefineVerbatimEnvironment{Soutput}{Verbatim}{formatcom={\color{Soutput}},fontsize=\small}
+% \DefineVerbatimEnvironment{Scode}{Verbatim}{formatcom={\color{Scode}},fontshape=sl,fontsize=\small}
+
+% \newcommand{\code}[1]{{\color{Scode}\textsf{#1}}}
+% % \newenvironment{Schunk}{\par\begin{minipage}{\textwidth}}{\end{minipage}}
+% \newenvironment{Schunk}{}{}
+
+
+
