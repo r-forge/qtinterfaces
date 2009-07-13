@@ -28,6 +28,8 @@ qtext <- function(x)
         .Call(qt_qtextLabel, x)
     else if (is(x, "QLineEdit"))
         .Call(qt_qtextLineEdit, x)
+    else if (is(x, "QGraphicsItem"))
+        .Call(qt_qtext_QGraphicsItem, x)
     else NULL
 }
 
@@ -39,6 +41,8 @@ qsetText <- function(x, s = "")
         .Call(qt_qsetTextLabel, x, s)
     else if (is(x, "QLineEdit"))
         .Call(qt_qsetTextLineEdit, x, s)
+    else if (is(x, "QGraphicsItem"))
+        .Call(qt_qsetText_QGraphicsItem, x, s)
     else NULL
 }
 

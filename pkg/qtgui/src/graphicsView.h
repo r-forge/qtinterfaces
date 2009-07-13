@@ -20,6 +20,8 @@ SEXP qt_qsetZValue(SEXP item, SEXP z);
 SEXP qt_qsetToolTip_QGraphicsItem(SEXP item, SEXP s);
 SEXP qt_qgraphicsEllipseItem(SEXP x, SEXP y, SEXP width, SEXP height, SEXP pars);
 SEXP qt_qgraphicsLineItem(SEXP x1, SEXP y1, SEXP x2, SEXP y2, SEXP pars);
+SEXP qt_qtext_QGraphicsItem(SEXP item);
+SEXP qt_qsetText_QGraphicsItem(SEXP item, SEXP label);
 SEXP qt_qgraphicsProxyWidget(SEXP w);
 SEXP scene_addPoints(SEXP scene, SEXP x, SEXP y, SEXP radius);
 SEXP scene_addLines(SEXP scene, SEXP x, SEXP y, SEXP lwd);

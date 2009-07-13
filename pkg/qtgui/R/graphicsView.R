@@ -341,7 +341,7 @@ qsetTextItemInteraction <- function(x, mode = c("none", "editor", "browser"))
 ## QGraphicsLayout stuff
 
 ### FIXME: no support for QGraphicsGridLayout yet
-if (FALSE) {
+if (TRUE) {
 qaddItem.QGraphicsGridLayout <-
   function(x, item, row = 0, col = 0, nrow = 1, ncol = 1)
 {

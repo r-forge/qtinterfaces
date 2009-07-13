@@ -103,6 +103,8 @@ static R_CallMethodDef CallEntries[] = {
     CALLDEF(qt_qsetToolTip_QGraphicsItem, 2),
     CALLDEF(qt_qgraphicsEllipseItem, 5),
     CALLDEF(qt_qgraphicsLineItem, 5),
+    CALLDEF(qt_qtext_QGraphicsItem, 1),
+    CALLDEF(qt_qsetText_QGraphicsItem, 2),
     CALLDEF(qt_qgraphicsProxyWidget, 1),
     CALLDEF(scene_addPoints, 4),
     CALLDEF(scene_addLines, 4),

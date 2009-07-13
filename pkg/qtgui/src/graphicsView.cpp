@@ -209,7 +209,7 @@ SEXP qt_qminimumSize_QGraphicsLayoutItem(SEXP ritem)
 
 SEXP qt_qsetToolTip_QGraphicsItem(SEXP item, SEXP s)
 {
-    // unwrapQObject(item, QGraphicsItem)->setToolTip(sexp2qstring(s));
+    unwrapQGraphicsItem(item, QGraphicsItem)->setToolTip(sexp2qstring(s));
     return R_NilValue;
 }
 
@@ -287,6 +287,29 @@ SEXP qt_qgraphicsLineItem(SEXP x1, SEXP y1, SEXP x2, SEXP y2,
 }
 
 
+// temp out-of-place hack: return text if QGraphicsTextItem
+// Need to allow plaintext/html switch 
+
+SEXP qt_qtext_QGraphicsItem(SEXP item)
+{
+    QGraphicsItem *i = unwrapQGraphicsItem(item, QGraphicsItem);
+    QGraphicsTextItem *textitem = qgraphicsitem_cast<QGraphicsTextItem *>(i);
+    if (textitem)
+	return qstring2sexp(textitem->toPlainText());
+    else
+	return qstring2sexp(QString(""));
+}
+
+SEXP qt_qsetText_QGraphicsItem(SEXP item, SEXP label)
+{
+    QGraphicsItem *i = unwrapQGraphicsItem(item, QGraphicsItem);
+    QGraphicsTextItem *textitem = qgraphicsitem_cast<QGraphicsTextItem *>(i);
+    if (textitem)
+	textitem->setHtml(sexp2qstring(label));
+    return R_NilValue;
+}
+
+
 
 // Can we use either wrapQObject or wrapQGraphicsItem, or is one
 // preferred?
@@ -295,7 +318,8 @@ SEXP qt_qgraphicsProxyWidget(SEXP w)
 {
     QGraphicsProxyWidget *pw = new QGraphicsProxyWidget(0, 0);
     pw->setWidget(unwrapQObject(w, QWidget));
-    return wrapQObject(pw);
+    // return wrapQObject(pw);
+    return wrapQGraphicsItem(pw);
 }
 
 SEXP qt_qsetGeometry_QGraphicsWidget(SEXP rself, SEXP rx)
