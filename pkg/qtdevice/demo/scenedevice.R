@@ -2,7 +2,6 @@
 ## demo of the scene/view-based R graphics device, which gives cheap
 ## pan and zoom with standard R graphics.
 
-
 library(qtdevice)
 
 foo <- qgraphicsView(rscene <- qsceneDevice(15, 15))
@@ -14,6 +13,23 @@ foo
 
 barchart(VADeaths, groups = FALSE, origin = 0,
          par.settings = list(grid.pars = list(lineheight = 4)))
+
+library(qtutils)
+
+vatab <- qdataview(VADeaths)
+vagw <- qgraphicsProxyWidget(vatab)
+
+qaddItem(rscene, vagw)
+
+vatab$size <- qsize(500, 192)
+
+qsetItemFlags(rscene, "movable", TRUE)
+qsetItemFlags(rscene, "selectable", TRUE)
+
+qsetDragMode(foo, "select")
+
+
+
 
 plot(1:10, xlim = c(0, 8), type = "o", pch = c(16, 3), cex = 3)
 abline(0, .5)
