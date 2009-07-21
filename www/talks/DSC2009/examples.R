@@ -1,4 +1,21 @@
 
+
+library(mosaiq)
+
+data(Oats, package = "nlme")
+
+mosaiq.xyplot(yield ~ nitro, data = Oats,
+              margin = ~ Block + Variety, type = 'o')
+
+
+
+
+
+
+
+
+
+
 library(lattice)
 
 df <- data.frame(x = rnorm(1000),
