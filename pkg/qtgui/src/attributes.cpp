@@ -9,7 +9,8 @@ extern "C" {
 
 SEXP qt_qsetDeleteOnClose(SEXP x, SEXP status) 
 {
-    unwrapQObject(x, QWidget)->setAttribute(Qt::WA_DeleteOnClose, asInteger(status));
+    unwrapQObject(x, QWidget)->setAttribute(Qt::WA_DeleteOnClose, 
+					    asInteger(status));
     return R_NilValue;
 }
 
