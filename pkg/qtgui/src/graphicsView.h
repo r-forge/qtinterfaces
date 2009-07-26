@@ -37,7 +37,8 @@ SEXP qt_qsetTransform_QGraphicsView(SEXP v,
 				    SEXP translate);
 SEXP qt_qsetDragMode(SEXP v, SEXP mode);
 SEXP view_setAntialias(SEXP v, SEXP mode);
-SEXP qt_qsetItemFlags(SEXP x, SEXP flag, SEXP status);
+SEXP qt_qsetItemFlags_QGraphicsScene(SEXP x, SEXP flag, SEXP status);
+SEXP qt_qsetItemFlags_QGraphicsItem(SEXP x, SEXP flag, SEXP status);
 SEXP qt_qsetTextItemInteraction(SEXP x, SEXP mode);
 
 SEXP qt_qboundingRect_QGraphicsItem(SEXP rself);

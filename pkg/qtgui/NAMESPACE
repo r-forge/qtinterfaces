@@ -86,4 +86,6 @@ S3method(qclear, QGraphicsScene)
 S3method(qclearSelection, QGraphicsScene)
 S3method(qsetTransform, QGraphicsView)
 
+S3method(qsetItemFlags, QGraphicsScene)
+S3method(qsetItemFlags, QGraphicsItem)
 

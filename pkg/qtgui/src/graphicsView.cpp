@@ -587,22 +587,40 @@ view_setAntialias(SEXP v, SEXP mode)
     return R_NilValue;
 }
 
+// a couple of methods for qsetItemFlags()
 
+// helper function
 
-SEXP qt_qsetItemFlags(SEXP x, SEXP flag, SEXP status)
+static void setItemFlag_helper(QGraphicsItem* item, QString flag, bool status)
+{
+    if (flag == "movable") item->setFlag(QGraphicsItem::ItemIsMovable, status);
+    else if (flag == "selectable") item->setFlag(QGraphicsItem::ItemIsSelectable, status);
+    else if (flag == "focusable") item->setFlag(QGraphicsItem::ItemIsFocusable, status);
+    else if (flag == "clipsToShape") item->setFlag(QGraphicsItem::ItemClipsToShape, status);
+    else if (flag == "clipsChildrenToShape") item->setFlag(QGraphicsItem::ItemClipsChildrenToShape, status);
+    else if (flag == "ignoresTransformations") item->setFlag(QGraphicsItem::ItemIgnoresTransformations, status);
+    else if (flag == "ignoresParentOpacity") item->setFlag(QGraphicsItem::ItemIgnoresParentOpacity, status);
+    else if (flag == "doesntPropagateOpacityToChildren") item->setFlag(QGraphicsItem::ItemDoesntPropagateOpacityToChildren, status);
+    else if (flag == "stacksBehindParent") item->setFlag(QGraphicsItem::ItemStacksBehindParent, status);
+    return;
+}
+
+SEXP qt_qsetItemFlags_QGraphicsScene(SEXP x, SEXP flag, SEXP status)
 {
     QList<QGraphicsItem*> ilist = unwrapQObject(x, QGraphicsScene)->items();
     bool bstatus = (bool) asLogical(status);
-    if (sexp2qstring(flag) == "movable") {
-	for (int i = 0; i < ilist.size(); ++i) {
-	    ilist[i]->setFlag(QGraphicsItem::ItemIsMovable, bstatus);
-	}
+    QString sflag = sexp2qstring(flag);
+    for (int i = 0; i < ilist.size(); ++i) {
+	setItemFlag_helper(ilist[i], sflag, bstatus);
     }
-    else if (sexp2qstring(flag) == "selectable") {
-	for (int i = 0; i < ilist.size(); ++i) {
-	    ilist[i]->setFlag(QGraphicsItem::ItemIsSelectable, bstatus);
-	}
-    }
+    return R_NilValue;
+}
+
+SEXP qt_qsetItemFlags_QGraphicsItem(SEXP x, SEXP flag, SEXP status)
+{
+    setItemFlag_helper(unwrapQGraphicsItem(x, QGraphicsItem), 
+		       sexp2qstring(flag), 
+		       (bool) asLogical(status));
     return R_NilValue;
 }
 

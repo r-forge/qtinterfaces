@@ -122,7 +122,8 @@ static R_CallMethodDef CallEntries[] = {
     CALLDEF(qt_qupdate_QGraphicsItem, 1),
     CALLDEF(qt_qsetDragMode, 2), // DragMode
     CALLDEF(view_setAntialias, 2), // RenderHints
-    CALLDEF(qt_qsetItemFlags, 3),
+    CALLDEF(qt_qsetItemFlags_QGraphicsScene, 3),
+    CALLDEF(qt_qsetItemFlags_QGraphicsItem, 3),
     CALLDEF(qt_qsetTextItemInteraction, 2),
     CALLDEF(qt_qsetCacheMode_QGraphicsItem, 2),
     CALLDEF(qt_qcacheMode_QGraphicsItem, 1),

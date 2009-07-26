@@ -306,11 +306,39 @@ qsetAntialias <- function(v, mode = TRUE)
     .Call(view_setAntialias, v, as.logical(mode))
 }
 
-qsetItemFlags <- function(x, flag = c("movable", "selectable"), status = FALSE)
+qsetItemFlags <- function(x, ...) UseMethod("qsetItemFlags")
+
+qsetItemFlags.QGraphicsScene <-
+    function(x,
+             flag = c("movable", "selectable", "focusable",
+                      "clipsToShape", "clipsChildrenToShape",
+                      "ignoresTransformations", "ignoresParentOpacity",
+                      "doesntPropagateOpacityToChildren",
+                      "stacksBehindParent"),
+             status = FALSE)
 {
     flag <- match.arg(flag)
     .Call(qt_qsetItemFlags, x, flag, status)
 }
+
+qsetItemFlags.QGraphicsItem <-
+    function(x,
+             flag = c("movable", "selectable", "focusable",
+                      "clipsToShape", "clipsChildrenToShape",
+                      "ignoresTransformations", "ignoresParentOpacity",
+                      "doesntPropagateOpacityToChildren",
+                      "stacksBehindParent"),
+             status = FALSE)
+{
+    flag <- match.arg(flag)
+    .Call(qt_qsetItemFlags_QGraphicsItem, x, flag, status)
+}
+
+
+
+
+
+
 
 `qcacheMode<-` <- function(x, value) {
   stopifnot(inherits(x, "QGraphicsItem"))
