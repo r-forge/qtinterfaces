@@ -27,7 +27,12 @@ documentation yet.  However, it should be possible to install the
 packages (from source) in the usual way (<code>R CMD INSTALL</code>
 or <code>install.packages()</code>) on Linux or Mac OS X provided you
 have installed the Qt libraries and development packages (Qt 4.5 or
-better).  If you have multiple versions of Qt installed, make sure
+better).  For example,
+<pre>
+install.packages(c("qtdevice", "qtpaint", "mosaiq"),
+                 repos = "http://r-forge.r-project.org")
+</pre>
+If you have multiple versions of Qt installed, make sure
 the <code>QMAKE</code> environment variable points to the
 correct <code>qmake</code> executable (check <code>$QMAKE
 --version</code>).
@@ -35,8 +40,6 @@ correct <code>qmake</code> executable (check <code>$QMAKE
 
 <p> The <strong>project summary page</strong> can be
 found <a href="http://r-forge.r-project.org/projects/qtinterfaces/"><strong>here</strong></a>. </p>
-
-
 
 <h2>Using Qt Assistant to Browse R documentation</h2>
 
