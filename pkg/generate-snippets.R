@@ -31,7 +31,7 @@ generateCallDefs <- function(exprs)
 {
     lens <- sapply(exprs, length) - 1L
     nms <- as.character(lapply(exprs, "[[", 1))
-    paste(sprintf("    CALLDEF(%s, %d),", nms, lens), "\n", collapse = "")
+    paste(sprintf("    CALLDEF(%s, %d),", nms, lens), "\n", sep = "", collapse = "")
 }
 
 generateHeader <- function(exprs, pkg, file,
@@ -74,22 +74,26 @@ processPackage <- function(pkg, files = list.files(file.path(pkg, "src"), patter
     {
         message(f)
         exprs <- getInfo(file.path(pkg, "src", f))
-        cat(paste(generateHeader(exprs, pkg = pkg, file = f), "\n", collapse = ""),
+        cat(paste(generateHeader(exprs, pkg = pkg, file = f), "\n", sep = "", collapse = ""),
             sep = "",
             file = file.path(pkg, "src", gsub(".cpp", ".h", f, fixed = TRUE)))
         calldefs <- c(calldefs, generateCallDefs(exprs))
         nsdecs <- c(nsdecs, generateNamespaceEntries(exprs))
     }
-    cat(paste(calldefs, "\n", collapse = ""),
+    cat(paste(calldefs, "\n", sep = "", collapse = ""),
         sep = "",
         file = file.path(pkg, "src", "calldefs.inc"))
-    cat(paste(nsdecs, "\n", collapse = ""),
+    cat(paste(nsdecs, "\n", sep = "", collapse = ""),
         sep = "",
         file = file.path(pkg, "NAMESPACE.inc"))
     invisible()
 }
 
 
-## processPackage("qtutils", file = c("dataview.cpp", "editor.cpp", "listview.cpp"))
+processPackage("qtutils", file = c("dataview.cpp", "editor.cpp", "listview.cpp"))
+
+processPackage("qtgui",
+               file = c("actions.cpp", "attributes.cpp", "basic.cpp",
+                        "containers.cpp", "fonts.cpp", "layout.cpp", "qwidgetWrappers.cpp"))
 
 
