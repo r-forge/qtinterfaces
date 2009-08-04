@@ -132,4 +132,6 @@ S3method(qsetText, QLabel)
 S3method(qtext, QLabel)
 S3method(qsetText, QLineEdit)
 S3method(qtext, QLineEdit)
+S3method(qsetText, QGraphicsItem)
+S3method(qtext, QGraphicsItem)
 

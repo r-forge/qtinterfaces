@@ -1,3 +1,4 @@
+          
 
 ## demo of the scene/view-based R graphics device, which gives cheap
 ## pan and zoom with standard R graphics.
@@ -85,6 +86,7 @@ qconnect(zoomoutAct,
 r <- rscene$sceneRect
 r
 
+textitem <- 
 qscene.text(rscene, r[1,1] + r[2,1]/2, r[1,2] + 0.01 * r[2,2],
             labels = "A demo of the <a href='http://qtinterfaces.r-forge.r-project.org'>R/Qt Interface</a>",
             html = TRUE)

@@ -318,7 +318,7 @@ qsetItemFlags.QGraphicsScene <-
              status = FALSE)
 {
     flag <- match.arg(flag)
-    .Call(qt_qsetItemFlags, x, flag, status)
+    .Call(qt_qsetItemFlags_QGraphicsScene, x, flag, status)
 }
 
 qsetItemFlags.QGraphicsItem <-
