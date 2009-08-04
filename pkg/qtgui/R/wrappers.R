@@ -10,7 +10,7 @@ qheight <- function(x) UseMethod("qheight")
 qwidth <- function(x) UseMethod("qwidth")
 qsetMinimumSize <- function(x, w, h) UseMethod("qsetMinimumSize")
 
-qsetExpanding <- function(x) UseMethod("qsetExpanding")
+qsetExpanding <- function(x, vertical, horizontal) UseMethod("qsetExpanding")
 qisEnabled <- function(x) UseMethod("qisEnabled")
 qsetEnabled <- function(x, status) UseMethod("qsetEnabled")
 qwindowTitle <- function(x) UseMethod("qwindowTitle")

@@ -27,9 +27,9 @@ qsetContentsMargins.QLayout <-
           x, left, top, right, bottom)
 }
 
-qsetSpacing.QGridLayout <- function(x, spacing) .Call(qt_qsetSpacing_QGridLayout)
-qsetVerticalSpacing.QGridLayout <- function(x, spacing) .Call(qt_qsetVerticalSpacing_QGridLayout)
-qsetHorizontalSpacing.QGridLayout <- function(x, spacing) .Call(qt_qsetHorizontalSpacing_QGridLayout)
+qsetSpacing.QGridLayout <- function(x, spacing) .Call(qt_qsetSpacing_QGridLayout, x, spacing)
+qsetVerticalSpacing.QGridLayout <- function(x, spacing) .Call(qt_qsetVerticalSpacing_QGridLayout, x, spacing)
+qsetHorizontalSpacing.QGridLayout <- function(x, spacing) .Call(qt_qsetHorizontalSpacing_QGridLayout, x, spacing)
 
 qaddWidget.QGridLayout <- function(x, widget, row, column, nrow = 1L, ncolumn = 1L, ...)
 {
