@@ -27,24 +27,26 @@ qt_qaction(SEXP desc, SEXP shortcut, SEXP parent, SEXP tooltip,
 }
 
 SEXP
-qt_qaddActionToQWidget(SEXP x, SEXP a)
+qt_qaddAction_QWidget(SEXP x, SEXP a)
 {
     unwrapQObject(x, QWidget)->addAction(unwrapQObject(a, QAction));
     return R_NilValue;
 }
 
 SEXP
-qt_qaddActionToQMenu(SEXP x, SEXP a)
+qt_qaddAction_QMenu(SEXP x, SEXP a)
 {
     unwrapQObject(x, QMenu)->addAction(unwrapQObject(a, QAction));
     return R_NilValue;
 }
 
-
-//     connect(printAct, SIGNAL(triggered()), 
-// 	    w, SLOT(print()));
-//     w->addAction(printAct);
-//     setContextMenuPolicy(Qt::ActionsContextMenu);
+SEXP 
+qt_qaddAction_QGraphicsWidget(SEXP x, SEXP a) 
+{
+    QGraphicsWidget *item = unwrapQObject(x, QGraphicsWidget);
+    item->addAction(unwrapQObject(a, QAction));
+    return R_NilValue;
+}
 
 
 SEXP
@@ -60,18 +62,3 @@ qt_qsetContextMenuPolicy(SEXP x, SEXP policy)
     return R_NilValue;
 }
 
-SEXP qt_qsetEnabled_QAction(SEXP raction, SEXP enabled) {
-  QAction *action = unwrapQObject(raction, QAction);
-  action->setEnabled(asLogical(enabled));
-  return R_NilValue;
-}
-SEXP qt_qchecked_QAction(SEXP raction) {
-  QAction *action = unwrapQObject(raction, QAction);
-  return ScalarLogical(action->isChecked());
-}
-
-SEXP qt_qaddAction_QGraphicsWidget(SEXP rself, SEXP raction) {
-  QGraphicsWidget *item = unwrapQObject(rself, QGraphicsWidget);
-  item->addAction(unwrapQObject(raction, QAction));
-  return rself;
-}

@@ -20,7 +20,7 @@ extern "C" {
 
 
 SEXP
-qt_qshow(SEXP x)
+qt_qshow_QWidget(SEXP x)
 {
     unwrapQObject(x, QWidget)->show();
     return R_NilValue;
@@ -35,28 +35,28 @@ qt_qupdate_QWidget(SEXP x)
 }
 
 SEXP
-qt_qclose(SEXP x)
+qt_qclose_QWidget(SEXP x)
 {
     unwrapQObject(x, QWidget)->close();
     return R_NilValue;
 }
 
 SEXP
-qt_qraise(SEXP x)
+qt_qraise_QWidget(SEXP x)
 {
     unwrapQObject(x, QWidget)->raise();
     return R_NilValue;
 }
 
 SEXP
-qt_qlower(SEXP x)
+qt_qlower_QWidget(SEXP x)
 {
     unwrapQObject(x, QWidget)->lower();
     return R_NilValue;
 }
 
 SEXP
-qt_qparent(SEXP x)
+qt_qparent_QWidget(SEXP x)
 {
     QWidget *p = unwrapQObject(x, QWidget)->parentWidget();
     if (p) 
@@ -66,7 +66,7 @@ qt_qparent(SEXP x)
 }
 
 SEXP
-qt_qsetParent(SEXP x, SEXP parent)
+qt_qsetParent_QWidget(SEXP x, SEXP parent)
 {
     if (parent == R_NilValue)
 	unwrapQObject(x, QWidget)->setParent(0);
@@ -76,7 +76,7 @@ qt_qsetParent(SEXP x, SEXP parent)
 }
 
 SEXP
-qt_qresize(SEXP x, SEXP w, SEXP h)
+qt_qresize_QWidget(SEXP x, SEXP w, SEXP h)
 {
     QWidget *e = unwrapQObject(x, QWidget);
     int ww, hh;
@@ -89,19 +89,19 @@ qt_qresize(SEXP x, SEXP w, SEXP h)
 }
 
 SEXP
-qt_qheight(SEXP x)
+qt_qheight_QWidget(SEXP x)
 {
     return ScalarInteger(unwrapQObject(x, QWidget)->height());
 }
 
 SEXP
-qt_qwidth(SEXP x)
+qt_qwidth_QWidget(SEXP x)
 {
     return ScalarInteger(unwrapQObject(x, QWidget)->width());
 }
 
 SEXP
-qt_qsetMinimumSize(SEXP x, SEXP w, SEXP h)
+qt_qsetMinimumSize_QWidget(SEXP x, SEXP w, SEXP h)
 {
     QWidget *e = unwrapQObject(x, QWidget);
     if (w != R_NilValue)
@@ -112,7 +112,7 @@ qt_qsetMinimumSize(SEXP x, SEXP w, SEXP h)
 }
 
 SEXP 
-qt_setExpanding(SEXP x, SEXP vertical, SEXP horizontal)
+qt_qsetExpanding_QWidget(SEXP x, SEXP vertical, SEXP horizontal)
 {
     QWidget *w = unwrapQObject(x, QWidget);
     QSizePolicy policy = w->sizePolicy();
@@ -134,7 +134,7 @@ qt_setExpanding(SEXP x, SEXP vertical, SEXP horizontal)
 
 
 SEXP
-qt_qsetContentsMargins(SEXP x, SEXP left, SEXP top, SEXP right, SEXP bottom)
+qt_qsetContentsMargins_QWidget(SEXP x, SEXP left, SEXP top, SEXP right, SEXP bottom)
 {
     unwrapQObject(x, QWidget)->
 	setContentsMargins(asInteger(left),
@@ -146,7 +146,7 @@ qt_qsetContentsMargins(SEXP x, SEXP left, SEXP top, SEXP right, SEXP bottom)
 
 
 SEXP
-qt_qisEnabled(SEXP x)
+qt_qisEnabled_QWidget(SEXP x)
 {
     if (unwrapQObject(x, QWidget)->isEnabled())
 	return ScalarLogical(TRUE);
@@ -155,23 +155,20 @@ qt_qisEnabled(SEXP x)
 }
 
 SEXP
-qt_qsetEnabled(SEXP x, SEXP flag)
+qt_qsetEnabled_QWidget(SEXP x, SEXP status)
 {
-    if (asInteger(flag))
-	unwrapQObject(x, QWidget)->setEnabled(true);
-    else 
-	unwrapQObject(x, QWidget)->setEnabled(false);
+    unwrapQObject(x, QWidget)->setEnabled(asLogical(status));
     return R_NilValue;
 }
 
 SEXP
-qt_qwindowTitle(SEXP x)
+qt_qwindowTitle_QWidget(SEXP x)
 {
     return qstring2sexp(unwrapQObject(x, QWidget)->windowTitle());
 }
 
 SEXP
-qt_qsetWindowTitle(SEXP x, SEXP title)
+qt_qsetWindowTitle_QWidget(SEXP x, SEXP title)
 {
     unwrapQObject(x, QWidget)->setWindowTitle(sexp2qstring(title));
     return R_NilValue;
@@ -188,7 +185,7 @@ qt_qsetWindowTitle(SEXP x, SEXP title)
 
 
 SEXP
-qt_qrender(SEXP x, SEXP file)
+qt_qrender_QWidget(SEXP x, SEXP file)
 {
     QWidget *w = unwrapQObject(x, QWidget);
     if (w) {
@@ -216,7 +213,7 @@ qt_qrender(SEXP x, SEXP file)
 
 
 SEXP
-qt_qrenderGraphicsView(SEXP x)
+qt_qrender_QGraphicsView(SEXP x)
 {
     QGraphicsView *view = unwrapQObject(x, QGraphicsView);
     if (view) {
@@ -227,9 +224,6 @@ qt_qrenderGraphicsView(SEXP x)
 	    QPainter painter(&printer);
 	    view->render(&painter);
 	}
-    }
-    else { // FIXME: not needed any more since unwrapQObject will raise error
-	warning("Cannot render as a view: invalid object");
     }
     return R_NilValue;
 }

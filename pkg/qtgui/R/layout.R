@@ -1,57 +1,51 @@
 
-qlayout <- function(x = NULL)
+qlayout <- function(x = NULL) .Call(qt_qlayout, x)
+
+qsetLayout <- function(x, layout) UseMethod("qsetLayout")
+qsetContentsMargins <- function(x, ...) UseMethod("qsetContentsMargins")
+qsetSpacing <- function(x, spacing) UseMethod("qsetSpacing")
+qsetVerticalSpacing <- function(x, spacing) UseMethod("qsetVerticalSpacing")
+qsetHorizontalSpacing <- function(x, spacing) UseMethod("qsetHorizontalSpacing")
+
+qaddWidget <- function(x, widget, ...) UseMethod("qaddWidget")
+qremoveWidget <- function(x, widget) UseMethod("qremoveWidget")
+qaddLayout <- function(x, widget, ...) UseMethod("qaddWidget")
+
+qcolumnCount <- function(x) UseMethod("qcolumnCount")
+qrowCount <- function(x) UseMethod("qrowCount")
+
+qdim <- function(x) c(qrowCount(x), qcolumnCount(x))
+
+
+qsetLayout.QWidget <- function(x, layout)
+    .Call(qt_qsetLayout_QWidget, x, layout)
+
+qsetContentsMargins.QLayout <-
+    function(x, left, top, right, bottom, ...)
 {
-    .Call(qt_qlayout, x)
+    .Call(qt_qsetContentsMargins_QLayout,
+          x, left, top, right, bottom)
 }
 
-qsetLayout <- function(x, layout)
+qsetSpacing.QGridLayout <- function(x, spacing) .Call(qt_qsetSpacing_QGridLayout)
+qsetVerticalSpacing.QGridLayout <- function(x, spacing) .Call(qt_qsetVerticalSpacing_QGridLayout)
+qsetHorizontalSpacing.QGridLayout <- function(x, spacing) .Call(qt_qsetHorizontalSpacing_QGridLayout)
+
+qaddWidget.QGridLayout <- function(x, widget, row, column, nrow = 1L, ncolumn = 1L, ...)
 {
-    .Call(qt_qsetLayout, x, layout)
+    .Call(qt_qaddWidget_QGridLayout, x, widget, row, column, nrow, ncolumn)
 }
 
-qsetSpacing <- function(x, spacing)
+qremoveWidget.QLayout <- function(x, widget)
 {
-    .Call(qt_qsetSpacing, x, spacing)
+    .Call(qt_qremoveWidget_QLayout, x, widget)
 }
 
-qsetVerticalSpacing <- function(x, spacing)
+qaddLayout.QGridLayout <- function(x, layout, row, column, nrow = 1L, ncolumn = 1L, ...)
 {
-    .Call(qt_qsetVerticalSpacing, x, spacing)
+    .Call(qt_qaddLayout_QGridLayout, x, layout, row, column, nrow, ncolumn)
 }
 
-qsetHorizontalSpacing <- function(x, spacing)
-{
-    .Call(qt_qsetHorizontalSpacing, x, spacing)
-}
-
-qaddWidgetToLayout <- function(x, widget, row, column, nrow = 1L, ncolumn = 1L)
-{
-    stopifnot(inherits(widget, "QWidget"))
-    .Call(qt_qaddWidgetToLayout, x, widget, row, column, nrow, ncolumn)
-}
-
-qremoveWidgetFromLayout <- function(x, widget)
-{
-    .Call(qt_qremoveWidgetFromLayout, x, widget)
-}
-
-qaddLayoutToLayout <- function(layout, row, column, nrow = 1L, ncolumn = 1L)
-{
-    .Call(qt_qaddLayoutToLayout, x, layout, row, column, nrow, ncolumn)
-}
-
-qcolumnCount <- function(x)
-{
-    .Call(qt_qcolumnCount, x)
-}
-
-qrowCount <- function(x)
-{
-    .Call(qt_qrowCount, x)
-}
-
-qdim <- function(x) 
-{
-    c(qrowCount(x), qcolumnCount(x))
-}
+qcolumnCount.QGridLayout <- function(x) .Call(qt_qcolumnCount_QGridLayout, x)
+qrowCount.QGridLayout <- function(x) .Call(qt_qrowCount_QGridLayout, x)
 

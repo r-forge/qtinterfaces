@@ -52,30 +52,29 @@ qt_qpushButton(SEXP s) {
 }
 
 SEXP 
-qt_qsetTextButton(SEXP x, SEXP s) {
+qt_qsetText_QAbstractButton(SEXP x, SEXP s) {
     unwrapQObject(x, QAbstractButton)->setText(sexp2qstring(s));
     return R_NilValue;
 }
 
 SEXP 
-qt_qtextButton(SEXP x) {
+qt_qtext_QAbstractButton(SEXP x) {
     return qstring2sexp(unwrapQObject(x, QAbstractButton)->text());
 }
 
 SEXP 
 qt_qlabel(SEXP label) {
-    QLabel *x = new QLabel(sexp2qstring(label), 0);
-    return wrapQWidget(x);
+    return wrapQWidget(new QLabel(sexp2qstring(label), 0));
 }
 
 SEXP 
-qt_qsetTextLabel(SEXP x, SEXP s) {
+qt_qsetText_QLabel(SEXP x, SEXP s) {
     unwrapQObject(x, QLabel)->setText(sexp2qstring(s));
     return R_NilValue;
 }
 
 SEXP 
-qt_qtextLabel(SEXP x) {
+qt_qtext_QLabel(SEXP x) {
     return qstring2sexp(unwrapQObject(x, QLabel)->text());
 }
 
@@ -88,13 +87,13 @@ qt_qlineEdit(SEXP s) {
 }
 
 SEXP 
-qt_qsetTextLineEdit(SEXP x, SEXP s) {
+qt_qsetText_QLineEdit(SEXP x, SEXP s) {
     unwrapQObject(x, QLineEdit)->setText(sexp2qstring(s));
     return R_NilValue;
 }
 
 SEXP 
-qt_qtextLineEdit(SEXP x) {
+qt_qtext_QLineEdit(SEXP x) {
     return qstring2sexp(unwrapQObject(x, QLineEdit)->text());
 }
 
@@ -103,24 +102,5 @@ qt_qcheckBox(SEXP label) {
     if (label == R_NilValue) return wrapQWidget(new QCheckBox(0));
     else return wrapQWidget(new QCheckBox(sexp2qstring(label), 0));
 }
-
-SEXP 
-qt_qisCheckedButton(SEXP x) {
-    if (unwrapQObject(x, QAbstractButton)->isChecked())
-	return ScalarLogical(TRUE);
-    else 
-	return ScalarLogical(FALSE);
-}
-
-SEXP 
-qt_qsetCheckedButton(SEXP x, SEXP status) {
-    if (asInteger(status))
-	unwrapQObject(x, QAbstractButton)->setChecked(true);
-    else 
-	unwrapQObject(x, QAbstractButton)->setChecked(false);
-    return x;
-}
-
-
 
 

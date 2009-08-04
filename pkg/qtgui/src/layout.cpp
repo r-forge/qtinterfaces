@@ -23,7 +23,7 @@ qt_qlayout(SEXP x)
 }
 
 SEXP
-qt_qsetLayout(SEXP x, SEXP layout)
+qt_qsetLayout_QWidget(SEXP x, SEXP layout)
 {
     unwrapQObject(x, QWidget)->setLayout(unwrapQObject(layout, QLayout));
     return R_NilValue;
@@ -31,7 +31,7 @@ qt_qsetLayout(SEXP x, SEXP layout)
 
 
 SEXP
-qt_qsetContentsMarginsLayout(SEXP x, SEXP left, SEXP top, SEXP right, SEXP bottom)
+qt_qsetContentsMargins_QLayout(SEXP x, SEXP left, SEXP top, SEXP right, SEXP bottom)
 {
     unwrapQObject(x, QLayout)->
 	setContentsMargins(asInteger(left),
@@ -43,30 +43,30 @@ qt_qsetContentsMarginsLayout(SEXP x, SEXP left, SEXP top, SEXP right, SEXP botto
 
 
 SEXP
-qt_qsetSpacing(SEXP x, SEXP spacing)
+qt_qsetSpacing_QGridLayout(SEXP x, SEXP spacing)
 {
     unwrapQObject(x, QGridLayout)->setSpacing(asInteger(spacing));
     return R_NilValue;
 }
 
 SEXP
-qt_qsetVerticalSpacing(SEXP x, SEXP spacing)
+qt_qsetVerticalSpacing_QGridLayout(SEXP x, SEXP spacing)
 {
     unwrapQObject(x, QGridLayout)->setVerticalSpacing(asInteger(spacing));
     return R_NilValue;
 }
 
 SEXP
-qt_qsetHorizontalSpacing(SEXP x, SEXP spacing)
+qt_qsetHorizontalSpacing_QGridLayout(SEXP x, SEXP spacing)
 {
     unwrapQObject(x, QGridLayout)->setHorizontalSpacing(asInteger(spacing));
     return R_NilValue;
 }
 
 SEXP
-qt_qaddWidgetToLayout(SEXP x, SEXP widget, 
-		      SEXP row, SEXP column, 
-		      SEXP nrow, SEXP ncolumn)
+qt_qaddWidget_QGridLayout(SEXP x, SEXP widget, 
+			  SEXP row, SEXP column, 
+			  SEXP nrow, SEXP ncolumn)
 {
     unwrapQObject(x, QGridLayout)->
 	addWidget(unwrapQObject(widget, QWidget),
@@ -76,17 +76,16 @@ qt_qaddWidgetToLayout(SEXP x, SEXP widget,
 }
 
 SEXP
-qt_qremoveWidgetFromLayout(SEXP x, SEXP widget)
+qt_qremoveWidget_QLayout(SEXP x, SEXP widget)
 {
     unwrapQObject(x, QLayout)->removeWidget(unwrapQObject(widget, QWidget));
     return R_NilValue;
 }
 
-
 SEXP
-qt_qaddLayoutToLayout(SEXP x, SEXP layout, 
-		      SEXP row, SEXP column, 
-		      SEXP nrow, SEXP ncolumn)
+qt_qaddLayout_QGridLayout(SEXP x, SEXP layout, 
+			  SEXP row, SEXP column, 
+			  SEXP nrow, SEXP ncolumn)
 {
     unwrapQObject(x, QGridLayout)->
 	addLayout(unwrapQObject(layout, QGridLayout),
@@ -96,13 +95,13 @@ qt_qaddLayoutToLayout(SEXP x, SEXP layout,
 }
 
 SEXP
-qt_qcolumnCount(SEXP x)
+qt_qcolumnCount_QGridLayout(SEXP x)
 {
     return ScalarInteger(unwrapQObject(x, QGridLayout)->columnCount());
 }
 
 SEXP
-qt_qrowCount(SEXP x)
+qt_qrowCount_QGridLayout(SEXP x)
 {
     return ScalarInteger(unwrapQObject(x, QGridLayout)->rowCount());
 }

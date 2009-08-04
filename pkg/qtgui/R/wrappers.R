@@ -1,8 +1,36 @@
 
+qshow <- function(x) UseMethod("qshow")
+qclose <- function(x) UseMethod("qclose")
+qraise <- function(x) UseMethod("qraise")
+qlower <- function(x) UseMethod("qlower")
+qparent <- function(x) UseMethod("qparent")
+qsetParent <- function(x, p) UseMethod("qsetParent")
+qresize <- function(x, w, h) UseMethod("qresize")
+qheight <- function(x) UseMethod("qheight")
+qwidth <- function(x) UseMethod("qwidth")
+qsetMinimumSize <- function(x, w, h) UseMethod("qsetMinimumSize")
 
-qshow <- function(x)
+qsetExpanding <- function(x) UseMethod("qsetExpanding")
+qisEnabled <- function(x) UseMethod("qisEnabled")
+qsetEnabled <- function(x, status) UseMethod("qsetEnabled")
+qwindowTitle <- function(x) UseMethod("qwindowTitle")
+qsetWindowTitle <- function(x, title) UseMethod("qsetWindowTitle")
+qrender <- function(x, file) UseMethod("qrender")
+
+qrenderToPixmap <- function(x, file)
 {
-    .Call(qt_qshow, x)
+    .Call(qt_qrenderToPixmap, x, as.character(file)[1])
+}
+
+qrenderToSVG <- function(x, file)
+{
+    .Call(qt_qrenderToSVG, x, as.character(file)[1])
+}
+
+
+qshow.QWidget <- function(x)
+{
+    .Call(qt_qshow_QWidget, x)
 }
 
 qupdate.QWidget <- function(x) {
@@ -15,109 +43,90 @@ print.QWidget <- function(x, ...)
     invisible(x)
 }
 
-qclose <- function(x) 
+qclose.QWidget <- function(x) 
 {
-    .Call(qt_qclose, x)
+    .Call(qt_qclose_QWidget, x)
 }
 
-qlower <- function(x) 
+qlower.QWidget <- function(x) 
 {
-    .Call(qt_qlower, x)
+    .Call(qt_qlower_QWidget, x)
 }
 
-qraise <- function(x) 
+qraise.QWidget <- function(x) 
 {
-    .Call(qt_qraise, x)
+    .Call(qt_qraise_QWidget, x)
 }
 
-qparent <- function(x)
+qparent.QWidget <- function(x)
 {
-    .Call(qt_qparent, x)
+    .Call(qt_qparent_QWidget, x)
 }
 
-qsetParent <- function(x, w)
+qsetParent.QWidget <- function(x, parent)
 {
-    .Call(qt_qsetParent, x, w)
+    .Call(qt_qsetParent_QWidget, x, parent)
 }
 
-qresize <- function(x, w, h)
+qresize.QWidget <- function(x, w = NULL, h = NULL)
 {
-    .Call(qt_qresize, x, w, h)
+    .Call(qt_qresize_QWidget, x, w, h)
 }
 
-qheight <- function(x)
+qheight.QWidget <- function(x)
 {
-    .Call(qt_qheight, x)
+    .Call(qt_qheight_QWidget, x)
 }
 
-qwidth <- function(x)
+qwidth.QWidget <- function(x)
 {
-    .Call(qt_qwidth, x)
+    .Call(qt_qwidth_QWidget, x)
 }
 
-qsetMinimumSize <- function(x, w, h)
+qsetMinimumSize.QWidget <- function(x, w, h)
 {
-    .Call(qt_qsetMinimumSize, x, w, h)
+    .Call(qt_qsetMinimumSize_QWidget, x, w, h)
 }
 
-qsetExpanding <- function(x, vertical = NULL, horizontal = NULL)
+qsetExpanding.QWidget <- function(x, vertical = NULL, horizontal = NULL)
 {
-    .Call(qt_setExpanding, x, vertical, horizontal)
+    .Call(qt_qsetExpanding_QWidget, x, vertical, horizontal)
 }
 
-qsetContentsMargins <- function(x, left, top, right, bottom)
+qsetContentsMargins.QWidget <- function(x, left, top, right, bottom, ...)
 {
-    if (inherits(x, "QLayout"))
-        .Call(qt_qsetContentsMarginsLayout, x, left, top, right, bottom)
-    else
-        .Call(qt_qsetContentsMargins, x, left, top, right, bottom)
+    .Call(qt_qsetContentsMargins_QWidget,
+          x, left, top, right, bottom)
 }
 
-qisEnabled <- function(x)
+qisEnabled.QWidget <- function(x)
 {
-    .Call(qt_qisEnabled, x)
+    .Call(qt_qisEnabled_QWidget, x)
 }
 
-qsetEnabled <- function(x, flag)
+qsetEnabled.QWidget <- function(x, status)
 {
-    .Call(qt_qsetEnabled, x, flag)
+    .Call(qt_qsetEnabled_QWidget, x, status)
 }
 
-qwindowTitle <- function(x)
+qwindowTitle.QWidget <- function(x)
 {
-    .Call(qt_qwindowTitle, x)
+    .Call(qt_qwindowTitle_QWidget, x)
 }
 
-qsetWindowTitle <- function(x, title)
+qsetWindowTitle.QWidget <- function(x, title)
 {
-    .Call(qt_qsetWindowTitle, x, title)
+    .Call(qt_qsetWindowTitle_QWidget, x, title)
 }
 
-qrender <- function(x, file = NULL)
+qrender.QWidget <- function(x, file = NULL)
 {
-    .Call(qt_qrender, x, file)
+    .Call(qt_qrender_QWidget, x, file)
 }
 
-qrenderGraphicsView <- function(x)
+qrender.QGraphicsView <- function(x, file = NULL)
 {
-    .Call(qt_qrenderGraphicsView, x)
+    if (!missing(file)) warning("file specification ignored")
+    .Call(qt_qrender_QGraphicsView, x)
 }
-
-qrenderToPixmap <- function(x, file)
-{
-    .Call(qt_qrenderToPixmap, x, as.character(file)[1])
-}
-
-qrenderToSVG <- function(x, file)
-{
-    .Call(qt_qrenderToSVG, x, as.character(file)[1])
-}
-
-qprint <- function(x, view = FALSE)
-{
-    if (view) .Call(renderViewWidget, x)
-    else .Call(renderWidget, x, NULL)
-    invisible()
-}
-
 

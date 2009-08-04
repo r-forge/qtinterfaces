@@ -1,68 +1,34 @@
 
 
-qwidget <- function()
-{
-    .Call(qt_qwidget)
-}
+qwidget <- function() .Call(qt_qwidget) 
 
-qpushButton <- function(label = "Button")
-{
-    .Call(qt_qpushButton, label)
-}
+qpushButton <- function(label = "Button") .Call(qt_qpushButton, label)
 
-qlabel <- function(label = "Label")
-{
-    .Call(qt_qlabel, label)
-}
+qlabel <- function(label = "Label") .Call(qt_qlabel, label)
 
-qlineEdit <- function(text = "")
-{
-    .Call(qt_qlineEdit, text)
-}
+qlineEdit <- function(text = "") .Call(qt_qlineEdit, text)
 
-qtext <- function(x)
-{
-    if (is(x, "QAbstractButton"))
-        .Call(qt_qtextButton, x)
-    else if (is(x, "QLabel"))
-        .Call(qt_qtextLabel, x)
-    else if (is(x, "QLineEdit"))
-        .Call(qt_qtextLineEdit, x)
-    else if (is(x, "QGraphicsItem"))
-        .Call(qt_qtext_QGraphicsItem, x)
-    else NULL
-}
+qcheckBox <- function(label = "Checkbox") .Call(qt_qcheckBox, as.character(label)[1])
 
-qsetText <- function(x, s = "")
-{
-    if (is(x, "QAbstractButton"))
-        .Call(qt_qsetTextButton, x, s)
-    else if (is(x, "QLabel"))
-        .Call(qt_qsetTextLabel, x, s)
-    else if (is(x, "QLineEdit"))
-        .Call(qt_qsetTextLineEdit, x, s)
-    else if (is(x, "QGraphicsItem"))
-        .Call(qt_qsetText_QGraphicsItem, x, s)
-    else NULL
-}
 
-qcheckBox <- function(label)
-{
-    .Call(qt_qcheckBox, as.character(label)[1])
-}
+qtext <- function(x) UseMethod("qtext")
 
-qisChecked <- function(x)
-{
-    if (is(x, "QAbstractButton"))
-        .Call(qt_qisCheckedButton, x)
-    else NULL
-}
+qtext.QAbstractButton <- function(x) .Call(qt_qtext_QAbstractButton, x)
 
-qsetChecked <- function(x, status)
-{
-    if (is(x, "QAbstractButton"))
-        .Call(qt_qsetCheckedButton, x, as.integer(status)[1])
-    else NULL
-}
+qtext.QLabel <- function(x) .Call(qt_qtext_QLabel, x)
 
+qtext.QLineEdit <- function(x) .Call(qt_qtext_QLineEdit, x)
+
+qtext.QGraphicsItem <- function(x) .Call(qt_qtext_QGraphicsItem, x)
+
+
+qsetText <- function(x, s) UseMethod("qsetText")
+
+qsetText.QAbstractButton <- function(x, s = "") .Call(qt_qsetText_QAbstractButton, x, s)
+
+qsetText.QLabel <- function(x, s = "") .Call(qt_qsetText_QLabel, x, s)
+
+qsetText.QLineEdit <- function(x, s = "") .Call(qt_qsetText_QLineEdit, x, s)
+
+qsetText.QGraphicsItem <- function(x, s = "") .Call(qt_qsetText_QGraphicsItem, x, s)
 
