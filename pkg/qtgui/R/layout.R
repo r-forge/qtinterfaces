@@ -36,6 +36,16 @@ qaddWidget.QGridLayout <- function(x, widget, row, column, nrow = 1L, ncolumn = 
     .Call(qt_qaddWidget_QGridLayout, x, widget, row, column, nrow, ncolumn)
 }
 
+"[<-.QGridLayout" <-
+    function (x, i, j, ..., value)
+{
+    qaddWidget.QGridLayout(x, value, row = i, col = j, ...)
+    x
+}
+
+
+
+
 qremoveWidget.QLayout <- function(x, widget)
 {
     .Call(qt_qremoveWidget_QLayout, x, widget)

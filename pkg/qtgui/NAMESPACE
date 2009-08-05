@@ -30,6 +30,8 @@ export(qlayout, qsetLayout, qsetSpacing, qsetVerticalSpacing,
        qremoveWidget, qaddLayout, qcolumnCount,
        qrowCount, qdim)
 
+S3method("[<-", QGridLayout)
+
 ## QActions
 
 export(qaction, qaddAction, qsetContextMenuPolicy)
