@@ -41,6 +41,10 @@
     CALLDEF(qt_qcolumnCount_QGridLayout, 1),
     CALLDEF(qt_qrowCount_QGridLayout, 1),
 
+    CALLDEF(qt_qsplitter, 1),
+    CALLDEF(qt_qaddWidget_QSplitter, 2),
+    CALLDEF(qt_qsetStretchFactor_QSplitter, 3),
+
     CALLDEF(qt_qshow_QWidget, 1),
     CALLDEF(qt_qupdate_QWidget, 1),
     CALLDEF(qt_qclose_QWidget, 1),

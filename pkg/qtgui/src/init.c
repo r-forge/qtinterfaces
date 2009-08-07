@@ -8,6 +8,7 @@
 #include "basic.h"
 #include "containers.h"
 #include "layout.h"
+#include "splitter.h"
 #include "qwidgetWrappers.h"
 #include "graphicsView.h"
 #include "fonts.h"

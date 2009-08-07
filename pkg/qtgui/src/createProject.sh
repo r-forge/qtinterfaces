@@ -20,10 +20,10 @@ QT += svg
 
 # Input
 
-HEADERS += basic.h containers.h layout.h qwidgetWrappers.h graphicsView.h
+HEADERS += basic.h containers.h layout.h splitter.h qwidgetWrappers.h graphicsView.h
 HEADERS += fonts.h
 
-SOURCES += init.c imports.cpp basic.cpp containers.cpp layout.cpp
+SOURCES += init.c imports.cpp basic.cpp containers.cpp layout.cpp splitter.cpp
 SOURCES += qwidgetWrappers.cpp attributes.cpp actions.cpp
 SOURCES += graphicsView.cpp fonts.cpp
 

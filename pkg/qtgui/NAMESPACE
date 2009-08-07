@@ -30,6 +30,11 @@ export(qlayout, qsetLayout, qsetSpacing, qsetVerticalSpacing,
        qremoveWidget, qaddLayout, qcolumnCount,
        qrowCount, qdim)
 
+## Splitter
+
+export(qsplitter, qsetStretchFactor)
+
+
 S3method("[<-", QGridLayout)
 
 ## QActions
@@ -136,4 +141,8 @@ S3method(qsetText, QLineEdit)
 S3method(qtext, QLineEdit)
 S3method(qsetText, QGraphicsItem)
 S3method(qtext, QGraphicsItem)
+
+S3method(qaddWidget, QSplitter)
+S3method(qsetStretchFactor, QSplitter)
+
 

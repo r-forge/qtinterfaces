@@ -95,6 +95,7 @@ processPackage("qtutils",
 
 processPackage("qtgui",
                file = c("actions.cpp", "attributes.cpp", "basic.cpp",
-                        "containers.cpp", "fonts.cpp", "layout.cpp", "qwidgetWrappers.cpp"))
+                        "containers.cpp", "fonts.cpp", "layout.cpp",
+                        "splitter.cpp", "qwidgetWrappers.cpp"))
 
 
