@@ -2,6 +2,7 @@
 #include <QWidget>
 #include <QMenu>
 #include <QAction>
+#include <QKeySequence>
 #include <QGraphicsWidget>
 
 #include <qtbase.h>
@@ -19,8 +20,10 @@ qt_qaction(SEXP desc, SEXP shortcut, SEXP parent, SEXP tooltip,
 	a = new QAction(sexp2qstring(desc), 0);
     else 
 	a = new QAction(sexp2qstring(desc), unwrapQObject(parent, QWidget));
-    if (shortcut != R_NilValue)
-	a->setShortcut(sexp2qstring(shortcut));
+    if (shortcut != R_NilValue) {
+	// a->setShortcut(sexp2qstring(shortcut));
+	a->setShortcut(QKeySequence::fromString(sexp2qstring(shortcut)));
+    }
     a->setCheckable(asLogical(checkable));
     a->setToolTip(sexp2qstring(tooltip));
     return wrapQObject(a);
