@@ -90,7 +90,13 @@ with Assistant as a standalone help collection.  </p>
 source("http://qtinterfaces.r-forge.r-project.org/rassistant.R")
 generateCompiledCollection(start.assistant = TRUE)
 </pre>
-should start Assistant without regenerating the help file.
+should start Assistant without regenerating the help file.  On UNIX
+systems, Assistant can be run as a standalone application from the
+command line using
+<pre>
+$ assistant -collectionFile ~/rproject.qhc
+</pre>
+(the location is customizable).
 </p>
 
 
