@@ -91,7 +91,6 @@ library(GO.db)
 library(Rgraphviz)
 
 
-
 g4 <- GOGraph(c("GO:0003680", "GO:0003701"), GOMFPARENTS)
 gx <- layoutGraph(g4, layoutType = "dot")
 renderGraph(gx)

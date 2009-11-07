@@ -30,7 +30,8 @@ qrenderToSVG <- function(x, file)
 
 qshow.QWidget <- function(x)
 {
-    .Call(qt_qshow_QWidget, x)
+    ## .Call(qt_qshow_QWidget, x)
+    x$show()
 }
 
 qupdate.QWidget <- function(x) {
