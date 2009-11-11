@@ -1,23 +1,28 @@
 
-## source("http://qtinterfaces.r-forge.r-project.org/rassistant.R")
-source("/home/dsarkar/svn/all/r-forge.r-project.org/qtinterfaces/www/rassistant.R")
+if (FALSE)
+{
+    
+    ## doesn't work any more with R 2.10 
 
-## generateCompiledHelpUnix() # takes a few minutes to run for many packages
+    ## source("http://qtinterfaces.r-forge.r-project.org/rassistant.R")
+    source("/home/dsarkar/svn/all/r-forge.r-project.org/qtinterfaces/www/rassistant.R")
 
-registerHelp()
-generateCompiledCollection(start.assistant = TRUE)
+    generateCompiledHelpUnix() # takes a few minutes to run for many packages
 
-## 1. Navigate using tabe of contents
-##
-## 2. HTML links etc., tabbed browsing
-##
-## 3. Indexing allows fast keyword lookup (alias, concept entries)
-##    - most useful mode: just start typing topic name
-##    - finds partial matches: e.g. S4 methods
-##    - handles duplicate hits
-##
-## 4. Full text search
+    registerHelp()
+    generateCompiledCollection(start.assistant = TRUE)
 
+    ## 1. Navigate using table of contents
+    ##
+    ## 2. HTML links etc., tabbed browsing
+    ##
+    ## 3. Indexing allows fast keyword lookup (alias, concept entries)
+    ##    - most useful mode: just start typing topic name
+    ##    - finds partial matches: e.g. S4 methods
+    ##    - handles duplicate hits
+    ##
+    ## 4. Full text search
+}
 
 
 ## Object viewer
