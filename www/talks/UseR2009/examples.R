@@ -41,7 +41,6 @@ qbrowser()
 options(error = qrecover)
 n <- 100
 df <- data.frame(x = seq_len(n), y = rnorm(n), w = runif(n)-0.1)
-
 with(df, density(y, weights = w))
 
 options(error = NULL)
@@ -62,6 +61,9 @@ rscene <- qsceneDevice(7, 7)
 library(lattice)
 dotplot(VADeaths, auto.key = TRUE, type = c("p", "l"),
         par.settings = simpleTheme(pch = 16))
+
+foo <- Qt$QGraphicsView(rscene)
+
 
 foo <- qgraphicsView(rscene)
 foo
