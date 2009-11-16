@@ -24,7 +24,6 @@ if (FALSE)
     ## 4. Full text search
 }
 
-
 ## Object viewer
 
 library(qtutils)
@@ -58,61 +57,77 @@ library(qtdevice)
 
 rscene <- qsceneDevice(7, 7)
 
+
 library(lattice)
 dotplot(VADeaths, auto.key = TRUE, type = c("p", "l"),
         par.settings = simpleTheme(pch = 16))
 
-foo <- Qt$QGraphicsView(rscene)
+
+## gview <- qgraphicsView(rscene) # doesn't work any more
+gview <- Qt$QGraphicsView()
+gview
+qsetScene(gview, rscene) # mix old and new styles
+
+gview$scale(2, 2)
+gview$scale(1/2, 1/2)
+
+## gview$translate(100, 100) #??
+
+gview$setRenderHints(Qt$QPainter$Antialiasing) 
+gview$setDragMode(1L) ## ?? Qt$QGraphicsView$ScrollHandDrag
 
 
-foo <- qgraphicsView(rscene)
-foo
+## print view
 
-qsetTransform(foo, scale = 2)
-qsetTransform(foo, scale = 1/2)
-qsetAntialias(foo, TRUE)
+printer <- Qt$QPrinter(Qt$QPrinter$HighResolution)
+printer$setPageSize(Qt$QPrinter$A4)
+printer$setOutputFileName("/tmp/qt.pdf")
+
+painter <- Qt$QPainter()
+painter$begin(printer)
+gview$render(painter)
+## to print scene: rscene$render(painter)
+## except that rscene is an old-style object.  Should work once we can
+## smokify user-written C++ classes.
+painter$end()
+
 
 ## Tedious to scale by hand; so add "Actions":
 
-zoominAct <-
-    qaction(desc = "Zoom In",
-            shortcut = "Ctrl++",
-            parent = foo)
-zoomoutAct <-
-    qaction(desc = "Zoom Out",
-            shortcut = "Ctrl+-",
-            parent = foo)
-
-qaddAction(foo, zoominAct)
-qaddAction(foo, zoomoutAct)
-
+zoominAct <- Qt$QAction("Zoom In", gview)
+zoominAct$setShortcut(Qt$QKeySequence("Ctrl++"))
 qconnect(zoominAct,
          signal = "triggered",
-         handler = function(x, ...) {
-             qsetTransform(x, scale = 1.2)
-         },
-         user.data = foo)
+         handler = function(checked) {
+             gview$scale(1.2, 1.2)
+         })
+gview$addAction(zoominAct)
 
+zoomoutAct <- Qt$QAction("Zoom Out", gview)
+zoomoutAct$setShortcut(Qt$QKeySequence("Ctrl+-"))
 qconnect(zoomoutAct,
          signal = "triggered",
-         handler = function(x) {
-             qsetTransform(x, scale = 1/1.2)
-         },
-         user.data = foo)
+         handler = function(checked) {
+             gview$scale(1/1.2, 1/1.2)
+         })
+gview$addAction(zoomoutAct)
 
-qsetContextMenuPolicy(foo, "actions")
-qsetDragMode(foo, "scroll")
+gview$setContextMenuPolicy(Qt$Qt$ActionsContextMenu)
 
-## Add another action for printing
-
-printAct <- qaction(desc = "Print", shortcut = "Ctrl+P", parent = foo)
-qconnect(printAct, signal = "triggered",
-         handler = qrenderGraphicsView,
-         user.data = foo)
-qaddAction(foo, printAct)
 
 
 ## What else can we do?
+
+sc <- gview$scene()
+items <- sc$items()
+
+itext <- 
+lapply(items,
+       function(x) {
+           text <- try(x$toPlainText(), silent = TRUE)
+           text
+       })
+       
 
 library(GOstats)
 library(GO.db)
