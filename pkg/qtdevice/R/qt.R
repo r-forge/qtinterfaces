@@ -15,6 +15,10 @@ QT <- function(width = 7, height = 7, pointsize = 12,
           as.character(bgimage))
 }
 
+qsetScene <- function(rview, rscene)
+{
+    .Call(qt_qsetScene, rview, rscene)
+}
 
 qsceneDevice <-
     function(width = 7, height = 7, pointsize = 12, family = "")

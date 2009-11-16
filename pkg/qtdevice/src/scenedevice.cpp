@@ -23,6 +23,9 @@ qt_qsceneDevice(SEXP width,
 		SEXP pointsize,
 		SEXP family);
 
+SEXP 
+qt_qsetScene(SEXP rview, SEXP rscene);
+
 SEXP
 qt_qsceneView(SEXP x); 
 
@@ -75,6 +78,16 @@ qt_qsceneDevice(SEXP width,
 				asReal(height), 
 				asReal(pointsize), 
 				CHAR(asChar(family))));
+}
+
+
+SEXP 
+qt_qsetScene(SEXP rview, SEXP rscene)
+{
+    // rview is new smoke-style, rscene is old-style
+    unwrapSmoke(rview, QGraphicsView)->
+	setScene(unwrapQObject(rscene, QGraphicsScene));
+    return R_NilValue;
 }
 
 SEXP

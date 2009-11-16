@@ -4,5 +4,5 @@ useDynLib(qtdevice, .registration = TRUE)
 
 import(qtbase)
 
-export(QT, qsceneDevice, qsceneView)
+export(QT, qsceneDevice, qsetScene, qsceneView)
 

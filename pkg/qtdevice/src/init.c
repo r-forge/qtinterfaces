@@ -9,6 +9,8 @@ SEXP do_newQtDevice(SEXP width, SEXP height, SEXP pointsize, SEXP family,
 SEXP qt_qsceneDevice(SEXP width, SEXP height,
 		     SEXP pointsize, SEXP family);
 
+SEXP qt_qsetScene(SEXP rview, SEXP rscene);
+
 SEXP qt_qsceneView(SEXP x); 
 
 
@@ -20,6 +22,7 @@ static R_CallMethodDef CallEntries[] = {
 
     CALLDEF(do_newQtDevice, 7),
     CALLDEF(qt_qsceneDevice, 4),
+    CALLDEF(qt_qsetScene, 2),
     CALLDEF(qt_qsceneView, 1),
 
     {NULL, NULL, 0}
