@@ -55,7 +55,7 @@ options(error = NULL)
 
 ## library(qtdevice)
 
-rscene <- qsceneDevice(7, 7)
+rscene <- qsceneDevice(15, 15)
 
 library(lattice)
 dotplot(VADeaths, auto.key = TRUE, type = c("p", "l"),
@@ -112,8 +112,7 @@ gview$setContextMenuPolicy(Qt$Qt$ActionsContextMenu)
 
 ## What else can we do?
 
-sc <- gview$scene()
-items <- sc$items()
+items <- rscene$items()
 
 itext <- 
 lapply(items,
