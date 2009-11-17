@@ -53,20 +53,16 @@ options(error = NULL)
 
 ## Graphics device based on scene graph
 
-library(qtdevice)
+## library(qtdevice)
 
 rscene <- qsceneDevice(7, 7)
-
 
 library(lattice)
 dotplot(VADeaths, auto.key = TRUE, type = c("p", "l"),
         par.settings = simpleTheme(pch = 16))
 
-
-## gview <- qgraphicsView(rscene) # doesn't work any more
-gview <- Qt$QGraphicsView()
+gview <- Qt$QGraphicsView(rscene)
 gview
-qsetScene(gview, rscene) # mix old and new styles
 
 gview$scale(2, 2)
 gview$scale(1/2, 1/2)
@@ -85,10 +81,8 @@ printer$setOutputFileName("/tmp/qt.pdf")
 
 painter <- Qt$QPainter()
 painter$begin(printer)
-gview$render(painter)
-## to print scene: rscene$render(painter)
-## except that rscene is an old-style object.  Should work once we can
-## smokify user-written C++ classes.
+## to print view: gview$render(painter)
+rscene$render(painter)
 painter$end()
 
 
