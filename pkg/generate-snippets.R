@@ -93,9 +93,9 @@ processPackage <- function(pkg, files = list.files(file.path(pkg, "src"), patter
 processPackage("qtutils",
                file = c("dataview.cpp", "editor.cpp", "listview.cpp", "textedit.cpp"))
 
-processPackage("qtgui",
-               file = c("actions.cpp", "attributes.cpp", "basic.cpp",
-                        "containers.cpp", "fonts.cpp", "layout.cpp",
-                        "splitter.cpp", "qwidgetWrappers.cpp"))
+## processPackage("qtgui",
+##                file = c("actions.cpp", "attributes.cpp", "basic.cpp",
+##                         "containers.cpp", "fonts.cpp", "layout.cpp",
+##                         "splitter.cpp", "qwidgetWrappers.cpp"))
 
 

@@ -103,7 +103,7 @@ items <- rscene$items()
 itext <- 
     lapply(items,
            function(x) {
-               if (is(x, "QGraphicsSimpleTextItem")) x$text()
+               if (is(x, "QGraphicsTextItem")) x$toPlainText()
                else NA_character_
            })
 unlist(itext)
@@ -124,7 +124,7 @@ items <- rscene$items()
 itext <- 
     sapply(items,
            function(x) {
-               if (is(x, "QGraphicsSimpleTextItem")) x$text()
+               if (is(x, "QGraphicsTextItem")) x$toPlainText()
                else NA_character_
            })
 
@@ -153,19 +153,12 @@ constructGOHtmlLink <- function(id)
 
 for (i in which.goid)
 {
-    newtext <- Qt$QGraphicsTextItem()
-    newtext$setHtml(constructGOHtmlLink(itext[i]))
-    newtext$setToolTip(constructGOToolTip(itext[i]))
-    newtext$setPos(items[[i]]$x(), items[[i]]$y())
-    newtext$setFont(items[[i]]$font())
-    newtext$setTextInteractionFlags(Qt$Qt$TextBrowserInteraction)
-    newtext$setOpenExternalLinks(TRUE)
-    rscene$removeItem(items[[i]])
-    rscene$addItem(newtext)
+    items[[i]]$setHtml(constructGOHtmlLink(itext[i]))
+    items[[i]]$setTextInteractionFlags(Qt$Qt$TextBrowserInteraction)
+    items[[i]]$setOpenExternalLinks(TRUE)
 }
 
 gview$setDragMode(0)
-
 
 
 ## ## dynamic example
