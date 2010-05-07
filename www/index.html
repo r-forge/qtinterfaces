@@ -26,10 +26,10 @@ a focus on enabling GUI development and advanced graphics. </p>
 documentation yet.  However, it should be possible to install the
 packages (from source) in the usual way (<code>R CMD INSTALL</code>
 or <code>install.packages()</code>) on Linux or Mac OS X provided you
-have installed the Qt libraries and development packages (Qt 4.5 or
-better).  For example,
+have installed the Qt libraries and development packages (Qt 4.6 or
+better) and the <code>cmake</code> build system.  For example,
 <pre>
-install.packages(c("qtdevice", "qtpaint", "mosaiq"),
+install.packages(c("qtbase", "qtpaint"),
                  repos = "http://r-forge.r-project.org")
 </pre>
 If you have multiple versions of Qt installed, make sure
@@ -43,11 +43,13 @@ found <a href="http://r-forge.r-project.org/projects/qtinterfaces/"><strong>here
 
 <h2>Installing Qt</h2>
 
-Qt 4.5 or better is required for these packages.  Qt binaries can be
+Qt 4.6 or better is required for these packages.  Qt binaries can be
 downloaded from <a href="http://www.qtsoftware.com/downloads" >this
 website</a> for Windows, Mac, and Linux.  The smaller &quot;Framework
 Only&quot; download is sufficient.
 
+
+<!-- 
 
 <h2>Using Qt Assistant to Browse R documentation</h2>
 
@@ -99,6 +101,7 @@ $ assistant -collectionFile ~/rproject.qhc
 (the location is customizable).
 </p>
 
+ -->
 
 <h2>Talks and demos</h2>
 

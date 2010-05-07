@@ -1,0 +1,9 @@
+The following packages are currently unusable, either because they
+have not been updated, or because their functionality has been
+absorbed into other packages.
+
+qtgui	      obsoleted by the new smoke approach.
+qtdevice      qsceneDevice() is in qtutils. QT() has not been ported.
+qtwebview     has not been ported
+mosaiq	      has not been ported
+

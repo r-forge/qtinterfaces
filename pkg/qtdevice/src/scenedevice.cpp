@@ -74,31 +74,34 @@ qt_qsceneDevice(SEXP width,
 		SEXP pointsize,
 		SEXP family)
 {
-    return wrapQObject(startdev(asReal(width), 
-				asReal(height), 
-				asReal(pointsize), 
-				CHAR(asChar(family))));
+    // was wrapQObject
+    return wrapSmoke(startdev(asReal(width), 
+			      asReal(height), 
+			      asReal(pointsize), 
+			      CHAR(asChar(family))),
+		     QObject, true);
 }
 
 
 SEXP 
 qt_qsetScene(SEXP rview, SEXP rscene)
 {
-    // rview is new smoke-style, rscene is old-style
+    // rview is new smoke-style, rscene is old-style (????)
     unwrapSmoke(rview, QGraphicsView)->
-	setScene(unwrapQObject(rscene, QGraphicsScene));
+	setScene(unwrapSmoke(rscene, QGraphicsScene));
     return R_NilValue;
 }
 
 SEXP
 qt_qsceneView(SEXP scene)
 {
-    QGraphicsView *v = new QGraphicsView(unwrapQObject(scene, QGraphicsScene), 0);
+    QGraphicsView *v = new QGraphicsView(unwrapSmoke(scene, QGraphicsScene), 0);
     v->setRenderHints(QPainter::TextAntialiasing);
     v->setInteractive(true);
     // v->setDragMode(QGraphicsView::RubberBandDrag);
     v->setDragMode(QGraphicsView::ScrollHandDrag);
-    return wrapQWidget(v);
+    // return wrapQWidget(v);
+    return wrapSmoke(v, QWidget, true);
 }
 
 static

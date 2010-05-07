@@ -789,13 +789,14 @@ do_newQtDevice(SEXP width,
 	       SEXP aaEdges, SEXP aaText,
 	       SEXP bgimage)
 {
-    return wrapQWidget(startdev(asReal(width), 
-				asReal(height), 
-				asReal(pointsize), 
-				CHAR(asChar(family)),
-				(bool) asLogical(aaEdges),
-				(bool) asLogical(aaText),
-				CHAR(asChar(bgimage))));
+    return wrapSmoke(startdev(asReal(width), 
+			      asReal(height), 
+			      asReal(pointsize), 
+			      CHAR(asChar(family)),
+			      (bool) asLogical(aaEdges),
+			      (bool) asLogical(aaText),
+			      CHAR(asChar(bgimage))),
+		     QWidget, true);
 }
 
 

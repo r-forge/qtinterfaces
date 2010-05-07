@@ -110,6 +110,8 @@ unlist(itext)
 
 ## Something a bit more useful
 
+## biocLite(c("GOstats", "GO.db", "Rgraphviz"))
+
 library(GOstats)
 library(GO.db)
 library(Rgraphviz)
@@ -178,7 +180,7 @@ gview$setDragMode(0)
 if (FALSE)
 {
     
-    ## doesn't work any more with R 2.10 
+    ## doesn't work any more with R >= 2.10 
 
     ## source("http://qtinterfaces.r-forge.r-project.org/rassistant.R")
     source("/home/dsarkar/svn/all/r-forge.r-project.org/qtinterfaces/www/rassistant.R")
