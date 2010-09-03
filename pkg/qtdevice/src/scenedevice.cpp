@@ -74,12 +74,10 @@ qt_qsceneDevice(SEXP width,
 		SEXP pointsize,
 		SEXP family)
 {
-    // was wrapQObject
     return wrapSmoke(startdev(asReal(width), 
-			      asReal(height), 
-			      asReal(pointsize), 
-			      CHAR(asChar(family))),
-		     QObject, true);
+                              asReal(height), 
+                              asReal(pointsize), 
+                              CHAR(asChar(family))), QGraphicsScene, true);
 }
 
 
@@ -100,8 +98,7 @@ qt_qsceneView(SEXP scene)
     v->setInteractive(true);
     // v->setDragMode(QGraphicsView::RubberBandDrag);
     v->setDragMode(QGraphicsView::ScrollHandDrag);
-    // return wrapQWidget(v);
-    return wrapSmoke(v, QWidget, true);
+    return wrapSmoke(v, QGraphicsView, true);
 }
 
 static
