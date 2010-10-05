@@ -379,7 +379,7 @@ title, $X$ axis, $Y$ axis and plotting area:
 <<layout-layers,eval=FALSE>>=
 scene <- qscene()
 figLayer <- qlayer(scene)
-titleLayer <- qlayer(figLayer, titlePainter, rowSpan = 2)
+titleLayer <- qlayer(figLayer, titlePainter, colSpan = 2)
 yaxis <- qlayer(figLayer, yAxisPainter, row = 1)
 plotLayer <- qlayer(figLayer, plotPainter, row = 1, col = 1)
 xaxis <- qlayer(figLayer, xAxisPainter, row = 2, col = 1)
@@ -396,61 +396,36 @@ or columns are spanned by the layer, where \Rfunarg{row} and
 It is also possible to specify the layout after constructing the
 layers, using the familiar \Rfunction{[<-} function. We construct
 the same layout as before with existing layers:
-<<layout-layers-addLayer>>=
+<<layout-layers-addLayer,eval=FALSE>>=
 figLayer[0, 0, rowSpan=2] <- titleLayer
 figLayer[1, 0] <- yaxis
 figLayer[1, 1] <- plotLayer
 figLayer[2, 1] <- xaxis
 @ 
 
-The second step of layout specification is telling the layout object
-our preferred (default) height and width (in scene units) for
-each row and column, respectively:
+The second step of layout specification is telling the layout
+object the maximum dimensions (in scene units) for
+the rows and columns drawing the axes and title:
 <<layout-preferred-dims,eval=FALSE>>=
 layout <- figLayer$gridLayout()
-layout$setRowPreferredHeight(0, 75)
-layout$setRowPreferredHeight(1, 400)
-layout$setRowPreferredHeight(2, 75)
-layout$setColumnPreferredWidth(0, 75)
-layout$setColumnPreferredWidth(1, 600)
+layout$setRowMaximumHeight(0, 50)
+layout$setRowMaximumHeight(2, 50)
+layout$setColumnMaximumWidth(0, 50)
 @ 
-It is also possible to set the maximum and mininum heights and widths
-by simply replacing \texttt{Preferred} with \texttt{Maximum} or
-\texttt{Minimum} in the calls above.
+%
+It is also possible to set the mininum, fixed, and preferred heights
+and widths by simply replacing \texttt{Maximum} with \texttt{Minimum},
+\texttt{Fixed} or \texttt{Preferred} in the calls above. 
 
-An alternative to the above is to allow the layout object to derive
-the row heights and column widths automatically from the size requests
-of the layers. The layout will attempt to satisfy the preferred width
-and height of every layer (set with the
-\Rfunction{setPreferredWidth/Height/Size} methods). However, such
-requests may not be fulfilled, as the layout is given a finite amount
-of space to distribute to the layers. This is a problem, for example,
-if a layer is displaying text. The size of the text (calculated using
-\Rfunction{qtextExtents}) depends on the font parameters and thus is
-not controlled by the layout.  The solution is to set a minimum size
-on the layer (with the \Rfunction{setMinimumWidth/Height/Size}
-methods). To satisfy the minimum size of every layer, the layout will
-request the necessary space from its parent. This request will be
-satisfied unless a maximum size constraint is violated.
-
-We are now two thirds of the way to having a reasonable layout for our
-figure. The final step is to configure the resizing behavior of each
-row and column in the grid. Quite often, we want most components to
-remain the same size, even if the size of the view increases. Only the
-plot area should scale with the view. To achieve this, we need to set
-the row and column stretch parameters on the layout object:
-<<layout-stretch-factor,eval=FALSE>>=
-layout$setRowStretchFactor(0, 0)
-layout$setRowStretchFactor(2, 0)
-layout$setColumnStretchFactor(0, 0)
-@ 
-The stretch factor indicates the proportion of the newly available
-space that should be allocated to the row or column relative to the
-others. For example, if a column has a stretch factor of two, then it
-will receive twice as much of the available space compared to a column
-with a factor of one. As one might expect, a stretch factor of zero
-prevents the layout from expanding the row or column when more space
-becomes available. The default stretch factor is one.
+In where the dimensions are not fixed, one might want to set the row
+and column stretch factors (with \Rfunction{setRowStretchFactor} or
+\Rfunction{setColumnStretchFactor}, respectively). The stretch factor
+indicates the proportion of the newly available space that should be
+allocated to the row or column relative to the others.  For example,
+if a column has a stretch factor of two, then it will receive twice as
+much of the available space compared to a column with a factor of
+one. Setting the factor to zero does NOT always prevent a row or
+column from growing.
 
 There is an important caveat when overlaying/stacking layers (a useful
 technique for efficient dynamic graphics). Stacking requires multiple
