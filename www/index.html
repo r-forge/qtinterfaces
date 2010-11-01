@@ -15,38 +15,168 @@
 <!-- get project title  -->
 <!-- own website starts here, the following may be changed as you like -->
 
-<h2>Interfaces to the Qt framework from R</h2>
+<h1>Interfaces to the Qt framework from R</h1>
 
-<p>This project aims to create a coherent collection of R packages
-that provide an interface to the Qt application and UI framework, with
-a focus on enabling GUI development and advanced graphics. </p>
+<p> The goal of this project is to create a coherent collection of R
+packages that provide an interface to the Qt application and UI
+framework, with a focus on enabling GUI development and advanced
+graphics. </p>
 
+<p> The project is still in a development phase, and there is little
+documentation.  However, it should be possible to install the packages
+(from source) in the usual way (<code>R CMD INSTALL</code> or
+<code>install.packages()</code>) on GNU/Linux or Mac OS X systems
+provided you have installed the Qt libraries and development packages
+and the <code>cmake</code> build system.
 
-<p>The project is in an early development stage, and there is no
-documentation yet.  However, it should be possible to install the
-packages (from source) in the usual way (<code>R CMD INSTALL</code>
-or <code>install.packages()</code>) on Linux or Mac OS X provided you
-have installed the Qt libraries and development packages (Qt 4.6 or
-better) and the <code>cmake</code> build system.  For example,
-<pre>
-install.packages(c("qtbase", "qtpaint"),
-                 repos = "http://r-forge.r-project.org")
-</pre>
-If you have multiple versions of Qt installed, make sure
-the <code>QMAKE</code> environment variable points to the
-correct <code>qmake</code> executable (check <code>$QMAKE
---version</code>).
+<h2>Dependencies</h2>
+
+<dl>
+  <dt>Qt</dt>
+
+  <dd>Qt 4.6 or better is required for these packages.  Qt binaries
+    can be downloaded from <a
+    href="http://qt.nokia.com/downloads" >this website</a> for
+    Windows, Mac, and GNU/Linux.  The smaller &quot;Framework
+    Only&quot; download is sufficient.  </dd>
+
+    <dt>cmake</dt>
+
+    <dd>Cmake 2.8.1 or better is also required.  Binaries can be
+    downloaded from <a
+    href="http://www.cmake.org/cmake/resources/software.html"
+    >here</a>.  </dd>
+
+    <dt>git</dt>
+
+    <dd>git is required to obtain the sources.  Binaries can be
+    downloaded from <a href="http://git-scm.com/download" >here</a>.
+    </dd>
+
+</dl>
+
+<p> Note that even though all dependencies are available on Windows,
+the R packages themselves do not run on Windows (yet).  Windows
+support is feasible, but involves a little more work, and is planned
+once the packages are more stable. </p>
+
+<p> Most GNU/Linux distributions should have packages for the
+dependencies; e.g., on Debian, it should suffice to
+
+<pre>$ sudo apt-get install qt4-dev-tools libqt4-dev \
+       libqt4-opengl cmake git</pre>
+
 </p>
 
-<p> The <strong>project summary page</strong> can be
-found <a href="http://r-forge.r-project.org/projects/qtinterfaces/"><strong>here</strong></a>. </p>
 
-<h2>Installing Qt</h2>
+<h2>Getting and installing the software</h2>
 
-Qt 4.6 or better is required for these packages.  Qt binaries can be
-downloaded from <a href="http://www.qtsoftware.com/downloads" >this
-website</a> for Windows, Mac, and Linux.  The smaller &quot;Framework
-Only&quot; download is sufficient.
+<p> The software produced by this project is available in the form of
+several R packages.  The most important of these are
+<code>qtbase</code>, which provides R bindings to (most of) the Qt
+library, and <code>qtpaint</code>, which provides a low-level
+framework for high-performance graphics.  Other packages are expected
+to build on these packages to provide interfaces more directly useful
+for the end-user.  </p>
+
+
+<p> Primary hosting of the source code is at <a href="www.github.com"
+>Github</a>.  To download and install <code>qtbase</code>, try </p>
+<pre>$ git clone http://github.com/ggobi/qtbase.git
+$ R CMD INSTALL qtbase
+</pre>
+
+<p>This will take a long time the first time.  When you want to update
+to the latest version a few days later, do </p>
+
+<pre>$ cd qtbase
+$ git pull
+$ cd ..
+$ R CMD INSTALL qtbase
+</pre>
+
+<p>This should fetch the latest version of the source and install it,
+but installation should take less time.  For a completely clean
+install, do
+
+<pre>$ cd qtbase/src
+$ make clean</pre>
+
+and install again. </p>
+
+<!-- <p>Note: If you have multiple versions of Qt installed, make sure the -->
+<!-- <code>QMAKE</code> environment variable points to the correct -->
+<!-- <code>qmake</code> executable (check <code>$QMAKE --version</code>). -->
+<!-- </p> -->
+
+<p>The process for installing <code>qtpaint</code> is similar:</p>
+
+<pre>$ git clone http://github.com/ggobi/qtpaint.git
+$ R CMD INSTALL qtpaint
+</pre>
+
+<p>Other packages currently part of the project are </p>
+
+<ul>
+
+  <li><code>qtutils</code>, which provides utilities such as an R code
+  editor (with syntax highlighting), a
+  <code>QGraphicsScene</code>-based R graphics device, an object
+  browser, etc., and </li>
+
+  <li><code>mosaiq</code>, a high-level graphics package, not entirely
+  unlike <code>lattice</code>. </li>
+
+</ul>
+
+<p>These can be installed in a similar fashion, although for these
+packages it is recommended  that you go through the
+
+<pre>$ R CMD build foo
+$ R CMD INSTALL foo_x.y.z.tar.gz</pre>
+
+cycle to keep the source clean. (This is also possible
+<code>qtbase</code> and <code>qtpaint</code>, but not recommended
+because of the long time required for a clean installation.)  </p>
+
+
+<h2>Development</h2>
+
+<p>The best way to get involved is to look at the archived mailing
+list discussions and then start asking questions there.  </p>
+
+<p>For development access, create an account at Github and send email
+to the list.  Once you have been granted access, follow the
+instructions at Github.  If you are new to <code>git</code>, <a
+href="http://gitref.org/" >this site</a> should help you get upto
+speed.  </p>
+
+
+<h2>Other resources</h2>
+
+<p> For mailing lists and bug tracking, see the R-forge <a
+href="http://r-forge.r-project.org/projects/qtinterfaces/">project
+summary page</a>. </p>
+
+<h2>Documentation</h2>
+
+<p>Some of the packages have demos in the <code>demo</code> directory.
+Some are obsolete, but others are useful.  Both <code>qtbase</code>
+and <code>qtpaint</code> have a vignette.  See also the
+<code>qtbase/NOTES</code> file for some thoughts. </p>
+
+<p>Slides and scripts from UseR! 2009 and DSC 2009 are given below.
+These are obsolete for all practical purposes, but do give a
+high-level background that may be useful in the absence of more
+up-to-date material.  </p>
+
+<ul>
+  <li>User 2009, Rennes: <a href="talks/UseR2009/rqt.pdf" >Talk</a>,
+  <a href="talks/UseR2009/examples.R" >Examples</a></li>
+  <li>DSC 2009, Copenhagen: <a href="talks/DSC2009/rqt.pdf" >Talk</a>,
+  <a href="talks/DSC2009/examples.R" >Examples</a></li>
+</ul>
+
 
 
 <!-- 
@@ -103,24 +233,20 @@ $ assistant -collectionFile ~/rproject.qhc
 
  -->
 
-<h2>Talks and demos</h2>
-
-<ul>
-  <li>User 2009, Rennes: <a href="talks/UseR2009/rqt.pdf" >Talk</a>,
-  <a href="talks/UseR2009/examples.R" >Examples</a></li>
-  <li>DSC 2009, Copenhagen: <a href="talks/DSC2009/rqt.pdf" >Talk</a>,
-  <a href="talks/DSC2009/examples.R" >Examples</a></li>
-</ul>
 
 
-
-<hr/>
 
 <!-- R-Forge Logo -->
 
-<a href="http://r-forge.r-project.org">
-  <img src="http://r-forge.r-project.org/themes/rforge//images/logo.png" border="0" 
-       alt="R-Forge Logo" /> </a>
+<div id="logo">
+
+  <p> 
+  <a href="http://r-forge.r-project.org">
+  <img src="http://r-forge.r-project.org/themes/rforge//images/logo.png" 
+  border="0" alt="R-Forge" /> </a>
+  </p>
+
+</div>
 
 <!-- R-Forge Logo 
 <table border="0" width="100%" cellspacing="0" cellpadding="0">

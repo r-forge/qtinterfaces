@@ -34,7 +34,8 @@ library(lattice)
 dotplot(VADeaths, auto.key = TRUE, type = c("p", "l"),
         par.settings = simpleTheme(pch = 16))
 
-gview <- Qt$QGraphicsView(rscene)
+gview <- Qt$QGraphicsView()
+gview$setScene(rscene)
 gview
 
 gview$setRenderHints(Qt$QPainter$Antialiasing) 

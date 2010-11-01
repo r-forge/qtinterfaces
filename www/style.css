@@ -1,14 +1,58 @@
 
+
 body 
 {  
-  padding-left: 15%;
-  width: 50%;
-  align: center;
+  text-align: left;
+  margin: auto;
+  width: 700px;
+  font: 100% "Arial" sans-serif;
+  color: #666633;
 }
 
+h1{ text-align: center; }
+
+/* ul { list-style: none; } */
 
 pre
 { 
   padding: 0.8em;
   background: #CCCCCC;
 }
+
+code, pre
+{
+  color: #222200;
+  font-size: 100%;
+  font-family: "Andale mono" courier;
+  font-weight: bold;
+}
+
+
+div#logo
+{ 
+  position: fixed;
+  right: 0px;
+  bottom: 0px;
+  width: 90px;
+  margin: 5px;
+  border: none;
+}
+
+div#logo img
+{ 
+  width: 100%;
+}
+
+a
+{  
+  text-decoration: none;
+  font-weight: none;
+  color: #000000;
+}
+
+a:hover
+{  
+  text-decoration: underline;
+  color: #666633;
+}
+
